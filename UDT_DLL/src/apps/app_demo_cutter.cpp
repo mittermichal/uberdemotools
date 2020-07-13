@@ -84,16 +84,6 @@ struct CutByChatConfig
 	int EndOffsetSec = 10;
 };
 
-struct CutByMultiFragRailConfig
-{
-	const char* CustomOutputFolder;
-	s32 StartOffsetSec = 10;
-	s32 EndOffsetSec = 10;
-	u32 MaxThreadCount = 1;
-	u32 MinFragCount = 2;
-	s32 PlayerIndex = udtPlayerIndex::FirstPersonPlayer;
-};
-
 
 static void InitRule(udtChatPatternRule& rule)
 {
@@ -358,24 +348,6 @@ static bool CutByChatMultipleFiles(udtParseArg& parseArg, const udtFileInfo* fil
 	return true;
 }
 
-static bool CutByChatSingleFile(udtParseArg& parseArg, const char* filePath, const CutByChatConfig& config)
-{
-	udtFileInfo fileInfo;
-	fileInfo.Name = udtString::NewNull();
-	fileInfo.Path = udtString::NewConstRef(filePath);
-	fileInfo.Size = 0;
-
-	return CutByChatMultipleFiles(parseArg, &fileInfo, 1, config);
-}
-
-struct CutByMatchConfig
-{
-	const char* CustomOutputFolder;
-	s32 StartOffsetSec;
-	s32 EndOffsetSec;
-	u32 MaxThreadCount;
-};
-
 static bool CutByMatchBatch(udtParseArg& parseArg, const udtFileInfo* files, const u32 fileCount, const CutByMatchConfig& config)
 {
 	udtVMArray<const char*> filePaths("CutByChatMultiple::FilePathsArray");
@@ -453,16 +425,6 @@ static bool CutByMatchMultipleFiles(udtParseArg& parseArg, const udtFileInfo* fi
 	}
 
 	return true;
-}
-
-static bool CutByMatchSingleFile(udtParseArg& parseArg, const char* filePath, const CutByMatchConfig& config)
-{
-	udtFileInfo fileInfo;
-	fileInfo.Name = udtString::NewNull();
-	fileInfo.Path = udtString::NewConstRef(filePath);
-	fileInfo.Size = 0;
-
-	return CutByMatchMultipleFiles(parseArg, &fileInfo, 1, config);
 }
 
 static bool CutByMultiFragRailBatch(udtParseArg& parseArg, const udtFileInfo* files, const u32 fileCount, const CutByMultiFragRailConfig& config)
@@ -545,16 +507,6 @@ static bool CutByMultiFragRailMultipleFiles(udtParseArg& parseArg, const udtFile
 	return true;
 }
 
-static bool CutByMultiFragRailSingleFile(udtParseArg& parseArg, const char* filePath, const CutByMultiFragRailConfig& config)
-{
-	udtFileInfo fileInfo;
-	fileInfo.Name = udtString::NewNull();
-	fileInfo.Path = udtString::NewConstRef(filePath);
-	fileInfo.Size = 0;
-
-	return CutByMultiFragRailMultipleFiles(parseArg, &fileInfo, 1, config);
-}
-
 static bool HasCuttableDemoFileExtension(const udtString& filePath)
 {
 	for(u32 i = (u32)udtProtocol::FirstCuttableProtocol; i < (u32)udtProtocol::Count; ++i)
@@ -624,24 +576,6 @@ static bool LoadChatConfig(CutByChatConfig& config, const ProgramOptions& option
 	if(options.EndTimeSec > 0) config.EndOffsetSec = (int)options.EndTimeSec;
 
 	return true;
-}
-
-static void LoadMatchConfig(CutByMatchConfig& config, const ProgramOptions& options)
-{
-	config.CustomOutputFolder = options.OutputFolderPath;
-	config.MaxThreadCount = options.MaxThreadCount;
-	if(options.StartTimeSec > 0) config.StartOffsetSec = options.StartTimeSec;
-	if(options.EndTimeSec > 0) config.EndOffsetSec = options.EndTimeSec;
-}
-
-static void LoadMultiFragRailConfig(CutByMultiFragRailConfig& config, const ProgramOptions& options)
-{
-	config.CustomOutputFolder = options.OutputFolderPath;
-	config.MaxThreadCount = options.MaxThreadCount;
-	if(options.StartTimeSec > 0) config.StartOffsetSec = options.StartTimeSec;
-	if(options.EndTimeSec > 0) config.EndOffsetSec = options.EndTimeSec;
-	if(options.FragCount > 1) config.MinFragCount = options.FragCount;
-	config.PlayerIndex = options.PlayerIndex;
 }
 
 
@@ -794,66 +728,46 @@ int udt_main(int argc, char** argv)
 	}
 
 	CmdLineParseArg parseArg;
+	udtFileInfo fileInfo;
+	udtFileListQuery query;
+	const udtFileInfo* files = NULL;
+	u32 fileCount = 0;
 	if(fileMode)
 	{
-		if(command == 'c')
-		{
-			CutByChatConfig config;
-			if(!LoadChatConfig(config, options))
-			{
-				return 1;
-			}
-
-			return CutByChatSingleFile(parseArg.ParseArg, inputPath, config) ? 0 : 1;
-		}
-		else if(command == 'm')
-		{
-			CutByMatchConfig config;
-			LoadMatchConfig(config, options);
-
-			return CutByMatchSingleFile(parseArg.ParseArg, inputPath, config) ? 0 : 1;
-		}
-		else if(command == 'r')
-		{
-			CutByMultiFragRailConfig config;
-			LoadMultiFragRailConfig(config, options);
-
-			return CutByMultiFragRailSingleFile(parseArg.ParseArg, inputPath, config) ? 0 : 1;
-		}
+		fileInfo.Name = udtString::NewNull();
+		fileInfo.Path = udtString::NewConstRef(inputPath);
+		fileInfo.Size = 0;
+		files = &fileInfo;
+		fileCount = 1;
 	}
 	else
 	{
-		udtFileListQuery query;
 		query.FileFilter = &KeepOnlyCuttableDemoFiles;
 		query.FolderPath = udtString::NewConstRef(inputPath);
 		query.Recursive = options.Recursive;
 		query.UserData = NULL;
 		GetDirectoryFileList(query);
+		files = query.Files.GetStartAddress();
+		fileCount = query.Files.GetSize();
+	}
 
-		if(command == 'c')
+	if(command == 'c')
+	{
+		CutByChatConfig config;
+		if(!LoadChatConfig(config, options))
 		{
-			CutByChatConfig config;
-			if(!LoadChatConfig(config, options))
-			{
-				return 1;
-			}
-
-			return CutByChatMultipleFiles(parseArg.ParseArg, query.Files.GetStartAddress(), query.Files.GetSize(), config) ? 0 : 1;
+			return 1;
 		}
-		else if(command == 'm')
-		{
-			CutByMatchConfig config;
-			LoadMatchConfig(config, options);
 
-			return CutByMatchMultipleFiles(parseArg.ParseArg, query.Files.GetStartAddress(), query.Files.GetSize(), config) ? 0 : 1;
-		}
-		else if(command == 'r')
-		{
-			CutByMultiFragRailConfig config;
-			LoadMultiFragRailConfig(config, options);
-
-			return CutByMultiFragRailMultipleFiles(parseArg.ParseArg, query.Files.GetStartAddress(), query.Files.GetSize(), config) ? 0 : 1;
-		}
+		return CutByChatMultipleFiles(parseArg.ParseArg, query.Files.GetStartAddress(), query.Files.GetSize(), config) ? 0 : 1;
+	}
+	else if(command == 'm')
+	{
+		return CutByMatchMultipleFiles(parseArg.ParseArg, query.Files.GetStartAddress(), query.Files.GetSize(), config) ? 0 : 1;
+	}
+	else if(command == 'r')
+	{
+		return CutByMultiFragRailMultipleFiles(parseArg.ParseArg, query.Files.GetStartAddress(), query.Files.GetSize(), config) ? 0 : 1;
 	}
 
 	return 0;
