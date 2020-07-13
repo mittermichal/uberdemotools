@@ -23,7 +23,7 @@ void PrintHelp()
 	printf("UDT_cutter t [-o=outputfolder] [-q] [-g=gamestateindex] -s=starttime -e=endtime inputfile\n");
 	printf("UDT_cutter c [-o=outputfolder] [-q] [-t=maxthreads] [-r] -c=configpath inputfile|inputfolder\n");
 	printf("UDT_cutter m [-o=outputfolder] [-q] [-t=maxthreads] [-r] [-s=startoffset] [-e=endoffset] inputfile|inputfolder\n");
-	printf("UDT_cutter r [-o=outputfolder] [-q] [-t=maxthreads] [-r] [-f=fragcount] inputfile|inputfolder\n");
+	printf("UDT_cutter r [-o=outputfolder] [-q] [-t=maxthreads] [-r] [-s=startoffset] [-e=endoffset] [-f=fragcount] inputfile|inputfolder\n");
 	printf("UDT_cutter g -c=configpath\n");
 	printf("\n");
 	printf("t     cut by time\n");
@@ -495,6 +495,8 @@ static bool CutByMultiFragRailBatch(udtParseArg& parseArg, const udtFileInfo* fi
 	patternArg.EndOffsetSec = (u32)config.EndOffsetSec;
 	patternArg.PatternCount = 1;
 	patternArg.Patterns = &patternInfo;
+	patternArg.Flags = udtPatternSearchArgMask::MergeCutSections;
+	patternArg.PlayerIndex = udtPlayerIndex::FirstPersonPlayer;
 
 	const s32 result = udtCutDemoFilesByPattern(&parseArg, &threadInfo, &patternArg);
 
