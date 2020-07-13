@@ -23,11 +23,13 @@ void PrintHelp()
 	printf("UDT_cutter t [-o=outputfolder] [-q] [-g=gamestateindex] -s=starttime -e=endtime inputfile\n");
 	printf("UDT_cutter c [-o=outputfolder] [-q] [-t=maxthreads] [-r] -c=configpath inputfile|inputfolder\n");
 	printf("UDT_cutter m [-o=outputfolder] [-q] [-t=maxthreads] [-r] [-s=startoffset] [-e=endoffset] inputfile|inputfolder\n");
+	printf("UDT_cutter r [-o=outputfolder] [-q] [-t=maxthreads] [-r] [-f=fragcount] inputfile|inputfolder\n");
 	printf("UDT_cutter g -c=configpath\n");
 	printf("\n");
 	printf("t     cut by time\n");
 	printf("c     cut by chat\n");
 	printf("m     cut by matches\n");
+	printf("r     cut by multi-frag rails\n");
 	printf("g     generate a cut by chat example config\n");
 	printf("-q    quiet mode: no logging to stdout    (default: off)\n");
 	printf("-r    enable recursive demo file search   (default: off)\n");
@@ -78,6 +80,15 @@ struct CutByChatConfig
 	int MaxThreadCount = 1;
 	int StartOffsetSec = 10;
 	int EndOffsetSec = 10;
+};
+
+struct CutByMultiFragRailConfig
+{
+	const char* CustomOutputFolder;
+	s32 StartOffsetSec = 10;
+	s32 EndOffsetSec = 10;
+	u32 MaxThreadCount = 1;
+	u32 MinFragCount = 2;
 };
 
 
@@ -451,6 +462,94 @@ static bool CutByMatchSingleFile(udtParseArg& parseArg, const char* filePath, co
 	return CutByMatchMultipleFiles(parseArg, &fileInfo, 1, config);
 }
 
+static bool CutByMultiFragRailBatch(udtParseArg& parseArg, const udtFileInfo* files, const u32 fileCount, const CutByMultiFragRailConfig& config)
+{
+	udtVMArray<const char*> filePaths("CutByMultiRailBatch::FilePathsArray");
+	udtVMArray<s32> errorCodes("CutByMultiRailBatch::ErrorCodesArray");
+	filePaths.Resize(fileCount);
+	errorCodes.Resize(fileCount);
+	for(u32 i = 0; i < fileCount; ++i)
+	{
+		filePaths[i] = files[i].Path.GetPtr();
+	}
+
+	udtMultiParseArg threadInfo;
+	memset(&threadInfo, 0, sizeof(threadInfo));
+	threadInfo.FilePaths = filePaths.GetStartAddress();
+	threadInfo.OutputErrorCodes = errorCodes.GetStartAddress();
+	threadInfo.FileCount = fileCount;
+	threadInfo.MaxThreadCount = config.MaxThreadCount;
+
+	udtMultiRailPatternArg multiRailsInfo;
+	memset(&multiRailsInfo, 0, sizeof(multiRailsInfo));
+	multiRailsInfo.MinKillCount = config.MinFragCount;
+
+	udtPatternInfo patternInfo;
+	memset(&patternInfo, 0, sizeof(patternInfo));
+	patternInfo.Type = (u32)udtPatternType::MultiFragRails;
+	patternInfo.TypeSpecificInfo = &multiRailsInfo;
+
+	udtPatternSearchArg patternArg;
+	memset(&patternArg, 0, sizeof(patternArg));
+	patternArg.StartOffsetSec = (u32)config.StartOffsetSec;
+	patternArg.EndOffsetSec = (u32)config.EndOffsetSec;
+	patternArg.PatternCount = 1;
+	patternArg.Patterns = &patternInfo;
+
+	const s32 result = udtCutDemoFilesByPattern(&parseArg, &threadInfo, &patternArg);
+
+	udtVMLinearAllocator tempAllocator { "CutByMultiRailBatch::Temp" };
+	for(u32 i = 0; i < fileCount; ++i)
+	{
+		if(errorCodes[i] != (s32)udtErrorCode::None)
+		{
+			udtString fileName;
+			tempAllocator.Clear();
+			udtPath::GetFileName(fileName, tempAllocator, udtString::NewConstRef(filePaths[i]));
+
+			fprintf(stderr, "Processing of file %s failed with error: %s\n", fileName.GetPtrSafe("?"), udtGetErrorCodeString(errorCodes[i]));
+		}
+	}
+
+	if(result == udtErrorCode::None)
+	{
+		return true;
+	}
+
+	fprintf(stderr, "udtCutDemoFilesByPattern failed with error: %s\n", udtGetErrorCodeString(result));
+
+	return false;
+}
+
+static bool CutByMultiFragRailMultipleFiles(udtParseArg& parseArg, const udtFileInfo* files, const u32 fileCount, const CutByMultiFragRailConfig& config)
+{
+	parseArg.OutputFolderPath = config.CustomOutputFolder;
+
+	BatchRunner runner(parseArg, files, fileCount, UDT_CUTTER_BATCH_SIZE);
+	const u32 batchCount = runner.GetBatchCount();
+	for(u32 i = 0; i < batchCount; ++i)
+	{
+		runner.PrepareNextBatch();
+		const BatchRunner::BatchInfo& info = runner.GetBatchInfo(i);
+		if(!CutByMultiFragRailBatch(parseArg, files + info.FirstFileIndex, info.FileCount, config))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+static bool CutByMultiFragRailSingleFile(udtParseArg& parseArg, const char* filePath, const CutByMultiFragRailConfig& config)
+{
+	udtFileInfo fileInfo;
+	fileInfo.Name = udtString::NewNull();
+	fileInfo.Path = udtString::NewConstRef(filePath);
+	fileInfo.Size = 0;
+
+	return CutByMultiFragRailMultipleFiles(parseArg, &fileInfo, 1, config);
+}
+
 static bool HasCuttableDemoFileExtension(const udtString& filePath)
 {
 	for(u32 i = (u32)udtProtocol::FirstCuttableProtocol; i < (u32)udtProtocol::Count; ++i)
@@ -477,7 +576,7 @@ static bool KeepOnlyCuttableDemoFiles(const char* name, u64 /*size*/, void* /*us
 
 static const char ValidCommands[] = 
 {
-	't', 'c', 'm', 'g'
+	't', 'c', 'm', 'r', 'g'
 };
 
 static bool IsValidCommand(char command)
@@ -501,6 +600,7 @@ struct ProgramOptions
 	u32 GameStateIndex = 0; // -g=
 	s32 StartTimeSec = UDT_S32_MIN; // -s=
 	s32 EndTimeSec = UDT_S32_MIN; // -e=
+	s32 FragCount = UDT_S32_MIN; // -f=
 	bool Recursive = false;	 // -r
 };
 
@@ -526,6 +626,15 @@ static void LoadMatchConfig(CutByMatchConfig& config, const ProgramOptions& opti
 	config.MaxThreadCount = options.MaxThreadCount;
 	if(options.StartTimeSec > 0) config.StartOffsetSec = options.StartTimeSec;
 	if(options.EndTimeSec > 0) config.EndOffsetSec = options.EndTimeSec;
+}
+
+static void LoadMultiFragRailConfig(CutByMultiFragRailConfig& config, const ProgramOptions& options)
+{
+	config.CustomOutputFolder = options.OutputFolderPath;
+	config.MaxThreadCount = options.MaxThreadCount;
+	if(options.StartTimeSec > 0) config.StartOffsetSec = options.StartTimeSec;
+	if(options.EndTimeSec > 0) config.EndOffsetSec = options.EndTimeSec;
+	if(options.EndTimeSec > 1) config.MinFragCount = options.FragCount;
 }
 
 
@@ -607,6 +716,12 @@ int udt_main(int argc, char** argv)
 		{
 			options.EndTimeSec = localInt;
 		}
+		else if(udtString::StartsWith(arg, "-f=") &&
+				arg.GetLength() >= 4 &&
+				StringParseSeconds(localInt, arg.GetPtr() + 3))
+		{
+			options.FragCount = localInt;
+		}
 	}
 
 	if(command == 'g')
@@ -681,6 +796,13 @@ int udt_main(int argc, char** argv)
 
 			return CutByMatchSingleFile(parseArg.ParseArg, inputPath, config) ? 0 : 1;
 		}
+		else if(command == 'r')
+		{
+			CutByMultiFragRailConfig config;
+			LoadMultiFragRailConfig(config, options);
+
+			return CutByMultiFragRailSingleFile(parseArg.ParseArg, inputPath, config) ? 0 : 1;
+		}
 	}
 	else
 	{
@@ -707,6 +829,13 @@ int udt_main(int argc, char** argv)
 			LoadMatchConfig(config, options);
 
 			return CutByMatchMultipleFiles(parseArg.ParseArg, query.Files.GetStartAddress(), query.Files.GetSize(), config) ? 0 : 1;
+		}
+		else if(command == 'r')
+		{
+			CutByMultiFragRailConfig config;
+			LoadMultiFragRailConfig(config, options);
+
+			return CutByMultiFragRailMultipleFiles(parseArg.ParseArg, query.Files.GetStartAddress(), query.Files.GetSize(), config) ? 0 : 1;
 		}
 	}
 
