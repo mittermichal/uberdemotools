@@ -18,7 +18,7 @@
 
 void PrintHelp()
 {
-	printf("Cuts demos by time, chat or matches.\n");
+	printf("Cuts demos by (t)ime, (c)hat, (m)atches or multi-kill (r)ails.\n");
 	printf("\n");
 	printf("UDT_cutter t [-o=outputfolder] [-q] [-g=gamestateindex] -s=starttime -e=endtime inputfile\n");
 	printf("UDT_cutter c [-o=outputfolder] [-q] [-t=maxthreads] [-r] -c=configpath inputfile|inputfolder\n");
