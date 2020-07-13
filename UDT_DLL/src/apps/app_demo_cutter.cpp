@@ -38,7 +38,7 @@ void PrintHelp()
 	printf("-t=N  set the maximum thread count to N   (default: 1)\n");
 	printf("-s=T  set the start cut time/offset to T  (default offset: 10 seconds)\n");
 	printf("-e=T  set the end cut time/offset to T    (default offset: 10 seconds)\n");
-	printf("-p=P  set the player index                (default: followed player)\n");
+	printf("-p=P  set the player tracking mode to P   (default: followed player)\n");
 	printf("      (0-63: player id, -1: demo taker, -2: followed player)\n");
 	printf("-c=p  set the config file path to p\n");
 	printf("\n");
