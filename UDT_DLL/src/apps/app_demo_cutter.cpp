@@ -23,7 +23,7 @@ void PrintHelp()
 	printf("UDT_cutter t [-o=outputfolder] [-q] [-g=gamestateindex] -s=starttime -e=endtime inputfile\n");
 	printf("UDT_cutter c [-o=outputfolder] [-q] [-t=maxthreads] [-r] -c=configpath inputfile|inputfolder\n");
 	printf("UDT_cutter m [-o=outputfolder] [-q] [-t=maxthreads] [-r] [-s=startoffset] [-e=endoffset] inputfile|inputfolder\n");
-	printf("UDT_cutter r [-o=outputfolder] [-q] [-t=maxthreads] [-r] [-s=startoffset] [-e=endoffset] [-f=fragcount] inputfile|inputfolder\n");
+	printf("UDT_cutter r [-o=outputfolder] [-q] [-t=maxthreads] [-r] [-s=startoffset] [-e=endoffset] [-f=fragcount] [-p=playerindex] inputfile|inputfolder\n");
 	printf("UDT_cutter g -c=configpath\n");
 	printf("\n");
 	printf("t     cut by time\n");
@@ -38,6 +38,8 @@ void PrintHelp()
 	printf("-t=N  set the maximum thread count to N   (default: 1)\n");
 	printf("-s=T  set the start cut time/offset to T  (default offset: 10 seconds)\n");
 	printf("-e=T  set the end cut time/offset to T    (default offset: 10 seconds)\n");
+	printf("-p=P  set the player index                (default: followed player)\n");
+	printf("      (0-63: player id, -1: demo taker, -2: followed player)\n");
 	printf("-c=p  set the config file path to p\n");
 	printf("\n");
 	printf("Start and end times/offsets (-s and -e) can be formatted as:\n");
@@ -89,6 +91,7 @@ struct CutByMultiFragRailConfig
 	s32 EndOffsetSec = 10;
 	u32 MaxThreadCount = 1;
 	u32 MinFragCount = 2;
+	s32 PlayerIndex = udtPlayerIndex::FirstPersonPlayer;
 };
 
 
@@ -496,7 +499,7 @@ static bool CutByMultiFragRailBatch(udtParseArg& parseArg, const udtFileInfo* fi
 	patternArg.PatternCount = 1;
 	patternArg.Patterns = &patternInfo;
 	patternArg.Flags = udtPatternSearchArgMask::MergeCutSections;
-	patternArg.PlayerIndex = udtPlayerIndex::FirstPersonPlayer;
+	patternArg.PlayerIndex = config.PlayerIndex;
 
 	const s32 result = udtCutDemoFilesByPattern(&parseArg, &threadInfo, &patternArg);
 
@@ -603,6 +606,7 @@ struct ProgramOptions
 	s32 StartTimeSec = UDT_S32_MIN; // -s=
 	s32 EndTimeSec = UDT_S32_MIN; // -e=
 	s32 FragCount = UDT_S32_MIN; // -f=
+	s32 PlayerIndex = udtPlayerIndex::FirstPersonPlayer; // -p=
 	bool Recursive = false;	 // -r
 };
 
@@ -636,7 +640,8 @@ static void LoadMultiFragRailConfig(CutByMultiFragRailConfig& config, const Prog
 	config.MaxThreadCount = options.MaxThreadCount;
 	if(options.StartTimeSec > 0) config.StartOffsetSec = options.StartTimeSec;
 	if(options.EndTimeSec > 0) config.EndOffsetSec = options.EndTimeSec;
-	if(options.EndTimeSec > 1) config.MinFragCount = options.FragCount;
+	if(options.FragCount > 1) config.MinFragCount = options.FragCount;
+	config.PlayerIndex = options.PlayerIndex;
 }
 
 
@@ -720,9 +725,19 @@ int udt_main(int argc, char** argv)
 		}
 		else if(udtString::StartsWith(arg, "-f=") &&
 				arg.GetLength() >= 4 &&
-				StringParseSeconds(localInt, arg.GetPtr() + 3))
+				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				localInt >= 2 &&
+				localInt <= 8)
 		{
 			options.FragCount = localInt;
+		}
+		else if(udtString::StartsWith(arg, "-p=") &&
+				arg.GetLength() >= 4 &&
+				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				localInt >= -2 &&
+				localInt <= 63)
+		{
+			options.PlayerIndex = localInt;
 		}
 	}
 
