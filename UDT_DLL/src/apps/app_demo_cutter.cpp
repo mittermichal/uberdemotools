@@ -685,10 +685,10 @@ int udt_main(int argc, char** argv)
 	else
 	{
 		udtFileListQuery query;
-		memset(&query, 0, sizeof(query));
 		query.FileFilter = &KeepOnlyCuttableDemoFiles;
 		query.FolderPath = udtString::NewConstRef(inputPath);
 		query.Recursive = options.Recursive;
+		query.UserData = NULL;
 		GetDirectoryFileList(query);
 
 		if(command == 'c')
