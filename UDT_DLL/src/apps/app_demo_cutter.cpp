@@ -27,6 +27,19 @@ struct ProgramOptions
 	s32 FragCount = UDT_S32_MIN; // -f=
 	s32 PlayerIndex = udtPlayerIndex::FirstPersonPlayer; // -p=
 	bool Recursive = false;	 // -r
+	// mid-air pattern
+	u32 MidAirWeaponMask = u32(~0); // -mawm=
+	u32 MidAirMinDistance = 50; // -mamd=
+	u32 MidAirMinAirTime = 250; // -maat=
+	// frag sequences
+	u32 FragSeqMaxDurationSec = 4; // -fsmd=
+	u32 FragSeqOptionsMask = 0; // -fsom=
+	u32 FragSeqDeathMask = u32(~0); // -fsdm=
+	// flick rails
+	u32 FlickMinSpeed = 600; // -frms=
+	u32 FlickSpeedSnaps = 4; // -frss=
+	u32 FlickMinAngle = 30; // -frma=
+	u32 FlickAngleSnaps = 2; // -fras=
 };
 
 struct CutByChatConfig
@@ -62,12 +75,15 @@ static const char* ExampleConfig =
 
 void PrintHelp()
 {
-	printf("Cuts demos by (t)ime, (c)hat, (m)atches or multi-kill (r)ails.\n");
+	printf("Cuts demos by (t)ime, (c)hat, (m)atches, multi-kill (r)ails, (f)lick rails, mid-(a)irs, frag (s)equences\n");
 	printf("\n");
 	printf("UDT_cutter t [-o=outputfolder] [-q] [-g=gamestateindex] -s=starttime -e=endtime inputfile\n");
 	printf("UDT_cutter c [-o=outputfolder] [-q] [-t=maxthreads] [-r] [-s=startoffset] [-e=endoffset] -c=configpath inputfile|inputfolder\n");
 	printf("UDT_cutter m [-o=outputfolder] [-q] [-t=maxthreads] [-r] [-s=startoffset] [-e=endoffset] inputfile|inputfolder\n");
-	printf("UDT_cutter r [-o=outputfolder] [-q] [-t=maxthreads] [-r] [-s=startoffset] [-e=endoffset] [-f=fragcount] [-p=playerindex] inputfile|inputfolder\n");
+	printf("UDT_cutter r [-o=outputfolder] [-q] [-t=maxthreads] [-r] [-s=startoffset] [-e=endoffset] [-p=playerindex] [-f=fragcount]  inputfile|inputfolder\n");
+	printf("UDT_cutter f [-o=outputfolder] [-q] [-t=maxthreads] [-r] [-s=startoffset] [-e=endoffset] [-p=playerindex] [-frms=minspeed -frss=speedsnapshots -frma=minangledelta -fras=anglesnapshots] inputfile|inputfolder\n");
+	printf("UDT_cutter a [-o=outputfolder] [-q] [-t=maxthreads] [-r] [-s=startoffset] [-e=endoffset] [-p=playerindex] [-mawm=weaponmask] [-mamd=mindistance] [-maat=minairtimems] inputfile|inputfolder\n");
+	printf("UDT_cutter s [-o=outputfolder] [-q] [-t=maxthreads] [-r] [-s=startoffset] [-e=endoffset] [-p=playerindex] [-fsmd=maxduration -fsom=optionsmask -fsdm=deathmask] inputfile|inputfolder\n");
 	printf("UDT_cutter g -c=configpath\n");
 	printf("\n");
 	printf("t     cut by time\n");
@@ -381,7 +397,7 @@ static bool KeepOnlyCuttableDemoFiles(const char* name, u64 /*size*/, void* /*us
 
 static const char ValidCommands[] = 
 {
-	't', 'c', 'm', 'r', 'g'
+	't', 'c', 'm', 'r', 'f', 'a', 's', 'g'
 };
 
 static bool IsValidCommand(char command)
@@ -506,6 +522,78 @@ int udt_main(int argc, char** argv)
 		{
 			options.PlayerIndex = localInt;
 		}
+		else if(udtString::StartsWith(arg, "-mawm=") &&
+				arg.GetLength() >= 7 &&
+				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				localInt != 0)
+		{
+			options.MidAirWeaponMask = (u32)localInt;
+		}
+		else if(udtString::StartsWith(arg, "-mamd=") &&
+				arg.GetLength() >= 7 &&
+				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				localInt >= 0)
+		{
+			options.MidAirMinDistance = (u32)localInt;
+		}
+		else if(udtString::StartsWith(arg, "-maat=") &&
+				arg.GetLength() >= 7 &&
+				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				localInt >= 0)
+		{
+			options.MidAirMinAirTime = (u32)localInt;
+		}
+		else if(udtString::StartsWith(arg, "-fsmd=") &&
+				arg.GetLength() >= 7 &&
+				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				localInt > 0)
+		{
+			options.FragSeqMaxDurationSec = (u32)localInt;
+		}
+		else if(udtString::StartsWith(arg, "-fsom=") &&
+				arg.GetLength() >= 7 &&
+				StringParseInt(localInt, arg.GetPtr() + 3))
+		{
+			options.FragSeqOptionsMask = (u32)localInt;
+		}
+		else if(udtString::StartsWith(arg, "-fsdm=") &&
+				arg.GetLength() >= 7 &&
+				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				localInt != 0)
+		{
+			options.FragSeqDeathMask = (u32)localInt;
+		}
+		else if(udtString::StartsWith(arg, "-frms=") &&
+				arg.GetLength() >= 7 &&
+				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				localInt >= 0)
+		{
+			options.FlickMinSpeed = (u32)localInt;
+		}
+		else if(udtString::StartsWith(arg, "-frss=") &&
+				arg.GetLength() >= 7 &&
+				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				localInt >= 2 &&
+				localInt <= 4)
+		{
+			options.FlickSpeedSnaps = (u32)localInt;
+		}
+		else if(udtString::StartsWith(arg, "-frma=") &&
+				arg.GetLength() >= 7 &&
+				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				localInt >= 0 &&
+				localInt < 360)
+		{
+			options.FlickMinAngle = (u32)localInt;
+		}
+		else if(udtString::StartsWith(arg, "-fras=") &&
+				arg.GetLength() >= 7 &&
+				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				localInt >= 2 &&
+				localInt <= 4)
+		{
+			options.FlickAngleSnaps = (u32)localInt;
+		}
 	}
 
 	if(command == 'g')
@@ -617,6 +705,38 @@ int udt_main(int argc, char** argv)
 		pattern.MinKillCount = options.FragCount;
 
 		return CutFilesBySinglePattern(parseArg.ParseArg, files, fileCount, options, udtPatternType::MultiFragRails, &pattern) ? 0 : 1;
+	}
+	else if(command == 'f')
+	{
+		udtFlickRailPatternArg pattern;
+		memset(&pattern, 0, sizeof(pattern));
+		pattern.MinAngleDelta = DegToRad((f32)options.FlickMinAngle); // [rad]
+		pattern.MinAngleDeltaSnapshotCount = options.FlickAngleSnaps;
+		pattern.MinSpeed = DegToRad((f32)options.FlickMinSpeed); // [rad/s]
+		pattern.MinSpeedSnapshotCount = options.FlickSpeedSnaps;
+
+		return CutFilesBySinglePattern(parseArg.ParseArg, files, fileCount, options, udtPatternType::FlickRailFrags, &pattern) ? 0 : 1;
+	}
+	else if(command == 'a')
+	{
+		udtMidAirPatternArg pattern;
+		memset(&pattern, 0, sizeof(pattern));
+		pattern.AllowedWeapons = options.MidAirWeaponMask;
+		pattern.MinAirTimeMs = options.MidAirMinAirTime;
+		pattern.MinDistance = options.MidAirMinDistance;
+
+		return CutFilesBySinglePattern(parseArg.ParseArg, files, fileCount, options, udtPatternType::MidAirFrags, &pattern) ? 0 : 1;
+	}
+	else if(command == 's')
+	{
+		udtFragRunPatternArg pattern;
+		memset(&pattern, 0, sizeof(pattern));
+		pattern.AllowedMeansOfDeaths = options.FragSeqDeathMask;
+		pattern.Flags = options.FragSeqOptionsMask;
+		pattern.MinFragCount = options.FragCount;
+		pattern.TimeBetweenFragsSec = options.FragSeqMaxDurationSec;
+
+		return CutFilesBySinglePattern(parseArg.ParseArg, files, fileCount, options, udtPatternType::FragSequences, &pattern) ? 0 : 1;
 	}
 
 	return 0;
