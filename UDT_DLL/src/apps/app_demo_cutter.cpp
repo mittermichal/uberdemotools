@@ -524,55 +524,55 @@ int udt_main(int argc, char** argv)
 		}
 		else if(udtString::StartsWith(arg, "-mawm=") &&
 				arg.GetLength() >= 7 &&
-				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				StringParseInt(localInt, arg.GetPtr() + 6) &&
 				localInt != 0)
 		{
 			options.MidAirWeaponMask = (u32)localInt;
 		}
 		else if(udtString::StartsWith(arg, "-mamd=") &&
 				arg.GetLength() >= 7 &&
-				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				StringParseInt(localInt, arg.GetPtr() + 6) &&
 				localInt >= 0)
 		{
 			options.MidAirMinDistance = (u32)localInt;
 		}
 		else if(udtString::StartsWith(arg, "-maat=") &&
 				arg.GetLength() >= 7 &&
-				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				StringParseInt(localInt, arg.GetPtr() + 6) &&
 				localInt >= 0)
 		{
 			options.MidAirMinAirTime = (u32)localInt;
 		}
 		else if(udtString::StartsWith(arg, "-fsmd=") &&
 				arg.GetLength() >= 7 &&
-				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				StringParseInt(localInt, arg.GetPtr() + 6) &&
 				localInt > 0)
 		{
 			options.FragSeqMaxDurationSec = (u32)localInt;
 		}
 		else if(udtString::StartsWith(arg, "-fsom=") &&
 				arg.GetLength() >= 7 &&
-				StringParseInt(localInt, arg.GetPtr() + 3))
+				StringParseInt(localInt, arg.GetPtr() + 6))
 		{
 			options.FragSeqOptionsMask = (u32)localInt;
 		}
 		else if(udtString::StartsWith(arg, "-fsdm=") &&
 				arg.GetLength() >= 7 &&
-				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				StringParseInt(localInt, arg.GetPtr() + 6) &&
 				localInt != 0)
 		{
 			options.FragSeqDeathMask = (u32)localInt;
 		}
 		else if(udtString::StartsWith(arg, "-frms=") &&
 				arg.GetLength() >= 7 &&
-				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				StringParseInt(localInt, arg.GetPtr() + 6) &&
 				localInt >= 0)
 		{
 			options.FlickMinSpeed = (u32)localInt;
 		}
 		else if(udtString::StartsWith(arg, "-frss=") &&
 				arg.GetLength() >= 7 &&
-				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				StringParseInt(localInt, arg.GetPtr() + 6) &&
 				localInt >= 2 &&
 				localInt <= 4)
 		{
@@ -580,7 +580,7 @@ int udt_main(int argc, char** argv)
 		}
 		else if(udtString::StartsWith(arg, "-frma=") &&
 				arg.GetLength() >= 7 &&
-				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				StringParseInt(localInt, arg.GetPtr() + 6) &&
 				localInt >= 0 &&
 				localInt < 360)
 		{
@@ -588,7 +588,7 @@ int udt_main(int argc, char** argv)
 		}
 		else if(udtString::StartsWith(arg, "-fras=") &&
 				arg.GetLength() >= 7 &&
-				StringParseInt(localInt, arg.GetPtr() + 3) &&
+				StringParseInt(localInt, arg.GetPtr() + 6) &&
 				localInt >= 2 &&
 				localInt <= 4)
 		{
