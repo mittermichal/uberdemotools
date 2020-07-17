@@ -1877,6 +1877,10 @@ namespace Uber.DemoTools
             {
                 weaponFlags |= (UInt32)udtWeaponMask.BFG;
             }
+            if(config.MidAirCutAllowGrenade)
+            {
+                weaponFlags |= (UInt32)udtWeaponMask.Grenade;
+            }
 
             var rules = new udtMidAirPatternArg();
             rules.AllowedWeapons = weaponFlags;

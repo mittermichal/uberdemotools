@@ -51,6 +51,7 @@ namespace Uber.DemoTools
         public int MidAirCutMinAirTimeMs = 800;
         public bool MidAirCutAllowRocket = true;
         public bool MidAirCutAllowBFG = true;
+        public bool MidAirCutAllowGrenade = true;
         public bool AnalyzeOnLoad = true;
         public int MultiRailCutMinFragCount = 2;
         public bool ColorLogWarningsAndErrors = false;
@@ -184,10 +185,10 @@ namespace Uber.DemoTools
 
     public class App
     {
-        private const string GuiVersion = "0.7.2";
+        private const string GuiVersion = "0.7.3";
         private const uint MinimumDllVersionMajor = 1;
         private const uint MinimumDllVersionMinor = 3;
-        private const uint MinimumDllVersionRevision = 1;
+        private const uint MinimumDllVersionRevision = 2;
         private readonly string DllVersion = UDT_DLL.GetVersion();
 
         private static readonly List<string> DemoExtensions = new List<string>
