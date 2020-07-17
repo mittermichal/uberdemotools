@@ -14,6 +14,7 @@
 
 
 #define    UDT_CUTTER_BATCH_SIZE    256
+#define    UDT_DEF_MIDAIR_WEAPONS   ((u32)udtWeaponMask::RocketLauncher | (u32)udtWeaponMask::BFG)
 
 
 struct ProgramOptions
@@ -28,7 +29,7 @@ struct ProgramOptions
 	s32 PlayerIndex = udtPlayerIndex::FirstPersonPlayer; // -p=
 	bool Recursive = false;	 // -r
 	// mid-air pattern
-	u32 MidAirWeaponMask = u32(~0); // -mawm=
+	u32 MidAirWeaponMask = UDT_DEF_MIDAIR_WEAPONS; // -mawm=
 	u32 MidAirMinDistance = 50; // -mamd=
 	u32 MidAirMinAirTime = 250; // -maat=
 	// frag sequences
