@@ -869,6 +869,10 @@ extern "C"
 	/* Default behavior: calls the C function exit. */
 	typedef void (*udtCrashCallback)(const char* message);
 
+	/* Returns the protocol version of the file pointed to by "filePath". */
+	/* The return value is of type udtProtocol::Id. */
+	typedef u32 (*udtProtocolCallback)(const char* filePath);
+
 #pragma pack(push, 1)
 
 #if defined(__cplusplus)
@@ -900,6 +904,11 @@ extern "C"
 		/* May be NULL. */
 		udtProgressCallback ProgressCb;
 
+		/* May be NULL */
+		/* When not specified, udtGetProtocolByFilePath is used instead. */
+		/* The return value is of type udtProtocol::Id. */
+		udtProtocolCallback ProtocolCb;
+
 		/* May be NULL. */
 		/* This is passed as "userData" to "ProgressCb". */
 		void* ProgressContext;
@@ -911,9 +920,6 @@ extern "C"
 		/* May be NULL. */
 		/* The array size should be udtPerfStatsField::Count. */
 		u64* PerformanceStats;
-
-		/* Ignore this. */
-		void* Reserved1;
 
 		/* Number of elements in the array pointed to by the PlugIns pointer. */
 		/* May be 0. */

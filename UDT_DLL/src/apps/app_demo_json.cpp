@@ -36,6 +36,13 @@ void PrintHelp()
 	printf("Example for selecting analyzers: -a=sd will select stats and deaths.\n");
 }
 
+static udtProtocol::Id g_protocol = udtProtocol::Invalid;
+
+static u32 ProtocolCallback(const char* /*filePath*/)
+{
+	return g_protocol;
+}
+
 static bool KeepOnlyDemoFiles(const char* name, u64 /*size*/, void* /*userData*/)
 {
 	return udtPath::HasValidDemoFileExtension(name);
@@ -124,6 +131,7 @@ static bool ProcessMultipleDemos(const udtFileInfo* files, u32 fileCount, const 
 	parseArg.PlugIns = plugInIds;
 	parseArg.PlugInCount = plugInCount;
 	parseArg.OutputFolderPath = customOutputFolder;
+	parseArg.ProtocolCb = g_protocol != udtProtocol::Invalid ? &ProtocolCallback : NULL;
 
 	BatchRunner runner(parseArg, files, fileCount, UDT_JSON_BATCH_SIZE);
 	const u32 batchCount = runner.GetBatchCount();
@@ -199,6 +207,26 @@ int udt_main(int argc, char** argv)
 		{
 			maxThreadCount = (u32)localMaxThreads;
 		}
+		else if(udtString::StartsWith(arg, "-p=") &&
+				arg.GetLength() >= 4)
+		{
+			s32 protocol = -1;
+			if(StringParseInt(protocol, arg.GetPtr() + 3))
+			{
+				switch(protocol)
+				{
+					case  3: g_protocol = udtProtocol::Dm3;  break;
+					case 48: g_protocol = udtProtocol::Dm48; break;
+					case 66: g_protocol = udtProtocol::Dm66; break;
+					case 67: g_protocol = udtProtocol::Dm67; break;
+					case 68: g_protocol = udtProtocol::Dm68; break;
+					case 73: g_protocol = udtProtocol::Dm73; break;
+					case 90: g_protocol = udtProtocol::Dm90; break;
+					case 91: g_protocol = udtProtocol::Dm91; break;
+					default: break;
+				}
+			}
+		}
 		else if(udtString::StartsWith(arg, "-a=") &&
 				arg.GetLength() >= 4)
 		{
@@ -233,7 +261,7 @@ int udt_main(int argc, char** argv)
 	}
 
 	udtFileListQuery query;
-	query.FileFilter = &KeepOnlyDemoFiles;
+	query.FileFilter = g_protocol == udtProtocol::Invalid ? &KeepOnlyDemoFiles : NULL;
 	query.FolderPath = udtString::NewConstRef(inputPath);
 	query.Recursive = recursive;
 	GetDirectoryFileList(query);
