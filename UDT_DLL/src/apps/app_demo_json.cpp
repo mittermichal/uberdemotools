@@ -23,6 +23,7 @@ void PrintHelp()
 	printf("-c    output to the console/terminal          (default: off)\n");
 	printf("-r    enable recursive demo file search       (default: off)\n");
 	printf("-t=N  set the maximum number of threads to N  (default: 1)\n");
+	printf("-p=P  set the protocol version to P           (default: no override)\n");
 	printf("-a=   select analyzers                        (default: all enabled)\n");
 	printf("        g: Game states         s: Stats\n");
 	printf("        m: chat Messages       r: Raw commands\n");
@@ -156,18 +157,6 @@ int udt_main(int argc, char** argv)
 		return 0;
 	}
 
-	bool fileMode = false;
-	const char* const inputPath = argv[argc - 1];
-	if(udtFileStream::Exists(inputPath) && udtPath::HasValidDemoFileExtension(inputPath))
-	{
-		fileMode = true;
-	}
-	else if(!IsValidDirectory(inputPath))
-	{
-		fprintf(stderr, "Invalid file/folder path.\n");
-		return 1;
-	}
-
 	const char* customOutputPath = NULL;
 	u32 maxThreadCount = 1;
 	u32 analyzerCount = (u32)udtParserPlugIn::Count;
@@ -248,6 +237,18 @@ int udt_main(int argc, char** argv)
 				++s;
 			}
 		}
+	}
+
+	bool fileMode = false;
+	const char* const inputPath = argv[argc - 1];	
+	if(udtFileStream::Exists(inputPath) && (g_protocol != udtProtocol::Invalid || udtPath::HasValidDemoFileExtension(inputPath)))
+	{
+		fileMode = true;
+	}
+	else if(!IsValidDirectory(inputPath))
+	{
+		fprintf(stderr, "Invalid file/folder path.\n");
+		return 1;
 	}
 
 	if(fileMode)
