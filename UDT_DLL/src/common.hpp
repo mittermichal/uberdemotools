@@ -172,6 +172,11 @@ struct idClientSnapshot73 : idClientSnapshotBase
 	idPlayerState73 ps; // complete information about the current player at this time
 };
 
+struct idClientSnapshot84 : idClientSnapshotBase
+{
+	idPlayerState84 ps; // complete information about the current player at this time
+};
+
 struct idClientSnapshot90 : idClientSnapshotBase
 {
 	idPlayerState90 ps; // complete information about the current player at this time
@@ -182,7 +187,7 @@ struct idClientSnapshot91 : idClientSnapshotBase
 	idPlayerState91 ps; // complete information about the current player at this time
 };
 
-typedef idClientSnapshot91 idLargestClientSnapshot;
+typedef idClientSnapshot84 idLargestClientSnapshot;
 
 inline idPlayerStateBase* GetPlayerState(idClientSnapshotBase* snap, udtProtocol::Id protocol)
 {
@@ -194,6 +199,7 @@ inline idPlayerStateBase* GetPlayerState(idClientSnapshotBase* snap, udtProtocol
 		case udtProtocol::Dm67: return &((idClientSnapshot67*)snap)->ps;
 		case udtProtocol::Dm68: return &((idClientSnapshot68*)snap)->ps;
 		case udtProtocol::Dm73: return &((idClientSnapshot73*)snap)->ps;
+		case udtProtocol::Dm84: return &((idClientSnapshot84*)snap)->ps;
 		case udtProtocol::Dm90: return &((idClientSnapshot90*)snap)->ps;
 		case udtProtocol::Dm91: return &((idClientSnapshot91*)snap)->ps;
 		default: return NULL;

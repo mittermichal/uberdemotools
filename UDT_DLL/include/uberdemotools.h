@@ -142,6 +142,7 @@ struct udtErrorCode
 	N(Dm67, ".dm_67") \
 	N(Dm68, ".dm_68") \
 	N(Dm73, ".dm_73") \
+	N(Dm84, ".dm_84") \
 	N(Dm90, ".dm_90") \
 	N(Dm91, ".dm_91")
 
@@ -2481,6 +2482,58 @@ extern "C"
 		s32 apos_gravity; /* part of idEntityStateBase::apos trajectory */
 	};
 
+	// TODO: does the order matter here?
+	struct idEntityState84
+	{
+		s32 number;	
+		s32 eType;
+		s32 eFlags;
+		s32 time;
+		s32	time2;
+
+		s32 otherEntityNum;  
+		s32 otherEntityNum2;
+		s32 groundEntityNum;
+		s32 constantLight;
+		s32 dl_intensity;
+		s32 loopSound;
+
+		s32 modelindex;
+		s32 modelindex2;
+
+		s32 clientNum;
+		s32 frame;
+		s32 solid;     
+		s32 event;     
+		s32 eventParm;
+		s32 eventSequence;
+
+		s32 powerups;  
+		s32 weapon;    
+		s32 legsAnim;
+		s32 torsoAnim;
+		s32 density;
+
+		s32 dmgFlags;
+		s32 onFireStart;
+		s32	onFireEnd;
+		s32 nextWeapon;
+		s32 teamNum;
+		s32 effect1Time, effect2Time, effect3Time;
+		s32 aiState;
+		s32 animMovetype;
+
+		idVec3 origin[3];
+		idVec3 origin2[3];
+		idVec3 angles[3];
+		idVec3 angles2[3];
+		s32 events[4];
+		s32 eventParms[4];
+
+		idTrajectoryBase pos;
+		idTrajectoryBase apos;
+	};
+
 	struct idEntityState90 : idEntityStateBase
 	{
 		s32 pos_gravity;  /* part of idEntityStateBase::pos trajectory */
@@ -2587,6 +2640,77 @@ extern "C"
 
 	struct idPlayerState73 : idPlayerStateBase
 	{
+	};
+
+	struct idPlayerState84 : idPlayerStateBase
+	{
+		s32             commandTime;
+		s32             pm_type;
+		s32             bobCycle;
+		s32             pm_flags;
+		s32             pm_time;
+		s32             weaponTime;
+		s32             weaponDelay;
+		s32             grenadeTimeLeft;
+		s32             gravity;
+		s32             speed;
+		s32             groundEntityNum;
+		s32             legsTimer;
+		s32             legsAnim;
+		s32             torsoTimer;
+		s32             torsoAnim;
+		s32             movementDir;
+		s32             eFlags;
+		s32             eventSequence;
+		s32             clientNum;
+		s32             weapon;
+		s32             weaponstate;
+		s32             weapAnim;
+		s32             viewheight;
+		s32             damageEvent;
+		s32             damageYaw;
+		s32             damagePitch;
+		s32             damageCount;
+		s32             viewlocked;
+		s32             viewlocked_entNum;
+		s32             nextWeapon;
+		s32             teamNum;
+		s32             onFireStart;
+		s32             curWeapHeat;
+		s32             aimSpreadScale;
+		s32             serverCursorHint;
+		s32             serverCursorHintVal;
+		s32             classWeaponTime;
+		s32             identifyClient;
+		s32             identifyClientHealth;
+		s32             aiState;
+
+		f32           leanf;
+		f32           crouchMaxZ;
+		f32           crouchViewHeight;
+		f32           standViewHeight;
+		f32           deadViewHeight;
+		f32           runSpeedScale;
+		f32           sprintSpeedScale;
+		f32           crouchSpeedScale;
+		f32           friction;
+
+		s32             delta_angles[3];
+		s32             events[4];
+		s32             eventParms[4];
+		s32             weapons[64 / (sizeof(s32) * 8)]; // ET_MAX_WEAPONS
+		s32             stats[ID_MAX_PS_STATS];
+		s32             persistant[ID_MAX_PS_PERSISTANT];
+		s32             powerups[ID_MAX_PS_POWERUPS];
+		s32             ammo[64]; // ET_MAX_WEAPONS
+		s32             ammoclip[64]; // ET_MAX_WEAPONS
+		s32             holdable[16]; // ET_MAX_HOLDABLE
+
+		f32           mins[3];
+		f32           maxs[3];
+		f32           viewangles[3];
+		f32           origin[3];
+		f32           velocity[3];
 	};
 
 	struct idPlayerState90 : idPlayerStateBase
