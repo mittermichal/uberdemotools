@@ -334,6 +334,21 @@ const s32 EntityStateFieldCount48 = sizeof(EntityStateFields48) / sizeof(EntityS
 static_assert(EntityStateFieldCount48 == 51, "dm_48 network entity states have 51 fields!");
 
 //
+// 60 rtcw
+//
+
+#define ESF(field, bits) { (s16)OFFSET_OF(idEntityState60, field), bits }
+
+const idNetField EntityStateFields60[] =
+{
+
+};
+
+#undef ESF
+
+const s32 EntityStateFieldCount60 = sizeof(EntityStateFields60) / sizeof(EntityStateFields60[0]);
+
+//
 // 68
 //
 
@@ -728,6 +743,21 @@ static const idNetField PlayerStateFields48[] =
 static const s32 PlayerStateFieldCount48 = sizeof(PlayerStateFields48) / sizeof(PlayerStateFields48[0]);
 
 //
+// 60
+//
+
+#define PSF(field, bits) { (s16)OFFSET_OF(idPlayerState60, field), bits }
+
+static const idNetField PlayerStateFields60[] =
+{
+
+};
+
+#undef PSF
+
+static const s32 PlayerStateFieldCount60 = sizeof(PlayerStateFields60) / sizeof(PlayerStateFields60[0]);
+
+//
 // 68
 //
 
@@ -1055,6 +1085,15 @@ void udtMessage::InitProtocol(udtProtocol::Id protocol)
 			_playerStateFields = PlayerStateFields48;
 			_playerStateFieldCount = PlayerStateFieldCount48;
 			break;
+
+        case udtProtocol::Dm60:
+            _protocolSizeOfEntityState = sizeof(idEntityState60);
+            _protocolSizeOfPlayerState = sizeof(idPlayerState60);
+            _entityStateFields = EntityStateFields60;
+            _entityStateFieldCount = EntityStateFieldCount60;
+            _playerStateFields = PlayerStateFields60;
+            _playerStateFieldCount = PlayerStateFieldCount60;
+            break;
 
 		case udtProtocol::Dm66:
 			_protocolSizeOfEntityState = sizeof(idEntityState66);
@@ -1731,6 +1770,7 @@ bool udtMessage::RealReadDeltaPlayer(const idPlayerStateBase* from, idPlayerStat
 		memset(&dummy, 0, sizeof(dummy));
 	}
 	memcpy(to, from, _protocolSizeOfPlayerState);
+	//*to = *from;
 	
 	if(_protocol <= udtProtocol::Dm48)
 	{

@@ -138,6 +138,7 @@ struct udtErrorCode
 #define UDT_PROTOCOL_LIST(N) \
 	N(Dm3 , ".dm3"  ) \
 	N(Dm48, ".dm_48") \
+    N(Dm60, ".dm_60") \
 	N(Dm66, ".dm_66") \
 	N(Dm67, ".dm_67") \
 	N(Dm68, ".dm_68") \
@@ -154,7 +155,7 @@ struct udtProtocol
 		Count,
 		Invalid,
 		FirstProtocol = Dm3,
-		FirstCuttableProtocol = Dm66
+		FirstCuttableProtocol = Dm60
 	};
 };
 #undef UDT_PROTOCOL_ITEM
@@ -2463,6 +2464,11 @@ extern "C"
 	{
 	};
 
+    struct idEntityState60 : idEntityStateBase
+	{
+
+	};
+
 	struct idEntityState66 : idEntityStateBase
 	{
 	};
@@ -2570,6 +2576,10 @@ extern "C"
 	};
 
 	struct idPlayerState48 : idPlayerStateBase
+	{
+	};
+
+    struct idPlayerState60 : idPlayerStateBase
 	{
 	};
 
