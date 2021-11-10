@@ -2466,8 +2466,22 @@ extern "C"
 
     struct idEntityState60 : idEntityStateBase
 	{
+        int dl_intensity;       // used for coronas
+        int eventSequence;      // pmove generated events
+        int events[4];
+        int eventParms[4];
+        int density;            // for particle effects
+        int dmgFlags;           // to pass along additional information for damage effects for players/ Also used for cursorhints for non-player entities
+        // Ridah
+        int onFireStart, onFireEnd;
+        int aiChar, teamNum;
 
-	};
+        int effect1Time, effect2Time, effect3Time;
+
+        int aiState;
+
+        int animMovetype;       // clients can't derive movetype of other clients for anim scripting system
+    };
 
 	struct idEntityState66 : idEntityStateBase
 	{

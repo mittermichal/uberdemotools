@@ -337,14 +337,84 @@ static_assert(EntityStateFieldCount48 == 51, "dm_48 network entity states have 5
 // 60 rtcw
 //
 
-#define ESF(field, bits) { (s16)OFFSET_OF(idEntityState60, field), bits }
+#define NETF(field) { (s16)OFFSET_OF(idEntityState60, field) }
 
 const idNetField EntityStateFields60[] =
 {
-
+        { NETF( eType ), 8 },
+        { NETF( eFlags ), 24 },
+        { NETF( pos.trType ), 8 },
+        { NETF( pos.trTime ), 32 },
+        { NETF( pos.trDuration ), 32 },
+        { NETF( pos.trBase[0] ), 0 },
+        { NETF( pos.trBase[1] ), 0 },
+        { NETF( pos.trBase[2] ), 0 },
+        { NETF( pos.trDelta[0] ), 0 },
+        { NETF( pos.trDelta[1] ), 0 },
+        { NETF( pos.trDelta[2] ), 0 },
+        { NETF( apos.trType ), 8 },
+        { NETF( apos.trTime ), 32 },
+        { NETF( apos.trDuration ), 32 },
+        { NETF( apos.trBase[0] ), 0 },
+        { NETF( apos.trBase[1] ), 0 },
+        { NETF( apos.trBase[2] ), 0 },
+        { NETF( apos.trDelta[0] ), 0 },
+        { NETF( apos.trDelta[1] ), 0 },
+        { NETF( apos.trDelta[2] ), 0 },
+        { NETF( time ), 32 },
+        { NETF( time2 ), 32 },
+        { NETF( origin[0] ), 0 },
+        { NETF( origin[1] ), 0 },
+        { NETF( origin[2] ), 0 },
+        { NETF( origin2[0] ), 0 },
+        { NETF( origin2[1] ), 0 },
+        { NETF( origin2[2] ), 0 },
+        { NETF( angles[0] ), 0 },
+        { NETF( angles[1] ), 0 },
+        { NETF( angles[2] ), 0 },
+        { NETF( angles2[0] ), 0 },
+        { NETF( angles2[1] ), 0 },
+        { NETF( angles2[2] ), 0 },
+        { NETF( otherEntityNum ), GENTITYNUM_BITS },
+        { NETF( otherEntityNum2 ), GENTITYNUM_BITS },
+        { NETF( groundEntityNum ), GENTITYNUM_BITS },
+        { NETF( loopSound ), 8 },
+        { NETF( constantLight ), 32 },
+        { NETF( dl_intensity ), 32 }, //----(SA)	longer now to carry the corona colors
+        { NETF( modelindex ), 9 },
+        { NETF( modelindex2 ), 9 },
+        { NETF( frame ), 16 },
+        { NETF( clientNum ), 8 },
+        { NETF( solid ), 24 },
+        { NETF( event ), 10 },
+        { NETF( eventParm ), 8 },
+        { NETF( eventSequence ), 8 }, // warning: need to modify cg_event.c at "// check the sequencial list" if you change this
+        { NETF( events[0] ), 8 },
+        { NETF( events[1] ), 8 },
+        { NETF( events[2] ), 8 },
+        { NETF( events[3] ), 8 },
+        { NETF( eventParms[0] ), 8 },
+        { NETF( eventParms[1] ), 8 },
+        { NETF( eventParms[2] ), 8 },
+        { NETF( eventParms[3] ), 8 },
+        { NETF( powerups ), 16 },
+        { NETF( weapon ), 8 },
+        { NETF( legsAnim ), 10 },
+        { NETF( torsoAnim ), 10 },
+        { NETF( density ), 10},
+        { NETF( dmgFlags ), 32 },   //----(SA)	additional info flags for damage
+        { NETF( onFireStart ), 32},
+        { NETF( onFireEnd ), 32},
+        { NETF( aiChar ), 8},
+        { NETF( teamNum ), 8},
+        { NETF( effect1Time ), 32},
+        { NETF( effect2Time ), 32},
+        { NETF( effect3Time ), 32},
+        { NETF( aiState ), 2},
+        { NETF( animMovetype ), 4},
 };
 
-#undef ESF
+#undef NETF
 
 const s32 EntityStateFieldCount60 = sizeof(EntityStateFields60) / sizeof(EntityStateFields60[0]);
 

@@ -145,8 +145,8 @@ bool udtBaseParser::ParseServerMessage()
 {
 	_outMsg.Init(_outMsgData, sizeof(_outMsgData));
 
-	_outMsg.SetHuffman(_outProtocol >= udtProtocol::Dm66);
-	_inMsg.SetHuffman(_inProtocol >= udtProtocol::Dm66);
+	_outMsg.SetHuffman(_outProtocol >= udtProtocol::Dm60);
+	_inMsg.SetHuffman(_inProtocol >= udtProtocol::Dm60);
 
 	//
 	// Using the message sequence number as acknowledge number will help avoid 
@@ -157,7 +157,7 @@ bool udtBaseParser::ParseServerMessage()
 	if(_inProtocol > udtProtocol::Dm3)
 	{
 		const s32 sequAck = _inMsg.ReadLong(); // Reliable sequence acknowledge.
-		if(_inProtocol >= udtProtocol::Dm68)
+		if(_inProtocol >= udtProtocol::Dm60)
 		{
 			reliableSequenceAcknowledge = sequAck;
 		}
@@ -370,7 +370,7 @@ void udtBaseParser::AddCut(s32 gsIndex, s32 startTimeMs, s32 endTimeMs, const ch
 
 bool udtBaseParser::ShouldWriteMessage() const
 {
-	return _outWriteMessage && _outProtocol >= udtProtocol::Dm66;
+	return _outWriteMessage && (_outProtocol >= udtProtocol::Dm60);
 }
 
 void udtBaseParser::WriteFirstMessage()
@@ -583,7 +583,7 @@ bool udtBaseParser::ParseGamestate()
 		}
 	}
 
-	if(_inProtocol >= udtProtocol::Dm66)
+	if(_inProtocol >= udtProtocol::Dm60)
 	{
 		_inClientNum = _inMsg.ReadLong();
 		_inChecksumFeed = _inMsg.ReadLong();
