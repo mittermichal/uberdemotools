@@ -187,9 +187,9 @@ struct idClientSnapshot91 : idClientSnapshotBase
 	idPlayerState91 ps; // complete information about the current player at this time
 };
 
-typedef idClientSnapshot91 idLargestClientSnapshot;
+typedef idClientSnapshot60 idLargestClientSnapshot;
 
-static_assert(sizeof(idClientSnapshot91) >= sizeof(idClientSnapshot60), "not largest");
+static_assert(sizeof(idClientSnapshot60) >= sizeof(idClientSnapshot91), "not largest");
 
 inline idPlayerStateBase* GetPlayerState(idClientSnapshotBase* snap, udtProtocol::Id protocol)
 {
