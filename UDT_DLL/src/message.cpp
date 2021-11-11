@@ -1721,113 +1721,262 @@ bool udtMessage::RealWriteDeltaPlayer(const idPlayerStateBase* from, idPlayerSta
 	//
 	// send the arrays
 	//
-	s32 statsbits = 0;
-	for(i=0 ; i<ID_MAX_PS_STATS ; i++) 
-	{
-		if(to->stats[i] != from->stats[i])
-		{
-			statsbits |= 1<<i;
-		}
-	}
-	s32 persistantbits = 0;
-	for(i=0 ; i<ID_MAX_PS_PERSISTANT ; i++) 
-	{
-		if(to->persistant[i] != from->persistant[i])
-		{
-			persistantbits |= 1<<i;
-		}
-	}
-	s32 ammobits = 0;
-	for(i=0 ; i<16 ; i++)
-	{
-		if(to->ammo[i] != from->ammo[i]) 
-		{
-			ammobits |= 1<<i;
-		}
-	}
-	s32 powerupbits = 0;
-	for(i=0 ; i<ID_MAX_PS_POWERUPS ; i++) 
-	{
-		if(to->powerups[i] != from->powerups[i]) 
-		{
-			powerupbits |= 1<<i;
-		}
-	}
 
-	if(!statsbits && !persistantbits && !ammobits && !powerupbits) 
-	{
-		WriteBits(0, 1);	// no change
-		return ValidState();
-	}
-	WriteBits(1, 1);	// changed
+    if(_protocol == udtProtocol::Dm60)
+    {
+        idPlayerState60* to60 = (idPlayerState60*) to;
+        idPlayerState60* from60 = (idPlayerState60*) from;
+        s32 statsbits = 0;
+        for(i=0 ; i<ID_MAX_PS_STATS ; i++)
+        {
+            if(to->stats[i] != from->stats[i])
+            {
+                statsbits |= 1<<i;
+            }
+        }
+        s32 persistantbits = 0;
+        for(i=0 ; i<ID_MAX_PS_PERSISTANT ; i++)
+        {
+            if(to->persistant[i] != from->persistant[i])
+            {
+                persistantbits |= 1<<i;
+            }
+        }
+        s32 holdablebits = 0;
+        for(i=0 ; i<16 ; i++)
+        {
+            if(to60->holdable[i] != from60->holdable[i])
+            {
+                holdablebits |= 1<<i;
+            }
+        }
+        s32 powerupbits = 0;
+        for(i=0 ; i<ID_MAX_PS_POWERUPS ; i++)
+        {
+            if(to->powerups[i] != from->powerups[i])
+            {
+                powerupbits |= 1<<i;
+            }
+        }
 
-	if(statsbits) 
-	{
-		WriteBits(1, 1);	// changed
-		WriteBits(statsbits, ID_MAX_PS_STATS);
-		for(i=0 ; i<ID_MAX_PS_STATS ; i++)
-		{
-			if(statsbits & (1<<i))
-			{
-				WriteShort(to->stats[i]);
-			}
-		}
-	} 
-	else 
-	{
-		WriteBits(0, 1);	// no change
-	}
+        if ( statsbits || persistantbits || holdablebits || powerupbits )
+        {
 
-	if(persistantbits)
-	{
-		WriteBits(1, 1);	// changed
-		WriteBits(persistantbits, ID_MAX_PS_PERSISTANT);
-		for(i=0 ; i<ID_MAX_PS_PERSISTANT ; i++)
-		{
-			if(persistantbits & (1<<i))
-			{
-				WriteShort(to->persistant[i]);
-			}
-		}		
-	} 
-	else 
-	{
-		WriteBits(0, 1);	// no change
-	}
+            WriteBits(1, 1 ); // something changed
 
-	if(ammobits) 
-	{
-		WriteBits(1, 1);	// changed
-		WriteBits(ammobits, 16);
-		for(i=0 ; i<16 ; i++)
-		{
-			if(ammobits & (1<<i))
-			{
-				WriteShort(to->ammo[i]);
-			}
-		}	
-	} 
-	else 
-	{
-		WriteBits(0, 1);	// no change
-	}
+            if ( statsbits ) {
+                WriteBits(1, 1); // changed
+                WriteShort(statsbits);
+                for ( i = 0 ; i < 16 ; i++ )
+                    if ( statsbits & ( 1 << i ) ) {
+                        // RF, changed to long to allow more flexibility
+//					WriteLong (msg, to->stats[i]);
+                        WriteShort(to->stats[i] );  //----(SA)	back to short since weapon bits are handled elsewhere now
+                    }
+            } else {
+                WriteBits(0, 1 ); // no change to stats
+            }
 
-	if(powerupbits) 
-	{
-		WriteBits(1, 1);	// changed
-		WriteBits(powerupbits, ID_MAX_PS_POWERUPS);
-		for(i=0 ; i<ID_MAX_PS_POWERUPS ; i++)
-		{
-			if(powerupbits & (1<<i))
-			{
-				WriteLong(to->powerups[i]);
-			}
-		}
-	} 
-	else 
-	{
-		WriteBits(0, 1);	// no change
-	}
+
+            if ( persistantbits ) {
+                WriteBits(1, 1 ); // changed
+                WriteShort(persistantbits );
+                for ( i = 0 ; i < 16 ; i++ )
+                    if ( persistantbits & ( 1 << i ) ) {
+                        WriteShort(to->persistant[i] );
+                    }
+            } else {
+                WriteBits(0, 1 ); // no change to persistant
+            }
+
+
+            if ( holdablebits ) {
+                WriteBits(1, 1 ); // changed
+                WriteShort(holdablebits );
+                for ( i = 0 ; i < 16 ; i++ )
+                    if ( holdablebits & ( 1 << i ) ) {
+                        WriteShort(to60->holdable[i] );
+                    }
+            } else {
+                WriteBits(0, 1 ); // no change to holdables
+            }
+
+
+            if ( powerupbits ) {
+                WriteBits(1, 1 ); // changed
+                WriteShort(powerupbits );
+                for ( i = 0 ; i < 16 ; i++ )
+                    if ( powerupbits & ( 1 << i ) ) {
+                        WriteLong(to->powerups[i] );
+                    }
+            } else {
+                WriteBits(0, 1 ); // no change to powerups
+            }
+        } else {
+            WriteBits(0, 1 ); // no change to any
+        }
+
+        // ammo stored
+        int ammobits[4];
+        for (int j = 0; j < 4; j++ ) {  //----(SA)	modified for 64 weaps
+            ammobits[j] = 0;
+            for ( i = 0 ; i < 16 ; i++ ) {
+                if ( to->ammo[i + ( j * 16 )] != from->ammo[i + ( j * 16 )] ) {
+                    ammobits[j] |= 1 << i;
+                }
+            }
+        }
+
+//----(SA)	also encapsulated ammo changes into one check.  clip values will change frequently,
+        // but ammo will not.  (only when you get ammo/reload rather than each shot)
+        if ( ammobits[0] || ammobits[1] || ammobits[2] || ammobits[3] ) {  // if any were set...
+            WriteBits(1, 1 ); // changed
+            for (int j = 0; j < 4; j++ ) {
+                if ( ammobits[j] ) {
+                    WriteBits(1, 1 ); // changed
+                    WriteShort(ammobits[j] );
+                    for ( i = 0 ; i < 16 ; i++ )
+                        if ( ammobits[j] & ( 1 << i ) ) {
+                            WriteShort(to->ammo[i + ( j * 16 )] );
+                        }
+                } else {
+                    WriteBits(0, 1 ); // no change
+                }
+            }
+        } else {
+            WriteBits(0, 1 ); // no change
+        }
+
+        // ammo in clip
+        for (int j = 0; j < 4; j++ ) {  //----(SA)	modified for 64 weaps
+            int clipbits = 0;
+            for ( i = 0 ; i < 16 ; i++ ) {
+                if ( to60->ammoclip[i + ( j * 16 )] != from60->ammoclip[i + ( j * 16 )] ) {
+                    clipbits |= 1 << i;
+                }
+            }
+            if ( clipbits ) {
+                WriteBits(1, 1 ); // changed
+                WriteShort(clipbits );
+                for ( i = 0 ; i < 16 ; i++ )
+                    if ( clipbits & ( 1 << i ) ) {
+                        WriteShort(to60->ammoclip[i + ( j * 16 )] );
+                    }
+            } else {
+                WriteBits(0, 1 ); // no change
+            }
+        }
+    }
+    else
+    {
+        s32 statsbits = 0;
+        for(i=0 ; i<ID_MAX_PS_STATS ; i++)
+        {
+            if(to->stats[i] != from->stats[i])
+            {
+                statsbits |= 1<<i;
+            }
+        }
+        s32 persistantbits = 0;
+        for(i=0 ; i<ID_MAX_PS_PERSISTANT ; i++)
+        {
+            if(to->persistant[i] != from->persistant[i])
+            {
+                persistantbits |= 1<<i;
+            }
+        }
+        s32 ammobits = 0;
+        for(i=0 ; i<16 ; i++)
+        {
+            if(to->ammo[i] != from->ammo[i])
+            {
+                ammobits |= 1<<i;
+            }
+        }
+        s32 powerupbits = 0;
+        for(i=0 ; i<ID_MAX_PS_POWERUPS ; i++)
+        {
+            if(to->powerups[i] != from->powerups[i])
+            {
+                powerupbits |= 1<<i;
+            }
+        }
+
+        if(!statsbits && !persistantbits && !ammobits && !powerupbits)
+        {
+            WriteBits(0, 1);	// no change
+            return ValidState();
+        }
+        WriteBits(1, 1);	// changed
+
+        if(statsbits)
+        {
+            WriteBits(1, 1);	// changed
+            WriteBits(statsbits, ID_MAX_PS_STATS);
+            for(i=0 ; i<ID_MAX_PS_STATS ; i++)
+            {
+                if(statsbits & (1<<i))
+                {
+                    WriteShort(to->stats[i]);
+                }
+            }
+        }
+        else
+        {
+            WriteBits(0, 1);	// no change
+        }
+
+        if(persistantbits)
+        {
+            WriteBits(1, 1);	// changed
+            WriteBits(persistantbits, ID_MAX_PS_PERSISTANT);
+            for(i=0 ; i<ID_MAX_PS_PERSISTANT ; i++)
+            {
+                if(persistantbits & (1<<i))
+                {
+                    WriteShort(to->persistant[i]);
+                }
+            }
+        }
+        else
+        {
+            WriteBits(0, 1);	// no change
+        }
+
+        if(ammobits)
+        {
+            WriteBits(1, 1);	// changed
+            WriteBits(ammobits, 16);
+            for(i=0 ; i<16 ; i++)
+            {
+                if(ammobits & (1<<i))
+                {
+                    WriteShort(to->ammo[i]);
+                }
+            }
+        }
+        else
+        {
+            WriteBits(0, 1);	// no change
+        }
+
+        if(powerupbits)
+        {
+            WriteBits(1, 1);	// changed
+            WriteBits(powerupbits, ID_MAX_PS_POWERUPS);
+            for(i=0 ; i<ID_MAX_PS_POWERUPS ; i++)
+            {
+                if(powerupbits & (1<<i))
+                {
+                    WriteLong(to->powerups[i]);
+                }
+            }
+        }
+        else
+        {
+            WriteBits(0, 1);	// no change
+        }
+    }
 
 	return ValidState();
 }
