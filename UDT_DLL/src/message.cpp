@@ -1738,7 +1738,7 @@ bool udtMessage::RealWriteDeltaPlayer(const idPlayerStateBase* from, idPlayerSta
 		}
 	}
 	s32 ammobits = 0;
-	for(i=0 ; i<ID_MAX_PS_WEAPONS ; i++)
+	for(i=0 ; i<16 ; i++)
 	{
 		if(to->ammo[i] != from->ammo[i]) 
 		{
@@ -1798,8 +1798,8 @@ bool udtMessage::RealWriteDeltaPlayer(const idPlayerStateBase* from, idPlayerSta
 	if(ammobits) 
 	{
 		WriteBits(1, 1);	// changed
-		WriteBits(ammobits, ID_MAX_PS_WEAPONS);
-		for(i=0 ; i<ID_MAX_PS_WEAPONS ; i++)
+		WriteBits(ammobits, 16);
+		for(i=0 ; i<16 ; i++)
 		{
 			if(ammobits & (1<<i))
 			{
@@ -1879,7 +1879,7 @@ void udtMessage::ReadDeltaPlayerDM3(idPlayerStateBase* to)
 	if(ReadBit())
 	{
 		const s32 mask = ReadShort();
-		for(s32 i = 0; i < ID_MAX_PS_WEAPONS; ++i)
+		for(s32 i = 0; i < 16; ++i)
 		{
 			if((mask & (1 << i)) != 0) // bit set?
 			{
@@ -1953,61 +1953,136 @@ bool udtMessage::RealReadDeltaPlayer(const idPlayerStateBase* from, idPlayerStat
 		*toF = *fromF;
 	}
 
-	// read the arrays
-	if(ReadBit()) 
-	{
-		// parse stats
-		if(ReadBit()) 
-		{
-			bits = ReadBits(ID_MAX_PS_STATS);
-			for(i=0 ; i<ID_MAX_PS_STATS ; i++) 
-			{
-				if(bits & (1<<i))
-				{
-					to->stats[i] = ReadSignedShort();
-				}
-			}
-		}
+    if(_protocol == udtProtocol::Dm60)
+    {
+        idPlayerState60* to60 = (idPlayerState60*)to;
+        //TODO: reformat
+        // read the arrays
+        if(ReadBit()) {
+            // parse stats
+            if (ReadBit()) {
+                bits = ReadBits(ID_MAX_PS_STATS);
+                for (i = 0; i < ID_MAX_PS_STATS; i++) {
+                    if (bits & (1 << i)) {
+                        to->stats[i] = ReadShort();
+                    }
+                }
+            }
+            // parse persistant stats
+            if (ReadBit()) {
+                bits = ReadBits(ID_MAX_PS_PERSISTANT);
+                for (i = 0; i < ID_MAX_PS_PERSISTANT; i++) {
+                    if (bits & (1 << i)) {
+                        to->persistant[i] = ReadShort();
+                    }
+                }
+            }
+            // parse holdable
+            if (ReadBit()) {
+                bits = ReadBits(16);
+                for (i = 0; i < 16; i++) {
+                    if (bits & (1 << i)) {
+                        to60->holdable[i] = ReadShort();
+                    }
+                }
+            }
+            // parse powerups
+            if(ReadBit())
+            {
+                bits = ReadBits(ID_MAX_PS_POWERUPS);
+                for(i=0 ; i<ID_MAX_PS_POWERUPS ; i++)
+                {
+                    if(bits & (1<<i))
+                    {
+                        to->powerups[i] = ReadLong();
+                    }
+                }
+            }
+        }
 
-		// parse persistant stats
-		if(ReadBit()) 
-		{
-			bits = ReadBits(ID_MAX_PS_PERSISTANT);
-			for(i=0 ; i<ID_MAX_PS_PERSISTANT ; i++) 
-			{
-				if(bits & (1<<i)) 
-				{
-					to->persistant[i] = ReadShort();
-				}
-			}
-		}
+        // ammo stored
+        if(ReadBit()) {     // check for any ammo change (0-63)
+            for ( int j = 0; j < 4; j++ ) {
+                if(ReadBit()) {
+                    bits = ReadShort();
+                    for (int i = 0 ; i < 16 ; i++ ) {
+                        if ( bits & ( 1 << i ) ) {
+                            to->ammo[i + ( j * 16 )] = ReadShort();
+                        }
+                    }
+                }
+            }
+        }
+        // ammo in clip
+        for ( int j = 0; j < 4; j++ ) {
+            if(ReadBit()) {
+                bits = ReadShort();
+                for (int i = 0 ; i < 16 ; i++ ) {
+                    if ( bits & ( 1 << i ) ) {
+                        to60->ammoclip[i + ( j * 16 )] = ReadShort();
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        // read the arrays
+        if(ReadBit())
+        {
+            // parse stats
+            if(ReadBit())
+            {
+                bits = ReadBits(ID_MAX_PS_STATS);
+                for(i=0 ; i<ID_MAX_PS_STATS ; i++)
+                {
+                    if(bits & (1<<i))
+                    {
+                        to->stats[i] = ReadSignedShort();
+                    }
+                }
+            }
 
-		// parse ammo
-		if(ReadBit()) 
-		{
-			bits = ReadBits(ID_MAX_PS_WEAPONS);
-			for(i=0 ; i<ID_MAX_PS_WEAPONS ; i++) 
-			{
-				if(bits & (1<<i)) 
-				{
-					to->ammo[i] = ReadShort();
-				}
-			}
-		}
+            // parse persistant stats
+            if(ReadBit())
+            {
+                bits = ReadBits(ID_MAX_PS_PERSISTANT);
+                for(i=0 ; i<ID_MAX_PS_PERSISTANT ; i++)
+                {
+                    if(bits & (1<<i))
+                    {
+                        to->persistant[i] = ReadShort();
+                    }
+                }
+            }
 
-		// parse powerups
-		if(ReadBit()) 
-		{
-			bits = ReadBits(ID_MAX_PS_POWERUPS);
-			for(i=0 ; i<ID_MAX_PS_POWERUPS ; i++) 
-			{
-				if(bits & (1<<i)) 
-				{
-					to->powerups[i] = ReadLong();
-				}
-			}
-		}
-	}
+            // parse ammo
+            if(ReadBit())
+            {
+                bits = ReadBits(16);
+                for(i=0 ; i<16 ; i++)
+                {
+                    if(bits & (1<<i))
+                    {
+                        to->ammo[i] = ReadShort();
+                    }
+                }
+            }
+
+            // parse powerups
+            if(ReadBit())
+            {
+                bits = ReadBits(ID_MAX_PS_POWERUPS);
+                for(i=0 ; i<ID_MAX_PS_POWERUPS ; i++)
+                {
+                    if(bits & (1<<i))
+                    {
+                        to->powerups[i] = ReadLong();
+                    }
+                }
+            }
+        }
+    }
 
 	return ValidState();
 }

@@ -2366,7 +2366,6 @@ extern "C"
 #define	ID_MAX_PS_STATS		       16
 #define	ID_MAX_PS_PERSISTANT       16
 #define	ID_MAX_PS_POWERUPS         16
-#define	ID_MAX_PS_WEAPONS	       16
 #define	ID_MAX_PS_EVENTS	        2
 #define	ID_MAX_PARSE_ENTITIES    2048
 #define	ID_MAX_CLIENTS	           64 /* max player count */
@@ -2576,7 +2575,7 @@ extern "C"
 		s32 stats[ID_MAX_PS_STATS];
 		s32 persistant[ID_MAX_PS_PERSISTANT]; /* stats that aren't cleared on death */
 		s32 powerups[ID_MAX_PS_POWERUPS];     /* level.time that the powerup runs out */
-		s32 ammo[ID_MAX_PS_WEAPONS];
+		s32 ammo[64];
 		s32 generic1;
 		s32 loopSound;
 		s32 jumppad_ent; /* jumppad entity hit this frame */
@@ -2640,6 +2639,9 @@ extern "C"
         int curWeapHeat;                    // value for the currently selected weapon (for transmission to client)
 
         int aiState;
+
+        s32 ammoclip[64];
+        s32 holdable[16];
     };
 
 	struct idPlayerState66 : idPlayerStateBase
