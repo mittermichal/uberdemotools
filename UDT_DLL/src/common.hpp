@@ -189,7 +189,15 @@ struct idClientSnapshot91 : idClientSnapshotBase
 
 typedef idClientSnapshot60 idLargestClientSnapshot;
 
-static_assert(sizeof(idClientSnapshot60) >= sizeof(idClientSnapshot91), "not largest");
+static_assert(sizeof(idClientSnapshot3 ) <= sizeof(idLargestClientSnapshot), "incorrect idLargestClientSnapshot typedef");
+static_assert(sizeof(idClientSnapshot48) <= sizeof(idLargestClientSnapshot), "incorrect idLargestClientSnapshot typedef");
+static_assert(sizeof(idClientSnapshot60) <= sizeof(idLargestClientSnapshot), "incorrect idLargestClientSnapshot typedef");
+static_assert(sizeof(idClientSnapshot66) <= sizeof(idLargestClientSnapshot), "incorrect idLargestClientSnapshot typedef");
+static_assert(sizeof(idClientSnapshot67) <= sizeof(idLargestClientSnapshot), "incorrect idLargestClientSnapshot typedef");
+static_assert(sizeof(idClientSnapshot68) <= sizeof(idLargestClientSnapshot), "incorrect idLargestClientSnapshot typedef");
+static_assert(sizeof(idClientSnapshot73) <= sizeof(idLargestClientSnapshot), "incorrect idLargestClientSnapshot typedef");
+static_assert(sizeof(idClientSnapshot90) <= sizeof(idLargestClientSnapshot), "incorrect idLargestClientSnapshot typedef");
+static_assert(sizeof(idClientSnapshot91) <= sizeof(idLargestClientSnapshot), "incorrect idLargestClientSnapshot typedef");
 
 inline idPlayerStateBase* GetPlayerState(idClientSnapshotBase* snap, udtProtocol::Id protocol)
 {

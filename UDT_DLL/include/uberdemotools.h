@@ -2519,7 +2519,17 @@ extern "C"
 		s32 location;
 	};
 
-	typedef idEntityState91 idLargestEntityState;
+	typedef idEntityState60 idLargestEntityState;
+
+	static_assert(sizeof(idEntityState3 ) <= sizeof(idLargestEntityState), "incorrect idLargestEntityState typedef");
+	static_assert(sizeof(idEntityState48) <= sizeof(idLargestEntityState), "incorrect idLargestEntityState typedef");
+	static_assert(sizeof(idEntityState60) <= sizeof(idLargestEntityState), "incorrect idLargestEntityState typedef");
+	static_assert(sizeof(idEntityState66) <= sizeof(idLargestEntityState), "incorrect idLargestEntityState typedef");
+	static_assert(sizeof(idEntityState67) <= sizeof(idLargestEntityState), "incorrect idLargestEntityState typedef");
+	static_assert(sizeof(idEntityState68) <= sizeof(idLargestEntityState), "incorrect idLargestEntityState typedef");
+	static_assert(sizeof(idEntityState73) <= sizeof(idLargestEntityState), "incorrect idLargestEntityState typedef");
+	static_assert(sizeof(idEntityState90) <= sizeof(idLargestEntityState), "incorrect idLargestEntityState typedef");
+	static_assert(sizeof(idEntityState91) <= sizeof(idLargestEntityState), "incorrect idLargestEntityState typedef");
 
 #endif
 
@@ -2680,7 +2690,17 @@ extern "C"
 		s32 upmove;
 	};
 
-	typedef idPlayerState91 idLargestPlayerState;
+	typedef idPlayerState60 idLargestPlayerState;
+
+	static_assert(sizeof(idPlayerState3)  <= sizeof(idLargestPlayerState), "incorrect idLargestPlayerState typedef");
+	static_assert(sizeof(idPlayerState48) <= sizeof(idLargestPlayerState), "incorrect idLargestPlayerState typedef");
+	static_assert(sizeof(idPlayerState60) <= sizeof(idLargestPlayerState), "incorrect idLargestPlayerState typedef");
+	static_assert(sizeof(idPlayerState66) <= sizeof(idLargestPlayerState), "incorrect idLargestPlayerState typedef");
+	static_assert(sizeof(idPlayerState67) <= sizeof(idLargestPlayerState), "incorrect idLargestPlayerState typedef");
+	static_assert(sizeof(idPlayerState68) <= sizeof(idLargestPlayerState), "incorrect idLargestPlayerState typedef");
+	static_assert(sizeof(idPlayerState73) <= sizeof(idLargestPlayerState), "incorrect idLargestPlayerState typedef");
+	static_assert(sizeof(idPlayerState90) <= sizeof(idLargestPlayerState), "incorrect idLargestPlayerState typedef");
+	static_assert(sizeof(idPlayerState91) <= sizeof(idLargestPlayerState), "incorrect idLargestPlayerState typedef");
 
 #endif
 
