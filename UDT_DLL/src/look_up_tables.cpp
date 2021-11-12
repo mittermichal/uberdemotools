@@ -685,11 +685,51 @@ static const s16 ConfigStringIndices_91[udtConfigStringIndex::Count * 2] =
 	(s16)udtConfigStringIndex::OSP_GamePlay, UNDEFINED
 };
 
+static s16 ConfigStringIndices_60_U2Q[udtConfigStringIndex::Count];
+static s16 ConfigStringIndices_60_Q2U[udtConfigStringIndex::Count * 2];
+static const s16 ConfigStringIndices_60[udtConfigStringIndex::Count * 2] =
+{
+	(s16)udtConfigStringIndex::FirstPlayer, 576,
+	(s16)udtConfigStringIndex::Intermission, 14,
+	(s16)udtConfigStringIndex::LevelStartTime, 13,
+	(s16)udtConfigStringIndex::WarmUpEndTime, 5,
+	(s16)udtConfigStringIndex::FirstPlacePlayerName, UNDEFINED,
+	(s16)udtConfigStringIndex::SecondPlacePlayerName, UNDEFINED,
+	(s16)udtConfigStringIndex::PauseStart, UNDEFINED,
+	(s16)udtConfigStringIndex::PauseEnd, UNDEFINED,
+	(s16)udtConfigStringIndex::FlagStatus, UNDEFINED,
+	(s16)udtConfigStringIndex::ServerInfo, 0,
+	(s16)udtConfigStringIndex::SystemInfo, 1,
+	(s16)udtConfigStringIndex::Scores1, 6,
+	(s16)udtConfigStringIndex::Scores2, 7,
+	(s16)udtConfigStringIndex::VoteTime, 8,
+	(s16)udtConfigStringIndex::VoteString, 9,
+	(s16)udtConfigStringIndex::VoteYes, 10,
+	(s16)udtConfigStringIndex::VoteNo, 11,
+	(s16)udtConfigStringIndex::TeamVoteTime, UNDEFINED,
+	(s16)udtConfigStringIndex::TeamVoteString, UNDEFINED,
+	(s16)udtConfigStringIndex::TeamVoteYes, UNDEFINED,
+	(s16)udtConfigStringIndex::TeamVoteNo, UNDEFINED,
+	(s16)udtConfigStringIndex::GameVersion, UNDEFINED,
+	(s16)udtConfigStringIndex::ItemFlags, UNDEFINED,
+	(s16)udtConfigStringIndex::QL_TimeoutStartTime, UNDEFINED,
+	(s16)udtConfigStringIndex::QL_TimeoutEndTime, UNDEFINED,
+	(s16)udtConfigStringIndex::QL_RedTeamTimeoutsLeft, UNDEFINED,
+	(s16)udtConfigStringIndex::QL_BlueTeamTimeoutsLeft, UNDEFINED,
+	(s16)udtConfigStringIndex::QL_ReadTeamClanName, UNDEFINED,
+	(s16)udtConfigStringIndex::QL_BlueTeamClanName, UNDEFINED,
+	(s16)udtConfigStringIndex::QL_RedTeamClanTag, UNDEFINED,
+	(s16)udtConfigStringIndex::QL_BlueTeamClanTag, UNDEFINED,
+	(s16)udtConfigStringIndex::CPMA_GameInfo, UNDEFINED,
+	(s16)udtConfigStringIndex::CPMA_RoundInfo, UNDEFINED,
+	(s16)udtConfigStringIndex::OSP_GamePlay, UNDEFINED
+};
+
 static const s16* ConfigStringIndexTables[] =
 {
 	TABLE_ENTRY(ConfigStringIndices_3), // 3
 	TABLE_ENTRY(ConfigStringIndices_48_68), // 48
-	TABLE_ENTRY(ConfigStringIndices_48_68), // 60 @TODO: RTCW
+	TABLE_ENTRY(ConfigStringIndices_60), // 60
 	TABLE_ENTRY(ConfigStringIndices_48_68), // 66
 	TABLE_ENTRY(ConfigStringIndices_48_68), // 67
 	TABLE_ENTRY(ConfigStringIndices_48_68), // 68
