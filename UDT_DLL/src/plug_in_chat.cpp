@@ -27,6 +27,16 @@ the location isn't stored in some QL demos I have
 CPMA team chat format ("mm2"):
 playerIndex locationIndex message
 
+RTCW chat format ("chat", 2 extra args):
+"name^7: ^2message" 0
+
+RTCW team chat format ("tchat", 2 extra args):
+"[lof](name^7) ([lon]location[lof]): ^5message" 1
+"(name^7): ^5message" 1
+
+RTCW limbo chat format ("lchat"):
+name^7: ^2message
+
 @NOTE: In Quake 3, player names can contain and end with spaces.
 
 @NOTE: In the new QL, in both "chat" and "tchat", the clan and name separator 

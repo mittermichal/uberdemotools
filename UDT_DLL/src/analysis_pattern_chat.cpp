@@ -19,10 +19,12 @@ static bool GetMessageAndType(udtString& message, bool& isTeamMessage, const idT
 	{
 		isTeamMessage = true;
 	}
-    else if(udtString::Equals(command, "lchat"))
-    {
-        isTeamMessage = false; //@TODO: ask what this is
-    }
+	else if(udtString::Equals(command, "lchat"))
+	{
+		// @TODO: confirm that this is correct
+		// it probably is since it displays with the same color as "chat"
+		isTeamMessage = false;
+	}
 	else if(udtString::Equals(command, "mm2"))
 	{
 		isTeamMessage = true;
@@ -33,24 +35,31 @@ static bool GetMessageAndType(udtString& message, bool& isTeamMessage, const idT
 		return false;
 	}
 
+	if(parser._inProtocol == udtProtocol::Dm60)
+	{
+		if(tokenizer.GetArgCount() >= 2)
+		{
+			udtString messageEmClean = udtString::NewCloneFromRef(parser._tempAllocator, tokenizer.GetArg(1));
+			udtString::RemoveEmCharacter(messageEmClean);
+
+			u32 colonIdx = 0;
+			if(udtString::FindFirstCharacterMatch(colonIdx, messageEmClean, ':') &&
+			   colonIdx + 4 < tokenizer.GetArgLength(1))
+			{
+				message = udtString::NewSubstringRef(messageEmClean, colonIdx + 4);
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	if(hasCPMASyntax && 
 	   tokenizer.GetArgCount() == 4)
 	{
 		message = tokenizer.GetArg(3);
 		return true;
 	}
-
-    if (parser._inProtocol == udtProtocol::Dm60)
-    {
-        u32 colonIdx = 0;
-        if(tokenizer.GetArgCount() >= 2 &&
-           udtString::FindFirstCharacterMatch(colonIdx, tokenizer.GetArg(1), ':') &&
-           colonIdx + 4 < tokenizer.GetArgLength(1))
-        {
-            message = udtString::NewSubstringClone(parser._tempAllocator, tokenizer.GetArg(1), colonIdx + 4);
-            return true;
-        }
-    }
 
 	u32 colonIdx = 0;
 	if(!hasCPMASyntax && 
@@ -64,7 +73,6 @@ static bool GetMessageAndType(udtString& message, bool& isTeamMessage, const idT
 
 	return false;
 }
-
 
 udtChatPatternAnalyzer::udtChatPatternAnalyzer()
 {
@@ -84,7 +92,7 @@ void udtChatPatternAnalyzer::ProcessCommandMessage(const udtCommandCallbackArg& 
 
 	udtString message;
 	bool isTeamMessage;
-    udtVMScopedStackAllocator tempAllocatorScopeGuard(parser._tempAllocator);
+	udtVMScopedStackAllocator allocatorScopeGuard(parser._tempAllocator);
 	if(!GetMessageAndType(message, isTeamMessage, tokenizer, parser))
 	{
 		return;
