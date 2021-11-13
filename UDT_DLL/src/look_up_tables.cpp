@@ -896,11 +896,39 @@ static const s16 EntityEvents_84[udtEntityEvent::Count * 2] =
 VALIDATE_TABLE_SIZES(EntityEvents_84, udtEntityEvent::Count);
 #endif
 
+static s16 EntityEvents_60_U2Q[udtEntityEvent::Count];
+static s16 EntityEvents_60_Q2U[udtEntityEvent::Count * 2];
+static const s16 EntityEvents_60[udtEntityEvent::Count * 2] =
+{
+	(s16)udtEntityEvent::Obituary, 86,
+	(s16)udtEntityEvent::WeaponFired, 40,
+	(s16)udtEntityEvent::ItemPickup, 30,
+	(s16)udtEntityEvent::GlobalItemPickup, 32,
+	(s16)udtEntityEvent::GlobalSound, 68,
+	(s16)udtEntityEvent::GlobalTeamSound, UNDEFINED,
+	(s16)udtEntityEvent::ItemRespawn, 62,
+	(s16)udtEntityEvent::ItemPop, 63,
+	(s16)udtEntityEvent::PlayerTeleportIn, 64,
+	(s16)udtEntityEvent::PlayerTeleportOut, 65,
+	(s16)udtEntityEvent::BulletHitFlesh, 71,
+	(s16)udtEntityEvent::BulletHitWall, 72,
+	(s16)udtEntityEvent::MissileHit, 73,
+	(s16)udtEntityEvent::MissileMiss, 74,
+	(s16)udtEntityEvent::MissileMissMetal, UNDEFINED,
+	(s16)udtEntityEvent::RailTrail, 75,
+	(s16)udtEntityEvent::PowerUpQuad, 88,
+	(s16)udtEntityEvent::PowerUpBattleSuit, 89,
+	(s16)udtEntityEvent::PowerUpRegen, 90,
+	(s16)udtEntityEvent::QL_Overtime, UNDEFINED,
+	(s16)udtEntityEvent::QL_GameOver, UNDEFINED
+};
+VALIDATE_TABLE_SIZES(EntityEvents_3, udtEntityEvent::Count);
+
 static const s16* EntityEventTables[] =
 {
 	TABLE_ENTRY(EntityEvents_3), // 3
 	TABLE_ENTRY(EntityEvents_48_68), // 48
-	TABLE_ENTRY(EntityEvents_48_68), // 60 @TODO: RTCW
+	TABLE_ENTRY(EntityEvents_60),
 	TABLE_ENTRY(EntityEvents_48_68), // 66
 	TABLE_ENTRY(EntityEvents_48_68), // 67
 	TABLE_ENTRY(EntityEvents_48_68), // 68
