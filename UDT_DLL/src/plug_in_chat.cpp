@@ -44,6 +44,13 @@ can sometimes be a '.' instead of ' '...
 */
 
 
+static void WriteStringsToApiStruct(u32& offsetRaw, u32& offsetClean, const udtString& stringRaw, udtVMLinearAllocator& allocator, udtProtocol::Id protocol)
+{
+	udtString stringClean = udtString::NewCleanCloneFromRef(allocator, protocol, stringRaw);
+	WriteStringToApiStruct(offsetRaw, stringRaw);
+	WriteStringToApiStruct(offsetClean, stringClean);
+}
+
 udtParserPlugInChat::udtParserPlugInChat()
 {
 	_gameStateIndex = -1;
@@ -101,6 +108,18 @@ void udtParserPlugInChat::ProcessCommandMessage(const udtCommandCallbackArg& /*i
 		   csIndex < firstPlayerCsIndex + 64)
 		{
 			ProcessPlayerConfigString(parser, tokenizer.GetArg(2), csIndex - firstPlayerCsIndex);
+		}
+	}
+	else if(parser._inProtocol == udtProtocol::Dm60 &&
+			tokenizer.GetArgCount() >= 2)
+	{
+		if(udtString::Equals(command, "chat") || udtString::Equals(command, "lchat"))
+		{
+			ProcessWolfChatCommand(parser, false);
+		}
+		else if(udtString::Equals(command, "tchat"))
+		{
+			ProcessWolfChatCommand(parser, true);
 		}
 	}
 	else if(tokenizer.GetArgCount() == 2 && 
@@ -332,6 +351,82 @@ void udtParserPlugInChat::ProcessCPMATeamChatCommand(udtBaseParser& parser)
 	const udtString cleanCommand = udtString::NewCleanCloneFromRef(_stringAllocator, protocol, command);
 	WriteStringToApiStruct(chatEvent.Strings[0].OriginalCommand, command);
 	WriteStringToApiStruct(chatEvent.Strings[1].OriginalCommand, cleanCommand);
+
+	ChatEvents.Add(chatEvent);
+}
+
+void udtParserPlugInChat::ProcessWolfChatCommand(udtBaseParser& parser, bool teamChat)
+{
+	udtVMScopedStackAllocator allocScope(*TempAllocator);
+
+	udtParseDataChat chatEvent;
+	InitChatEvent(chatEvent, parser._inServerTime);
+	chatEvent.TeamMessage = teamChat ? 1 : 0;
+
+	const udtProtocol::Id protocol = parser._inProtocol;
+	const idTokenizer& tokenizer = parser.GetTokenizer();
+	const udtString originalCommand = udtString::NewClone(_stringAllocator, tokenizer.GetOriginalCommand());
+	WriteStringsToApiStruct(chatEvent.Strings[0].OriginalCommand, chatEvent.Strings[1].OriginalCommand, originalCommand, _stringAllocator, protocol);
+
+	udtString argument1;
+	argument1 = udtString::NewCloneFromRef(*TempAllocator, tokenizer.GetArg(1));
+	udtString::RemoveEmCharacter(argument1);
+
+	u32 messageStart = 0;
+	if(!udtString::Contains(messageStart, argument1, ": ^"))
+	{
+		return;
+	}
+	messageStart += 4;
+
+	u32 nameStart = 0;
+	if(udtString::StartsWith(argument1, "[lof]("))
+	{
+		nameStart = 6;
+	}
+	else if(udtString::StartsWith(argument1, "("))
+	{
+		nameStart = 1;
+	}
+
+	u32 locStart = 0;
+	if(udtString::Contains(locStart, argument1, "([lon]"))
+	{
+		locStart += 6;
+	}
+
+	u32 locEnd = 0;
+	udtString::Contains(locEnd, argument1, "[lof]): ^5");
+
+	u32 nameEnd = 0;
+	if(teamChat)
+	{
+		if(!udtString::Contains(nameEnd, argument1, "^7)"))
+		{
+			return;
+		}
+	}
+	else
+	{
+		if(!udtString::Contains(nameEnd, argument1, "^7: ^2"))
+		{
+			return;
+		}
+	}
+
+	const udtString playerName = udtString::NewSubstringClone(_stringAllocator, argument1, nameStart, nameEnd - nameStart);
+	WriteStringsToApiStruct(chatEvent.Strings[0].PlayerName, chatEvent.Strings[1].PlayerName, playerName, _stringAllocator, protocol);
+
+	const udtString message = udtString::NewSubstringClone(_stringAllocator, argument1, messageStart);
+	WriteStringsToApiStruct(chatEvent.Strings[0].Message, chatEvent.Strings[1].Message, message, _stringAllocator, protocol);
+
+	if(locStart > 0 &&
+	   locEnd > locStart &&
+	   locEnd < messageStart)
+	{
+		const udtString location = udtString::NewSubstringClone(_stringAllocator, argument1, locStart, locEnd - locStart);
+		WriteStringsToApiStruct(chatEvent.Strings[0].Location, chatEvent.Strings[1].Location, location, _stringAllocator, protocol);
+	}
 
 	ChatEvents.Add(chatEvent);
 }
