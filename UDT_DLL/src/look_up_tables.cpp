@@ -1345,11 +1345,20 @@ static const s16 MeansOfDeath_73p[] =
 };
 VALIDATE_TABLE_SIZES(MeansOfDeath_73p, udtMeanOfDeath::Count);
 
+static s16 MeansOfDeath_60_U2Q[udtMeanOfDeath::Count];
+static s16 MeansOfDeath_60_Q2U[udtMeanOfDeath::Count * 2];
+static const s16 MeansOfDeath_60[] =
+{
+	// @TODO:
+	TABLE_END
+};
+VALIDATE_TABLE_SIZES(MeansOfDeath_60, udtMeanOfDeath::Count);
+
 static const s16* MeanOfDeathTables[] =
 {
 	TABLE_ENTRY(MeansOfDeath_3_68), // 3
 	TABLE_ENTRY(MeansOfDeath_3_68), // 48
-	TABLE_ENTRY(MeansOfDeath_3_68), // @TODO: RTCW
+	TABLE_ENTRY(MeansOfDeath_60), // 60
 	TABLE_ENTRY(MeansOfDeath_3_68), // 66
 	TABLE_ENTRY(MeansOfDeath_3_68), // 67
 	TABLE_ENTRY(MeansOfDeath_3_68), // 68

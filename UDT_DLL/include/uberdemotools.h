@@ -317,7 +317,41 @@ struct udtPowerUpMask
 	N(Grapple, "grapple", 27) \
 	N(TeamSwitch, "team switch", 28) \
 	N(Thaw, "thaw", 29) \
-	N(HeavyMachineGun, "heavy machine gun", 30)
+	N(HeavyMachineGun, "heavy machine gun", 30) \
+	N(Knife, "knife", 31) \
+	N(Knife2, "knife 2", 32) \
+	N(KnifeStealth, "knife stealth", 33) \
+	N(Luger, "luger 9mm", 34) \
+	N(Colt, ".45ACP 1911", 35) \
+	N(MP40, "MP40", 36) \
+	N(Thompson, "thompson", 37) \
+	N(Sten, "sten", 38) \
+	N(Mauser, "mauser", 39) \
+	N(SniperRifle, "sniper rifle", 40) \
+	N(Garand, "garand", 41) \
+	N(SnooperScope, "snooper", 42) \
+	N(Akimbo, "dual colts", 43) \
+	N(Panzerfaust, "panzerfaust", 44) \
+	N(PanzerfaustSplash, "panzerfaust splash", 45) \
+	N(GrenadePineapple, "pineapple grenade", 46) \
+	N(Venom, "venom", 47) \
+	N(VenomFull, "venom", 48) \
+	N(Flamethrower, "flamethrower", 49) \
+	N(Kicked, "kicked", 50) \
+	N(Mortar, "mortar", 51) \
+	N(MortarSplash, "mortar splash", 52) \
+	N(Grabber, "grabber", 53) \
+	N(Dynamite, "dynamite", 54) \
+	N(DynamiteSplash, "dynamite splash", 55) \
+	N(Silencer, "silencer", 56) \
+	N(Bar, "bar", 57) \
+	N(FG42, "FG42", 58) \
+	N(FG42Scope, "FG42 scope", 59) \
+	N(Airstrike, "support fire", 60) \
+	N(Artillery, "artillery support", 61) \
+	N(Explosive, "explosive", 62) \
+	N(Syringe, "syring", 63) \
+	N(PoisonGas, "poison gas", 64)
 
 #define UDT_MEAN_OF_DEATH_ITEM(Enum, Desc, Bit) Enum = Bit,
 struct udtMeanOfDeath
@@ -326,17 +360,6 @@ struct udtMeanOfDeath
 	{
 		UDT_MEAN_OF_DEATH_LIST(UDT_MEAN_OF_DEATH_ITEM)
 		Count
-	};
-};
-#undef UDT_MEAN_OF_DEATH_ITEM
-
-#define UDT_MEAN_OF_DEATH_ITEM(Enum, Desc, Bit) Enum = UDT_BIT(Bit),
-struct udtMeanOfDeathMask
-{
-	enum Id
-	{
-		UDT_MEAN_OF_DEATH_LIST(UDT_MEAN_OF_DEATH_ITEM)
-		AfterLast
 	};
 };
 #undef UDT_MEAN_OF_DEATH_ITEM
