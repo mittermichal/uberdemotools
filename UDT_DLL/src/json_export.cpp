@@ -14,6 +14,9 @@
 #include <time.h>
 
 
+static udtProtocol::Id protocol = udtProtocol::Invalid;
+
+
 struct udtJSONExporter
 {
 public:
@@ -191,7 +194,23 @@ static void WriteUDTTeamIndex(udtJSONExporter& writer, s32 udtTeamIndex, const c
 		return;
 	}
 
-	writer.WriteStringValue(keyName, GetUDTStringForValue(udtStringArray::Teams, (u32)udtTeamIndex));
+	const char* teamName = GetUDTStringForValue(udtStringArray::Teams, (u32)udtTeamIndex);
+	if(protocol == udtProtocol::Dm60) // @TODO: function telling us if it's a Wolfenstein protocol
+	{
+		switch((udtTeam::Id)udtTeamIndex)
+		{
+			case udtTeam::Red: teamName = "axis"; break;
+			case udtTeam::Blue: teamName = "allies"; break;
+			case udtTeam::Spectators: teamName = "spectators"; break;
+			default: teamName = ""; break;
+		}
+	}
+	else
+	{
+		teamName = GetUDTStringForValue(udtStringArray::Teams, (u32)udtTeamIndex);
+	}
+
+	writer.WriteStringValue(keyName, teamName);
 }
 
 static void WriteUDTGameTypeShort(udtJSONExporter& writer, u32 udtGameType)
@@ -739,6 +758,7 @@ bool ExportPlugInsDataToJSON(udtParserContext* context, u32 demoIndex, const cha
 	udtJSONWriter& writer = context->JSONWriterContext.Writer;
 	udtVMLinearAllocator& tempAllocator = context->Parser._tempAllocator;
 	udtJSONExporter jsonWriter(writer, tempAllocator);
+	protocol = context->Parser._inProtocol;
 
 	writer.StartFile();
 
