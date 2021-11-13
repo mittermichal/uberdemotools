@@ -658,11 +658,32 @@ static const s16 EntityTypes_84[udtEntityType::Count * 2] =
 VALIDATE_TABLE_SIZES(EntityTypes_84, udtEntityType::Count);
 #endif
 
+static s16 EntityTypes_60_U2Q[udtEntityType::Count];
+static s16 EntityTypes_60_Q2U[udtEntityType::Count * 2];
+static const s16 EntityTypes_60[udtEntityType::Count * 2] =
+{
+	(s16)udtEntityType::Event, 40,
+	(s16)udtEntityType::General, 0,
+	(s16)udtEntityType::Player, 1,
+	(s16)udtEntityType::Item, 2,
+	(s16)udtEntityType::Missile, 3,
+	(s16)udtEntityType::Mover, 4,
+	(s16)udtEntityType::Beam, 5,
+	(s16)udtEntityType::Portal, 6,
+	(s16)udtEntityType::Speaker, 7,
+	(s16)udtEntityType::PushTrigger, 8,
+	(s16)udtEntityType::TeleportTrigger, 9,
+	(s16)udtEntityType::Invisible, 10,
+	(s16)udtEntityType::Grapple, 11,
+	(s16)udtEntityType::Team, UNDEFINED
+};
+VALIDATE_TABLE_SIZES(EntityTypes_48p, udtEntityType::Count);
+
 static const s16* EntityTypeTables[] =
 {
 	TABLE_ENTRY(EntityTypes_3), // 3
 	TABLE_ENTRY(EntityTypes_48p), // 48
-	TABLE_ENTRY(EntityTypes_48p), // 60 @TODO: RTCW
+	TABLE_ENTRY(EntityTypes_60), // 60
 	TABLE_ENTRY(EntityTypes_48p), // 66
 	TABLE_ENTRY(EntityTypes_48p), // 67
 	TABLE_ENTRY(EntityTypes_48p), // 68
