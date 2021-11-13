@@ -228,7 +228,7 @@ static void WriteTeamStats(s32& fieldsRead, udtJSONExporter& writer, const u8* f
 {
 	writer.StartObject();
 
-	writer.WriteStringValue("team", teamIndex == (s32)udtTeam::Red ? "red" : "blue");
+	WriteUDTTeamIndex(writer, teamIndex);
 
 	s32 fieldIdx = 0;
 	for(s32 i = 0; i < (s32)udtTeamStatsField::Count; ++i)
