@@ -433,13 +433,7 @@ static const s16 PowerUps_3_90[udtPowerUpIndex::Count * 2] =
 	(s16)udtPowerUpIndex::Regeneration, 5,
 	(s16)udtPowerUpIndex::Flight, 6,
 	(s16)udtPowerUpIndex::RedFlag, 7,
-	(s16)udtPowerUpIndex::BlueFlag, 8,
-	(s16)udtPowerUpIndex::NeutralFlag, UNDEFINED,
-	(s16)udtPowerUpIndex::Scout, UNDEFINED,
-	(s16)udtPowerUpIndex::Guard, UNDEFINED,
-	(s16)udtPowerUpIndex::Doubler, UNDEFINED,
-	(s16)udtPowerUpIndex::ArmorRegeneration, UNDEFINED,
-	(s16)udtPowerUpIndex::Invulnerability, UNDEFINED
+	(s16)udtPowerUpIndex::BlueFlag, 8
 };
 VALIDATE_TABLE_SIZES(PowerUps_3_90, udtPowerUpIndex::Count);
 
@@ -520,19 +514,15 @@ static s16 PersStats_3_U2Q[udtPersStatsIndex::Count];
 static s16 PersStats_3_Q2U[udtPersStatsIndex::Count * 2];
 static const s16 PersStats_3[udtPersStatsIndex::Count * 2] =
 {
-	(s16)udtPersStatsIndex::FlagCaptures, UNDEFINED,
 	(s16)udtPersStatsIndex::Score, 0,
 	(s16)udtPersStatsIndex::DamageGiven, 1,
 	(s16)udtPersStatsIndex::Rank, 2,
 	(s16)udtPersStatsIndex::Team, 3,
 	(s16)udtPersStatsIndex::SpawnCount, 4,
 	(s16)udtPersStatsIndex::LastAttacker, 7,
-	(s16)udtPersStatsIndex::LastTargetHealthAndArmor, UNDEFINED,
 	(s16)udtPersStatsIndex::Deaths, 8,
 	(s16)udtPersStatsIndex::Impressives, 9,
 	(s16)udtPersStatsIndex::Excellents, 10,
-	(s16)udtPersStatsIndex::Defends, UNDEFINED,
-	(s16)udtPersStatsIndex::Assists, UNDEFINED,
 	(s16)udtPersStatsIndex::Humiliations, 11
 };
 VALIDATE_TABLE_SIZES(PersStats_3, udtPersStatsIndex::Count);
@@ -609,8 +599,7 @@ static const s16 EntityTypes_3[udtEntityType::Count * 2] =
 	(s16)udtEntityType::PushTrigger, 8,
 	(s16)udtEntityType::TeleportTrigger, 9,
 	(s16)udtEntityType::Invisible, 10,
-	(s16)udtEntityType::Grapple, 11,
-	(s16)udtEntityType::Team, UNDEFINED
+	(s16)udtEntityType::Grapple, 11
 };
 VALIDATE_TABLE_SIZES(EntityTypes_3, udtEntityType::Count);
 
@@ -674,8 +663,7 @@ static const s16 EntityTypes_60[udtEntityType::Count * 2] =
 	(s16)udtEntityType::PushTrigger, 8,
 	(s16)udtEntityType::TeleportTrigger, 9,
 	(s16)udtEntityType::Invisible, 10,
-	(s16)udtEntityType::Grapple, 11,
-	(s16)udtEntityType::Team, UNDEFINED
+	(s16)udtEntityType::Grapple, 11
 };
 VALIDATE_TABLE_SIZES(EntityTypes_48p, udtEntityType::Count);
 
@@ -700,7 +688,6 @@ static const s16 EntityFlagBits_3[udtEntityFlag::Count * 2] =
 	(s16)udtEntityFlag::Dead, 0,
 	(s16)udtEntityFlag::TeleportBit, 2,
 	(s16)udtEntityFlag::AwardExcellent, 3,
-	(s16)udtEntityFlag::PlayerEvent, UNDEFINED,
 	(s16)udtEntityFlag::AwardHumiliation, 6,
 	(s16)udtEntityFlag::NoDraw, 7,
 	(s16)udtEntityFlag::Firing, 8,
@@ -708,12 +695,7 @@ static const s16 EntityFlagBits_3[udtEntityFlag::Count * 2] =
 	(s16)udtEntityFlag::Chatting, 12,
 	(s16)udtEntityFlag::ConnectionInterrupted, 13,
 	(s16)udtEntityFlag::HasVoted, 14,
-	(s16)udtEntityFlag::AwardImpressive, 15,
-	(s16)udtEntityFlag::AwardDefense, UNDEFINED,
-	(s16)udtEntityFlag::AwardAssist, UNDEFINED,
-	(s16)udtEntityFlag::AwardDenied, UNDEFINED,
-	(s16)udtEntityFlag::HasTeamVoted, UNDEFINED,
-	(s16)udtEntityFlag::Spectator, UNDEFINED
+	(s16)udtEntityFlag::AwardImpressive, 15
 };
 VALIDATE_TABLE_SIZES(EntityFlagBits_3, udtEntityFlag::Count);
 
@@ -724,7 +706,6 @@ static const s16 EntityFlagBits_48[udtEntityFlag::Count * 2] =
 	(s16)udtEntityFlag::Dead, 0,
 	(s16)udtEntityFlag::TeleportBit, 2,
 	(s16)udtEntityFlag::AwardExcellent, 3,
-	(s16)udtEntityFlag::PlayerEvent, UNDEFINED,
 	(s16)udtEntityFlag::AwardHumiliation, 6,
 	(s16)udtEntityFlag::NoDraw, 7,
 	(s16)udtEntityFlag::Firing, 8,
@@ -736,8 +717,7 @@ static const s16 EntityFlagBits_48[udtEntityFlag::Count * 2] =
 	(s16)udtEntityFlag::AwardDefense, 16,
 	(s16)udtEntityFlag::AwardAssist, 17,
 	(s16)udtEntityFlag::AwardDenied, 18,
-	(s16)udtEntityFlag::HasTeamVoted, 19,
-	(s16)udtEntityFlag::Spectator, UNDEFINED
+	(s16)udtEntityFlag::HasTeamVoted, 19
 };
 VALIDATE_TABLE_SIZES(EntityFlagBits_48, udtEntityFlag::Count);
 
@@ -760,8 +740,7 @@ static const s16 EntityFlagBits_66_90[udtEntityFlag::Count * 2] =
 	(s16)udtEntityFlag::AwardDefense, 16,
 	(s16)udtEntityFlag::AwardAssist, 17,
 	(s16)udtEntityFlag::AwardDenied, 18,
-	(s16)udtEntityFlag::HasTeamVoted, 19,
-	(s16)udtEntityFlag::Spectator, UNDEFINED
+	(s16)udtEntityFlag::HasTeamVoted, 19
 };
 VALIDATE_TABLE_SIZES(EntityFlagBits_66_90, udtEntityFlag::Count);
 
@@ -779,12 +758,10 @@ static const s16 EntityFlagBits_91[udtEntityFlag::Count * 2] =
 	(s16)udtEntityFlag::AwardCapture, 11,
 	(s16)udtEntityFlag::Chatting, 12,
 	(s16)udtEntityFlag::ConnectionInterrupted, 13,
-	(s16)udtEntityFlag::HasVoted, UNDEFINED,
 	(s16)udtEntityFlag::AwardImpressive, 15,
 	(s16)udtEntityFlag::AwardDefense, 16,
 	(s16)udtEntityFlag::AwardAssist, 17,
 	(s16)udtEntityFlag::AwardDenied, 18,
-	(s16)udtEntityFlag::HasTeamVoted, UNDEFINED,
 	(s16)udtEntityFlag::Spectator, 14
 };
 VALIDATE_TABLE_SIZES(EntityFlagBits_91, udtEntityFlag::Count);
@@ -812,7 +789,6 @@ static const s16 EntityEvents_3[udtEntityEvent::Count * 2] =
 	(s16)udtEntityEvent::ItemPickup, 19,
 	(s16)udtEntityEvent::GlobalItemPickup, 20,
 	(s16)udtEntityEvent::GlobalSound, 46,
-	(s16)udtEntityEvent::GlobalTeamSound, UNDEFINED,
 	(s16)udtEntityEvent::ItemRespawn, 40,
 	(s16)udtEntityEvent::ItemPop, 41,
 	(s16)udtEntityEvent::PlayerTeleportIn, 42,
@@ -821,13 +797,10 @@ static const s16 EntityEvents_3[udtEntityEvent::Count * 2] =
 	(s16)udtEntityEvent::BulletHitWall, 48,
 	(s16)udtEntityEvent::MissileHit, 49,
 	(s16)udtEntityEvent::MissileMiss, 50,
-	(s16)udtEntityEvent::MissileMissMetal, UNDEFINED,
 	(s16)udtEntityEvent::RailTrail, 51,
 	(s16)udtEntityEvent::PowerUpQuad, 59,
 	(s16)udtEntityEvent::PowerUpBattleSuit, 60,
-	(s16)udtEntityEvent::PowerUpRegen, 61,
-	(s16)udtEntityEvent::QL_Overtime, UNDEFINED,
-	(s16)udtEntityEvent::QL_GameOver, UNDEFINED
+	(s16)udtEntityEvent::PowerUpRegen, 61
 };
 VALIDATE_TABLE_SIZES(EntityEvents_3, udtEntityEvent::Count);
 
@@ -853,9 +826,7 @@ static const s16 EntityEvents_48_68[udtEntityEvent::Count * 2] =
 	(s16)udtEntityEvent::RailTrail, 53,
 	(s16)udtEntityEvent::PowerUpQuad, 61,
 	(s16)udtEntityEvent::PowerUpBattleSuit, 62,
-	(s16)udtEntityEvent::PowerUpRegen, 63,
-	(s16)udtEntityEvent::QL_Overtime, UNDEFINED,
-	(s16)udtEntityEvent::QL_GameOver, UNDEFINED
+	(s16)udtEntityEvent::PowerUpRegen, 63
 };
 VALIDATE_TABLE_SIZES(EntityEvents_48_68, udtEntityEvent::Count);
 
@@ -893,26 +864,7 @@ static s16 EntityEvents_84_Q2U[udtEntityEvent::Count * 2];
 static const s16 EntityEvents_84[udtEntityEvent::Count * 2] =
 {
 	(s16)udtEntityEvent::Obituary, 70,
-	(s16)udtEntityEvent::WeaponFired, UNDEFINED,
-	(s16)udtEntityEvent::ItemPickup, UNDEFINED,
-	(s16)udtEntityEvent::GlobalItemPickup, UNDEFINED,
-	(s16)udtEntityEvent::GlobalSound, UNDEFINED,
-	(s16)udtEntityEvent::GlobalTeamSound, UNDEFINED,
-	(s16)udtEntityEvent::ItemRespawn, UNDEFINED,
-	(s16)udtEntityEvent::ItemPop, UNDEFINED,
-	(s16)udtEntityEvent::PlayerTeleportIn, UNDEFINED,
-	(s16)udtEntityEvent::PlayerTeleportOut, UNDEFINED,
-	(s16)udtEntityEvent::BulletHitFlesh, 57,
-	(s16)udtEntityEvent::BulletHitWall, UNDEFINED,
-	(s16)udtEntityEvent::MissileHit, UNDEFINED,
-	(s16)udtEntityEvent::MissileMiss, UNDEFINED,
-	(s16)udtEntityEvent::MissileMissMetal, UNDEFINED,
-	(s16)udtEntityEvent::RailTrail, UNDEFINED,
-	(s16)udtEntityEvent::PowerUpQuad, UNDEFINED,
-	(s16)udtEntityEvent::PowerUpBattleSuit, UNDEFINED,
-	(s16)udtEntityEvent::PowerUpRegen, UNDEFINED,
-	(s16)udtEntityEvent::QL_Overtime, UNDEFINED,
-	(s16)udtEntityEvent::QL_GameOver, UNDEFINED
+	(s16)udtEntityEvent::BulletHitFlesh, 57
 };
 VALIDATE_TABLE_SIZES(EntityEvents_84, udtEntityEvent::Count);
 #endif
@@ -926,7 +878,6 @@ static const s16 EntityEvents_60[udtEntityEvent::Count * 2] =
 	(s16)udtEntityEvent::ItemPickup, 30,
 	(s16)udtEntityEvent::GlobalItemPickup, 32,
 	(s16)udtEntityEvent::GlobalSound, 68,
-	(s16)udtEntityEvent::GlobalTeamSound, UNDEFINED,
 	(s16)udtEntityEvent::ItemRespawn, 62,
 	(s16)udtEntityEvent::ItemPop, 63,
 	(s16)udtEntityEvent::PlayerTeleportIn, 64,
@@ -935,13 +886,10 @@ static const s16 EntityEvents_60[udtEntityEvent::Count * 2] =
 	(s16)udtEntityEvent::BulletHitWall, 72,
 	(s16)udtEntityEvent::MissileHit, 73,
 	(s16)udtEntityEvent::MissileMiss, 74,
-	(s16)udtEntityEvent::MissileMissMetal, UNDEFINED,
 	(s16)udtEntityEvent::RailTrail, 75,
 	(s16)udtEntityEvent::PowerUpQuad, 88,
 	(s16)udtEntityEvent::PowerUpBattleSuit, 89,
-	(s16)udtEntityEvent::PowerUpRegen, 90,
-	(s16)udtEntityEvent::QL_Overtime, UNDEFINED,
-	(s16)udtEntityEvent::QL_GameOver, UNDEFINED
+	(s16)udtEntityEvent::PowerUpRegen, 90
 };
 VALIDATE_TABLE_SIZES(EntityEvents_3, udtEntityEvent::Count);
 
@@ -967,10 +915,6 @@ static const s16 ConfigStringIndices_3[udtConfigStringIndex::Count * 2] =
 	(s16)udtConfigStringIndex::Intermission, 14,
 	(s16)udtConfigStringIndex::LevelStartTime, 13,
 	(s16)udtConfigStringIndex::WarmUpEndTime, 5,
-	(s16)udtConfigStringIndex::FirstPlacePlayerName, UNDEFINED,
-	(s16)udtConfigStringIndex::SecondPlacePlayerName, UNDEFINED,
-	(s16)udtConfigStringIndex::PauseStart, UNDEFINED,
-	(s16)udtConfigStringIndex::PauseEnd, UNDEFINED,
 	(s16)udtConfigStringIndex::FlagStatus, 15,
 	(s16)udtConfigStringIndex::ServerInfo, 0,
 	(s16)udtConfigStringIndex::SystemInfo, 1,
@@ -980,16 +924,10 @@ static const s16 ConfigStringIndices_3[udtConfigStringIndex::Count * 2] =
 	(s16)udtConfigStringIndex::VoteString, 9,
 	(s16)udtConfigStringIndex::VoteYes, 10,
 	(s16)udtConfigStringIndex::VoteNo, 11,
-	(s16)udtConfigStringIndex::TeamVoteTime, UNDEFINED,
-	(s16)udtConfigStringIndex::TeamVoteString, UNDEFINED,
-	(s16)udtConfigStringIndex::TeamVoteYes, UNDEFINED,
-	(s16)udtConfigStringIndex::TeamVoteNo, UNDEFINED,
 	(s16)udtConfigStringIndex::GameVersion, 12,
 	(s16)udtConfigStringIndex::ItemFlags, 27,
 	(s16)udtConfigStringIndex::QL_TimeoutStartTime, 669,
 	(s16)udtConfigStringIndex::QL_TimeoutEndTime, 670,
-	(s16)udtConfigStringIndex::QL_RedTeamTimeoutsLeft, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_BlueTeamTimeoutsLeft, UNDEFINED,
 	(s16)udtConfigStringIndex::QL_ReadTeamClanName, 693,
 	(s16)udtConfigStringIndex::QL_BlueTeamClanName, 694,
 	(s16)udtConfigStringIndex::QL_RedTeamClanTag, 695,
@@ -1008,10 +946,6 @@ static const s16 ConfigStringIndices_48_68[udtConfigStringIndex::Count * 2] =
 	(s16)udtConfigStringIndex::Intermission, 22,
 	(s16)udtConfigStringIndex::LevelStartTime, 21,
 	(s16)udtConfigStringIndex::WarmUpEndTime, 5,
-	(s16)udtConfigStringIndex::FirstPlacePlayerName, UNDEFINED,
-	(s16)udtConfigStringIndex::SecondPlacePlayerName, UNDEFINED,
-	(s16)udtConfigStringIndex::PauseStart, UNDEFINED,
-	(s16)udtConfigStringIndex::PauseEnd, UNDEFINED,
 	(s16)udtConfigStringIndex::FlagStatus, 23,
 	(s16)udtConfigStringIndex::ServerInfo, 0,
 	(s16)udtConfigStringIndex::SystemInfo, 1,
@@ -1029,8 +963,6 @@ static const s16 ConfigStringIndices_48_68[udtConfigStringIndex::Count * 2] =
 	(s16)udtConfigStringIndex::ItemFlags, 27,
 	(s16)udtConfigStringIndex::QL_TimeoutStartTime, 669,
 	(s16)udtConfigStringIndex::QL_TimeoutEndTime, 670,
-	(s16)udtConfigStringIndex::QL_RedTeamTimeoutsLeft, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_BlueTeamTimeoutsLeft, UNDEFINED,
 	(s16)udtConfigStringIndex::QL_ReadTeamClanName, 693,
 	(s16)udtConfigStringIndex::QL_BlueTeamClanName, 694,
 	(s16)udtConfigStringIndex::QL_RedTeamClanTag, 695,
@@ -1049,8 +981,6 @@ static const s16 ConfigStringIndices_73_90[udtConfigStringIndex::Count * 2] =
 	(s16)udtConfigStringIndex::Intermission, 14,
 	(s16)udtConfigStringIndex::LevelStartTime, 13,
 	(s16)udtConfigStringIndex::WarmUpEndTime, 5,
-	(s16)udtConfigStringIndex::FirstPlacePlayerName, UNDEFINED,
-	(s16)udtConfigStringIndex::SecondPlacePlayerName, UNDEFINED,
 	(s16)udtConfigStringIndex::PauseStart, 669,
 	(s16)udtConfigStringIndex::PauseEnd, 670,
 	(s16)udtConfigStringIndex::FlagStatus, 658,
@@ -1062,23 +992,14 @@ static const s16 ConfigStringIndices_73_90[udtConfigStringIndex::Count * 2] =
 	(s16)udtConfigStringIndex::VoteString, 9,
 	(s16)udtConfigStringIndex::VoteYes, 10,
 	(s16)udtConfigStringIndex::VoteNo, 11,
-	(s16)udtConfigStringIndex::TeamVoteTime, UNDEFINED,
-	(s16)udtConfigStringIndex::TeamVoteString, UNDEFINED,
-	(s16)udtConfigStringIndex::TeamVoteYes, UNDEFINED,
-	(s16)udtConfigStringIndex::TeamVoteNo, UNDEFINED,
 	(s16)udtConfigStringIndex::GameVersion, 12,
 	(s16)udtConfigStringIndex::ItemFlags, 15,
 	(s16)udtConfigStringIndex::QL_TimeoutStartTime, 669,
 	(s16)udtConfigStringIndex::QL_TimeoutEndTime, 670,
-	(s16)udtConfigStringIndex::QL_RedTeamTimeoutsLeft, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_BlueTeamTimeoutsLeft, UNDEFINED,
 	(s16)udtConfigStringIndex::QL_ReadTeamClanName, 693,
 	(s16)udtConfigStringIndex::QL_BlueTeamClanName, 694,
 	(s16)udtConfigStringIndex::QL_RedTeamClanTag, 695,
-	(s16)udtConfigStringIndex::QL_BlueTeamClanTag, 696,
-	(s16)udtConfigStringIndex::CPMA_GameInfo, UNDEFINED,
-	(s16)udtConfigStringIndex::CPMA_RoundInfo, UNDEFINED,
-	(s16)udtConfigStringIndex::OSP_GamePlay, UNDEFINED
+	(s16)udtConfigStringIndex::QL_BlueTeamClanTag, 696
 };
 VALIDATE_TABLE_SIZES(ConfigStringIndices_73_90, udtConfigStringIndex::Count);
 
@@ -1091,36 +1012,9 @@ static const s16 ConfigStringIndices_84[udtConfigStringIndex::Count * 2] =
 	(s16)udtConfigStringIndex::Intermission, 12,
 	(s16)udtConfigStringIndex::LevelStartTime, 11,
 	(s16)udtConfigStringIndex::WarmUpEndTime, 5,
-	(s16)udtConfigStringIndex::FirstPlacePlayerName, UNDEFINED,
-	(s16)udtConfigStringIndex::SecondPlacePlayerName, UNDEFINED,
-	(s16)udtConfigStringIndex::PauseStart, UNDEFINED,
-	(s16)udtConfigStringIndex::PauseEnd, UNDEFINED,
-	(s16)udtConfigStringIndex::FlagStatus, UNDEFINED,
 	(s16)udtConfigStringIndex::ServerInfo, 0,
 	(s16)udtConfigStringIndex::SystemInfo, 1,
-	(s16)udtConfigStringIndex::Scores1, UNDEFINED,
-	(s16)udtConfigStringIndex::Scores2, UNDEFINED,
-	(s16)udtConfigStringIndex::VoteTime, UNDEFINED,
-	(s16)udtConfigStringIndex::VoteString, UNDEFINED,
-	(s16)udtConfigStringIndex::VoteYes, UNDEFINED,
-	(s16)udtConfigStringIndex::VoteNo, UNDEFINED,
-	(s16)udtConfigStringIndex::TeamVoteTime, UNDEFINED,
-	(s16)udtConfigStringIndex::TeamVoteString, UNDEFINED,
-	(s16)udtConfigStringIndex::TeamVoteYes, UNDEFINED,
-	(s16)udtConfigStringIndex::TeamVoteNo, UNDEFINED,
-	(s16)udtConfigStringIndex::GameVersion, 10,
-	(s16)udtConfigStringIndex::ItemFlags, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_TimeoutStartTime, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_TimeoutEndTime, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_RedTeamTimeoutsLeft, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_BlueTeamTimeoutsLeft, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_ReadTeamClanName, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_BlueTeamClanName, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_RedTeamClanTag, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_BlueTeamClanTag, UNDEFINED,
-	(s16)udtConfigStringIndex::CPMA_GameInfo, UNDEFINED,
-	(s16)udtConfigStringIndex::CPMA_RoundInfo, UNDEFINED,
-	(s16)udtConfigStringIndex::OSP_GamePlay, UNDEFINED
+	(s16)udtConfigStringIndex::GameVersion, 10
 };
 VALIDATE_TABLE_SIZES(ConfigStringIndices_84, udtConfigStringIndex::Count);
 #endif
@@ -1146,23 +1040,10 @@ static const s16 ConfigStringIndices_91[udtConfigStringIndex::Count * 2] =
 	(s16)udtConfigStringIndex::VoteString, 9,
 	(s16)udtConfigStringIndex::VoteYes, 10,
 	(s16)udtConfigStringIndex::VoteNo, 11,
-	(s16)udtConfigStringIndex::TeamVoteTime, UNDEFINED,
-	(s16)udtConfigStringIndex::TeamVoteString, UNDEFINED,
-	(s16)udtConfigStringIndex::TeamVoteYes, UNDEFINED,
-	(s16)udtConfigStringIndex::TeamVoteNo, UNDEFINED,
 	(s16)udtConfigStringIndex::GameVersion, 12,
 	(s16)udtConfigStringIndex::ItemFlags, 15,
-	(s16)udtConfigStringIndex::QL_TimeoutStartTime, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_TimeoutEndTime, UNDEFINED,
 	(s16)udtConfigStringIndex::QL_RedTeamTimeoutsLeft, 671,
-	(s16)udtConfigStringIndex::QL_BlueTeamTimeoutsLeft, 672,
-	(s16)udtConfigStringIndex::QL_ReadTeamClanName, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_BlueTeamClanName, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_RedTeamClanTag, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_BlueTeamClanTag, UNDEFINED,
-	(s16)udtConfigStringIndex::CPMA_GameInfo, UNDEFINED,
-	(s16)udtConfigStringIndex::CPMA_RoundInfo, UNDEFINED,
-	(s16)udtConfigStringIndex::OSP_GamePlay, UNDEFINED
+	(s16)udtConfigStringIndex::QL_BlueTeamTimeoutsLeft, 672
 };
 VALIDATE_TABLE_SIZES(ConfigStringIndices_91, udtConfigStringIndex::Count);
 
@@ -1174,11 +1055,6 @@ static const s16 ConfigStringIndices_60[udtConfigStringIndex::Count * 2] =
 	(s16)udtConfigStringIndex::Intermission, 14,
 	(s16)udtConfigStringIndex::LevelStartTime, 13,
 	(s16)udtConfigStringIndex::WarmUpEndTime, 5,
-	(s16)udtConfigStringIndex::FirstPlacePlayerName, UNDEFINED,
-	(s16)udtConfigStringIndex::SecondPlacePlayerName, UNDEFINED,
-	(s16)udtConfigStringIndex::PauseStart, UNDEFINED,
-	(s16)udtConfigStringIndex::PauseEnd, UNDEFINED,
-	(s16)udtConfigStringIndex::FlagStatus, UNDEFINED,
 	(s16)udtConfigStringIndex::ServerInfo, 0,
 	(s16)udtConfigStringIndex::SystemInfo, 1,
 	(s16)udtConfigStringIndex::Scores1, 6,
@@ -1186,24 +1062,7 @@ static const s16 ConfigStringIndices_60[udtConfigStringIndex::Count * 2] =
 	(s16)udtConfigStringIndex::VoteTime, 8,
 	(s16)udtConfigStringIndex::VoteString, 9,
 	(s16)udtConfigStringIndex::VoteYes, 10,
-	(s16)udtConfigStringIndex::VoteNo, 11,
-	(s16)udtConfigStringIndex::TeamVoteTime, UNDEFINED,
-	(s16)udtConfigStringIndex::TeamVoteString, UNDEFINED,
-	(s16)udtConfigStringIndex::TeamVoteYes, UNDEFINED,
-	(s16)udtConfigStringIndex::TeamVoteNo, UNDEFINED,
-	(s16)udtConfigStringIndex::GameVersion, UNDEFINED,
-	(s16)udtConfigStringIndex::ItemFlags, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_TimeoutStartTime, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_TimeoutEndTime, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_RedTeamTimeoutsLeft, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_BlueTeamTimeoutsLeft, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_ReadTeamClanName, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_BlueTeamClanName, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_RedTeamClanTag, UNDEFINED,
-	(s16)udtConfigStringIndex::QL_BlueTeamClanTag, UNDEFINED,
-	(s16)udtConfigStringIndex::CPMA_GameInfo, UNDEFINED,
-	(s16)udtConfigStringIndex::CPMA_RoundInfo, UNDEFINED,
-	(s16)udtConfigStringIndex::OSP_GamePlay, UNDEFINED
+	(s16)udtConfigStringIndex::VoteNo, 11
 };
 VALIDATE_TABLE_SIZES(ConfigStringIndices_60, udtConfigStringIndex::Count);
 
@@ -1250,24 +1109,10 @@ static s16 GameTypes_3_U2Q[udtGameType::Count];
 static s16 GameTypes_3_Q2U[udtGameType::Count * 2];
 static const s16 GameTypes_3[udtGameType::Count * 2] =
 {
-	(s16)udtGameType::SP, UNDEFINED,
 	(s16)udtGameType::FFA, 0,
 	(s16)udtGameType::Duel, 1,
-	(s16)udtGameType::Race, UNDEFINED,
-	(s16)udtGameType::HM, UNDEFINED,
-	(s16)udtGameType::RedRover, UNDEFINED,
 	(s16)udtGameType::TDM, 3,
-	(s16)udtGameType::CBTDM, UNDEFINED,
-	(s16)udtGameType::CA, UNDEFINED,
-	(s16)udtGameType::CTF, 4,
-	(s16)udtGameType::OneFlagCTF, UNDEFINED,
-	(s16)udtGameType::Obelisk, UNDEFINED,
-	(s16)udtGameType::Harvester, UNDEFINED,
-	(s16)udtGameType::Domination, UNDEFINED,
-	(s16)udtGameType::CTFS, UNDEFINED,
-	(s16)udtGameType::NTF, UNDEFINED,
-	(s16)udtGameType::TwoVsTwo, UNDEFINED,
-	(s16)udtGameType::FT, UNDEFINED
+	(s16)udtGameType::CTF, 4
 };
 VALIDATE_TABLE_SIZES(GameTypes_3, udtGameType::Count);
 
@@ -1275,24 +1120,13 @@ static s16 GameTypes_48_68_U2Q[udtGameType::Count];
 static s16 GameTypes_48_68_Q2U[udtGameType::Count * 2];
 static const s16 GameTypes_48_68[udtGameType::Count * 2] =
 {
-	(s16)udtGameType::SP, UNDEFINED,
 	(s16)udtGameType::FFA, 0,
 	(s16)udtGameType::Duel, 1,
-	(s16)udtGameType::Race, UNDEFINED,
-	(s16)udtGameType::HM, UNDEFINED,
-	(s16)udtGameType::RedRover, UNDEFINED,
 	(s16)udtGameType::TDM, 3,
-	(s16)udtGameType::CBTDM, UNDEFINED,
-	(s16)udtGameType::CA, UNDEFINED,
 	(s16)udtGameType::CTF, 4,
 	(s16)udtGameType::OneFlagCTF, 5,
 	(s16)udtGameType::Obelisk, 6,
-	(s16)udtGameType::Harvester, 7,
-	(s16)udtGameType::Domination, UNDEFINED,
-	(s16)udtGameType::CTFS, UNDEFINED,
-	(s16)udtGameType::NTF, UNDEFINED,
-	(s16)udtGameType::TwoVsTwo, UNDEFINED,
-	(s16)udtGameType::FT, UNDEFINED
+	(s16)udtGameType::Harvester, 7
 };
 VALIDATE_TABLE_SIZES(GameTypes_48_68, udtGameType::Count);
 
@@ -1300,14 +1134,11 @@ static s16 GameTypes_73p_U2Q[udtGameType::Count];
 static s16 GameTypes_73p_Q2U[udtGameType::Count * 2];
 static const s16 GameTypes_73p[udtGameType::Count * 2] =
 {
-	(s16)udtGameType::SP, UNDEFINED,
 	(s16)udtGameType::FFA, 0,
 	(s16)udtGameType::Duel, 1,
 	(s16)udtGameType::Race, 2,
-	(s16)udtGameType::HM, UNDEFINED,
 	(s16)udtGameType::RedRover, 12,
 	(s16)udtGameType::TDM, 3,
-	(s16)udtGameType::CBTDM, UNDEFINED,
 	(s16)udtGameType::CA, 4,
 	(s16)udtGameType::CTF, 5,
 	(s16)udtGameType::OneFlagCTF, 6,
@@ -1315,8 +1146,6 @@ static const s16 GameTypes_73p[udtGameType::Count * 2] =
 	(s16)udtGameType::Harvester, 8,
 	(s16)udtGameType::Domination, 10,
 	(s16)udtGameType::CTFS, 11,
-	(s16)udtGameType::NTF, UNDEFINED,
-	(s16)udtGameType::TwoVsTwo, UNDEFINED,
 	(s16)udtGameType::FT, 9
 };
 VALIDATE_TABLE_SIZES(GameTypes_73p, udtGameType::Count);
@@ -1372,10 +1201,6 @@ static const s16 Weapons_3_68[udtWeapon::Count * 2] =
 	(s16)udtWeapon::Railgun, 7,
 	(s16)udtWeapon::LightningGun, 6,
 	(s16)udtWeapon::BFG, 9,
-	(s16)udtWeapon::NailGun, UNDEFINED,
-	(s16)udtWeapon::ChainGun, UNDEFINED,
-	(s16)udtWeapon::ProximityMineLauncher, UNDEFINED,
-	(s16)udtWeapon::HeavyMachineGun, UNDEFINED,
 	(s16)udtWeapon::GrapplingHook, 10
 };
 VALIDATE_TABLE_SIZES(Weapons_3_68, udtWeapon::Count);
@@ -1441,15 +1266,7 @@ static const s16 MeansOfDeath_3_68[udtMeanOfDeath::Count * 2] =
 	(s16)udtMeanOfDeath::Suicide, 20,
 	(s16)udtMeanOfDeath::TargetLaser, 21,
 	(s16)udtMeanOfDeath::TriggerHurt, 22,
-	(s16)udtMeanOfDeath::NailGun, UNDEFINED,
-	(s16)udtMeanOfDeath::ChainGun, UNDEFINED,
-	(s16)udtMeanOfDeath::ProximityMine, UNDEFINED,
-	(s16)udtMeanOfDeath::Kamikaze, UNDEFINED,
-	(s16)udtMeanOfDeath::Juiced, UNDEFINED,
-	(s16)udtMeanOfDeath::Grapple, 23,
-	(s16)udtMeanOfDeath::TeamSwitch, UNDEFINED,
-	(s16)udtMeanOfDeath::Thaw, UNDEFINED,
-	(s16)udtMeanOfDeath::HeavyMachineGun, UNDEFINED
+	(s16)udtMeanOfDeath::Grapple, 23
 };
 VALIDATE_TABLE_SIZES(MeansOfDeath_3_68, udtMeanOfDeath::Count);
 
@@ -1510,62 +1327,37 @@ static s16 Items_3_68_Q2U[udtItem::Count * 2];
 static const s16 Items_3_68[udtItem::Count * 2] =
 {
 	(s16)udtItem::AmmoBFG, 25,
-	(s16)udtItem::AmmoBelt, UNDEFINED,
 	(s16)udtItem::AmmoBullets, 19,
 	(s16)udtItem::AmmoCells, 21,
 	(s16)udtItem::AmmoGrenades, 20,
-	(s16)udtItem::AmmoHMG, UNDEFINED,
 	(s16)udtItem::AmmoLightning, 22,
-	(s16)udtItem::AmmoMines, UNDEFINED,
-	(s16)udtItem::AmmoNails, UNDEFINED,
-	(s16)udtItem::AmmoPack, UNDEFINED,
 	(s16)udtItem::AmmoRockets, 23,
 	(s16)udtItem::AmmoShells, 18,
 	(s16)udtItem::AmmoSlugs, 24,
-	(s16)udtItem::HoldableInvulnerability, UNDEFINED,
-	(s16)udtItem::HoldableKamikaze, UNDEFINED,
 	(s16)udtItem::HoldableMedkit, 27,
-	(s16)udtItem::HoldablePortal, UNDEFINED,
 	(s16)udtItem::HoldableTeleporter, 26,
-	(s16)udtItem::ItemAmmoRegen, UNDEFINED,
 	(s16)udtItem::ItemArmorBody, 3,
 	(s16)udtItem::ItemArmorCombat, 2,
-	(s16)udtItem::ItemArmorJacket, UNDEFINED,
 	(s16)udtItem::ItemArmorShard, 1,
-	(s16)udtItem::ItemBackpack, UNDEFINED,
-	(s16)udtItem::ItemBlueCube, UNDEFINED,
-	(s16)udtItem::ItemDoubler, UNDEFINED,
 	(s16)udtItem::ItemEnviro, 29,
 	(s16)udtItem::ItemFlight, 33,
-	(s16)udtItem::ItemGuard, UNDEFINED,
 	(s16)udtItem::ItemHaste, 30,
 	(s16)udtItem::ItemHealth, 5,
 	(s16)udtItem::ItemHealthLarge, 6,
 	(s16)udtItem::ItemHealthMega, 7,
 	(s16)udtItem::ItemHealthSmall, 4,
 	(s16)udtItem::ItemInvis, 31,
-	(s16)udtItem::ItemKeyGold, UNDEFINED,
-	(s16)udtItem::ItemKeyMaster, UNDEFINED,
-	(s16)udtItem::ItemKeySilver, UNDEFINED,
 	(s16)udtItem::ItemQuad, 28,
-	(s16)udtItem::ItemRedCube, UNDEFINED,
 	(s16)udtItem::ItemRegen, 32,
-	(s16)udtItem::ItemScout, UNDEFINED,
-	(s16)udtItem::ItemSpawnArmor, UNDEFINED,
 	(s16)udtItem::FlagBlue, 35,
-	(s16)udtItem::FlagNeutral, UNDEFINED,
 	(s16)udtItem::FlagRed, 34,
 	(s16)udtItem::WeaponBFG, 16,
-	(s16)udtItem::WeaponChaingun, UNDEFINED,
 	(s16)udtItem::WeaponGauntlet, 8,
 	(s16)udtItem::WeaponGrapplingHook, 17,
 	(s16)udtItem::WeaponGrenadeLauncher, 11,
-	(s16)udtItem::WeaponHMG, UNDEFINED,
 	(s16)udtItem::WeaponLightningGun, 13,
 	(s16)udtItem::WeaponMachinegun, 10,
-	(s16)udtItem::WeaponNailgun, UNDEFINED,
 	(s16)udtItem::WeaponPlasmaGun, 15,
-	(s16)udtItem::WeaponProxLauncher, UNDEFINED,
 	(s16)udtItem::WeaponRailgun, 14,
 	(s16)udtItem::WeaponRocketLauncher, 12,
 	(s16)udtItem::WeaponShotgun, 9
@@ -1581,11 +1373,9 @@ static const s16 Items_73[udtItem::Count * 2] =
 	(s16)udtItem::AmmoBullets, 20,
 	(s16)udtItem::AmmoCells, 22,
 	(s16)udtItem::AmmoGrenades, 21,
-	(s16)udtItem::AmmoHMG, UNDEFINED,
 	(s16)udtItem::AmmoLightning, 23,
 	(s16)udtItem::AmmoMines, 41,
 	(s16)udtItem::AmmoNails, 40,
-	(s16)udtItem::AmmoPack, UNDEFINED,
 	(s16)udtItem::AmmoRockets, 24,
 	(s16)udtItem::AmmoShells, 19,
 	(s16)udtItem::AmmoSlugs, 25,
@@ -1599,7 +1389,6 @@ static const s16 Items_73[udtItem::Count * 2] =
 	(s16)udtItem::ItemArmorCombat, 2,
 	(s16)udtItem::ItemArmorJacket, 4,
 	(s16)udtItem::ItemArmorShard, 1,
-	(s16)udtItem::ItemBackpack, UNDEFINED,
 	(s16)udtItem::ItemBlueCube, 49,
 	(s16)udtItem::ItemDoubler, 45,
 	(s16)udtItem::ItemEnviro, 30,
@@ -1611,14 +1400,10 @@ static const s16 Items_73[udtItem::Count * 2] =
 	(s16)udtItem::ItemHealthMega, 8,
 	(s16)udtItem::ItemHealthSmall, 5,
 	(s16)udtItem::ItemInvis, 32,
-	(s16)udtItem::ItemKeyGold, UNDEFINED,
-	(s16)udtItem::ItemKeyMaster, UNDEFINED,
-	(s16)udtItem::ItemKeySilver, UNDEFINED,
 	(s16)udtItem::ItemQuad, 29,
 	(s16)udtItem::ItemRedCube, 48,
 	(s16)udtItem::ItemRegen, 33,
 	(s16)udtItem::ItemScout, 43,
-	(s16)udtItem::ItemSpawnArmor, UNDEFINED,
 	(s16)udtItem::FlagBlue, 36,
 	(s16)udtItem::FlagNeutral, 47,
 	(s16)udtItem::FlagRed, 35,
@@ -1627,7 +1412,6 @@ static const s16 Items_73[udtItem::Count * 2] =
 	(s16)udtItem::WeaponGauntlet, 9,
 	(s16)udtItem::WeaponGrapplingHook, 18,
 	(s16)udtItem::WeaponGrenadeLauncher, 12,
-	(s16)udtItem::WeaponHMG, UNDEFINED,
 	(s16)udtItem::WeaponLightningGun, 14,
 	(s16)udtItem::WeaponMachinegun, 11,
 	(s16)udtItem::WeaponNailgun, 50,
@@ -1666,7 +1450,6 @@ static const s16 Items_90p[udtItem::Count * 2] =
 	(s16)udtItem::ItemArmorCombat, 2,
 	(s16)udtItem::ItemArmorJacket, 4,
 	(s16)udtItem::ItemArmorShard, 1,
-	(s16)udtItem::ItemBackpack, UNDEFINED,
 	(s16)udtItem::ItemBlueCube, 49,
 	(s16)udtItem::ItemDoubler, 45,
 	(s16)udtItem::ItemEnviro, 30,
