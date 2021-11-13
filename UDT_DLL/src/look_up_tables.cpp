@@ -18,6 +18,410 @@
 	static_assert(sizeof(Table##_Q2U) == sizeof(s16) * Count * 2, #Table "_Q2U invalid")
 
 
+// @TODO: remove once processed
+struct WolfEV
+{
+	enum Id
+	{
+		XXX_EV_NONE,
+		EV_FOOTSTEP,
+		EV_FOOTSTEP_METAL,
+		EV_FOOTSTEP_WOOD,
+		EV_FOOTSTEP_GRASS,
+		EV_FOOTSTEP_GRAVEL,
+		EV_FOOTSTEP_ROOF,
+		EV_FOOTSTEP_SNOW,
+		EV_FOOTSTEP_CARPET,
+		EV_FOOTSPLASH,
+		EV_FOOTWADE,
+		EV_SWIM,
+		EV_STEP_4,
+		EV_STEP_8,
+		EV_STEP_12,
+		EV_STEP_16,
+		EV_FALL_SHORT,
+		EV_FALL_MEDIUM,
+		EV_FALL_FAR,
+		EV_FALL_NDIE,
+		EV_FALL_DMG_10,
+		EV_FALL_DMG_15,
+		EV_FALL_DMG_25,
+		EV_FALL_DMG_50,
+		EV_JUMP_PAD,            // boing sound at origin, jump sound on player
+		EV_JUMP,
+		EV_WATER_TOUCH, // foot touches
+		EV_WATER_LEAVE, // foot leaves
+		EV_WATER_UNDER, // head touches
+		EV_WATER_CLEAR, // head leaves
+		EV_ITEM_PICKUP,         // normal item pickups are predictable
+		EV_ITEM_PICKUP_QUIET,   // (SA) same, but don't play the default pickup sound as it was specified in the ent
+		EV_GLOBAL_ITEM_PICKUP,  // powerup / team sounds are broadcast to everyone
+		EV_NOITEM,
+		EV_NOAMMO,
+		EV_EMPTYCLIP,
+		EV_FILL_CLIP,
+		EV_MG42_FIXED, // JPW NERVE
+		EV_WEAP_OVERHEAT,
+		EV_CHANGE_WEAPON,
+		EV_FIRE_WEAPON,
+		EV_FIRE_WEAPONB,
+		EV_FIRE_WEAPON_LASTSHOT,
+		EV_FIRE_QUICKGREN,  // "Quickgrenade"
+		EV_NOFIRE_UNDERWATER,
+		EV_FIRE_WEAPON_MG42,
+		EV_USE_ITEM0,
+		EV_USE_ITEM1,
+		EV_USE_ITEM2,
+		EV_USE_ITEM3,
+		EV_USE_ITEM4,
+		EV_USE_ITEM5,
+		EV_USE_ITEM6,
+		EV_USE_ITEM7,
+		EV_USE_ITEM8,
+		EV_USE_ITEM9,
+		EV_USE_ITEM10,
+		EV_USE_ITEM11,
+		EV_USE_ITEM12,
+		EV_USE_ITEM13,
+		EV_USE_ITEM14,
+		EV_USE_ITEM15,
+		EV_ITEM_RESPAWN,
+		EV_ITEM_POP,
+		EV_PLAYER_TELEPORT_IN,
+		EV_PLAYER_TELEPORT_OUT,
+		EV_GRENADE_BOUNCE,      // eventParm will be the soundindex
+		EV_GENERAL_SOUND,
+		EV_GLOBAL_SOUND,        // no attenuation
+		EV_GLOBAL_CLIENT_SOUND, // DHM - Nerve :: no attenuation, only plays for specified client
+		// OSPx
+		EV_ANNOUNCER_SOUND,		// Deals with countdown // RtcwPro keep this last to avoid OSP demo errors
+		// -OSPx
+		EV_BULLET_HIT_FLESH,
+		EV_BULLET_HIT_WALL,
+		EV_MISSILE_HIT,
+		EV_MISSILE_MISS,
+		EV_RAILTRAIL,
+		EV_VENOM,
+		EV_VENOMFULL,
+		EV_BULLET,              // otherEntity is the shooter
+		EV_LOSE_HAT,            //----(SA)
+		EV_GIB_HEAD,            // only blow off the head
+		EV_PAIN,
+		EV_CROUCH_PAIN,
+		EV_DEATH1,
+		EV_DEATH2,
+		EV_DEATH3,
+		EV_OBITUARY,
+		EV_STOPSTREAMINGSOUND, // JPW NERVE swiped from sherman
+		EV_POWERUP_QUAD,
+		EV_POWERUP_BATTLESUIT,
+		EV_POWERUP_REGEN,
+		EV_GIB_PLAYER,          // gib a previously living player
+		EV_DEBUG_LINE,
+		EV_STOPLOOPINGSOUND,
+		EV_TAUNT,
+		EV_SMOKE,
+		EV_SPARKS,
+		EV_SPARKS_ELECTRIC,
+		EV_BATS,
+		EV_BATS_UPDATEPOSITION,
+		EV_BATS_DEATH,
+		EV_EXPLODE,     // func_explosive
+		EV_EFFECT,      // target_effect
+		EV_MORTAREFX,   // mortar firing
+		// JPW NERVE
+		EV_SPINUP,  // JPW NERVE panzerfaust preamble
+		EV_TESTID1, // new particle test
+		EV_TESTID2,
+		EV_ENDTEST,
+		// jpw
+		EV_SNOW_ON,
+		EV_SNOW_OFF,
+		EV_MISSILE_MISS_SMALL,
+		EV_MISSILE_MISS_LARGE,
+		EV_WOLFKICK_HIT_FLESH,
+		EV_WOLFKICK_HIT_WALL,
+		EV_WOLFKICK_MISS,
+		EV_SPIT_HIT,
+		EV_SPIT_MISS,
+		EV_SHARD,
+		EV_JUNK,
+		EV_EMITTER, //----(SA)	added // generic particle emitter that uses client-side particle scripts
+		EV_OILPARTICLES,
+		EV_OILSLICK,
+		EV_OILSLICKREMOVE,
+		EV_MG42EFX,
+		EV_FLAMEBARREL_BOUNCE,
+		EV_FLAKGUN1,
+		EV_FLAKGUN2,
+		EV_FLAKGUN3,
+		EV_FLAKGUN4,
+		EV_EXERT1,
+		EV_EXERT2,
+		EV_EXERT3,
+		EV_SNOWFLURRY,
+		EV_CONCUSSIVE,
+		EV_DUST,
+		EV_RUMBLE_EFX,
+		EV_GUNSPARKS,
+		EV_FLAMETHROWER_EFFECT,
+		EV_SNIPER_SOUND,
+		EV_POPUP,
+		EV_POPUPBOOK,
+		EV_GIVEPAGE,    //----(SA)	added
+		EV_MG42BULLET_HIT_FLESH,    // Arnout: these two send the seed as well
+		EV_MG42BULLET_HIT_WALL,
+		EV_MAX_EVENTS   // just added as an 'endcap'
+	};
+};
+
+// @TODO: remove once processed
+struct WolfET
+{
+	enum Id
+	{
+		ET_GENERAL,
+		ET_PLAYER,
+		ET_ITEM,
+		ET_MISSILE,
+		ET_MOVER,
+		ET_BEAM,
+		ET_PORTAL,
+		ET_SPEAKER,
+		ET_PUSH_TRIGGER,
+		ET_TELEPORT_TRIGGER,
+		ET_INVISIBLE,
+		ET_GRAPPLE,             // grapple hooked on wall
+		ET_CONCUSSIVE_TRIGGER,  // JPW NERVE trigger for concussive dust particles
+		ET_OID_TRIGGER,         // DHM - Nerve :: Objective Info Display
+		ET_EXPLOSIVE_INDICATOR, // NERVE - SMF
+
+		//---- (SA) Wolf
+		ET_EXPLOSIVE,           // brush that will break into smaller bits when damaged
+		ET_EF_TESLA,
+		ET_EF_SPOTLIGHT,
+		ET_EFFECT3,
+		ET_ALARMBOX,
+		ET_CORONA,
+		ET_TRAP,
+
+		ET_GAMEMODEL,           // misc_gamemodel.  similar to misc_model, but it's a dynamic model so we have LOD
+		ET_FOOTLOCKER,  //----(SA)	added
+		//---- end
+
+		ET_FLAMEBARREL,
+		ET_FP_PARTS,
+
+		// FIRE PROPS
+		ET_FIRE_COLUMN,
+		ET_FIRE_COLUMN_SMOKE,
+		ET_RAMJET,
+
+		ET_FLAMETHROWER_CHUNK,      // DHM - NERVE :: Used in server side collision detection for flamethrower
+
+		ET_EXPLO_PART,
+
+		ET_PROP,
+		ET_BAT,
+
+		ET_AI_EFFECT,
+
+		ET_CAMERA,
+		ET_MOVERSCALED,
+
+		ET_CORPSE,              // Arnout: dead player
+		ET_SMOKER,              // Arnout: target_smoke entity
+
+		ET_TEMPHEAD,            // Gordon: temporary head for clients for bullet traces
+
+		ET_MG42_BARREL,         // Arnout: MG42 barrel
+
+		ET_EVENTS               // any of the EV_* events can be added freestanding
+		// by setting eType to ET_EVENTS + eventNum
+		// this avoids having to set eFlags and eventNum
+	};
+};
+
+// @TODO: remove once processed
+struct WolfWP
+{
+	enum Id
+	{
+		WP_NONE,                // 0
+
+		WP_KNIFE,               // 1
+		// German weapons
+		WP_LUGER,               // 2
+		WP_MP40,                // 3
+		WP_MAUSER,              // 4
+		WP_FG42,                // 5
+		WP_GRENADE_LAUNCHER,    // 6
+		WP_PANZERFAUST,         // 7
+		WP_VENOM,               // 8
+		WP_FLAMETHROWER,        // 9
+		WP_TESLA,               // 10
+		WP_SPEARGUN,            // 11
+
+		// weapon keys only go 1-0, so put the alternates above that (since selection will be a double click on the german weapon key)
+
+		// American equivalents
+		WP_KNIFE2,              // 12
+		WP_COLT,                // 13	equivalent american weapon to german luger
+		WP_THOMPSON,            // 14	equivalent american weapon to german mp40
+		WP_GARAND,              // 15	equivalent american weapon to german mauser
+		WP_BAR,                 // 16	equivalent american weapon to german fg42
+		WP_GRENADE_PINEAPPLE,   // 17
+		WP_ROCKET_LAUNCHER,     // 18	equivalent american weapon to german panzerfaust
+
+		// secondary fire weapons
+		WP_SNIPERRIFLE,         // 19
+		WP_SNOOPERSCOPE,        // 20
+		WP_VENOM_FULL,          // 21
+		WP_SPEARGUN_CO2,        // 22
+		WP_FG42SCOPE,           // 23	fg42 alt fire
+		WP_BAR2,                // 24
+
+		// more weapons
+		WP_STEN,                // 25	silenced sten sub-machinegun
+		WP_MEDIC_SYRINGE,       // 26	// JPW NERVE -- broken out from CLASS_SPECIAL per Id request
+		WP_AMMO,                // 27	// JPW NERVE likewise
+		WP_ARTY,                // 28
+		WP_SILENCER,            // 29	// used to be sp5
+		WP_AKIMBO,              // 30	//----(SA)	added
+
+		// jpw
+		WP_CROSS,               // 31
+		WP_DYNAMITE,            // 32
+		WP_DYNAMITE2,           // 33
+		WP_PROX,                // 34
+
+		WP_MONSTER_ATTACK1,     // 35	// generic monster attack, slot 1
+		WP_MONSTER_ATTACK2,     // 36	// generic monster attack, slot 2
+		WP_MONSTER_ATTACK3,     // 37	// generic monster attack, slot 2
+
+		WP_SMOKETRAIL,          // 38
+
+		WP_GAUNTLET,            // 39
+
+		WP_SNIPER,              // 40
+		WP_MORTAR,              // 41
+		VERYBIGEXPLOSION,       // 42	// explosion effect for airplanes
+
+		// NERVE - SMF - special weapons are here now
+		WP_MEDKIT,              // 43
+		WP_PLIERS,              // 44
+		WP_SMOKE_GRENADE,       // 45
+		// -NERVE - SMF
+		WP_BINOCULARS,          // 46
+
+		WP_NUM_WEAPONS          // 47   NOTE: this cannot be larger than 64 for AI/player weapons!
+	};
+};
+
+// @TODO: remove once processed
+struct WolfMOD
+{
+	enum Id
+	{
+		MOD_UNKNOWN,
+		MOD_SHOTGUN,
+		MOD_GAUNTLET,
+		MOD_MACHINEGUN,
+		MOD_GRENADE,
+		MOD_GRENADE_SPLASH,
+		MOD_ROCKET,
+		MOD_ROCKET_SPLASH,
+		MOD_RAILGUN,
+		MOD_LIGHTNING,
+		MOD_BFG,
+		MOD_BFG_SPLASH,
+
+		// (SA) modified wolf weap mods
+		MOD_KNIFE,
+		MOD_KNIFE2,
+		MOD_KNIFE_STEALTH,
+		MOD_LUGER,
+		MOD_COLT,
+		MOD_MP40,
+		MOD_THOMPSON,
+		MOD_STEN,
+		MOD_MAUSER,
+		MOD_SNIPERRIFLE,
+		MOD_GARAND,
+		MOD_SNOOPERSCOPE,
+		MOD_SILENCER,   //----(SA)
+		MOD_AKIMBO,     //----(SA)
+		MOD_BAR,    //----(SA)
+		MOD_FG42,
+		MOD_FG42SCOPE,
+		MOD_PANZERFAUST,
+		MOD_ROCKET_LAUNCHER,
+		MOD_GRENADE_LAUNCHER,
+		MOD_VENOM,
+		MOD_VENOM_FULL,
+		MOD_FLAMETHROWER,
+		MOD_TESLA,
+		MOD_SPEARGUN,
+		MOD_SPEARGUN_CO2,
+		MOD_GRENADE_PINEAPPLE,
+		MOD_CROSS,
+		// end
+
+		MOD_MORTAR,
+		MOD_MORTAR_SPLASH,
+
+		MOD_KICKED,
+		MOD_GRABBER,
+
+		MOD_DYNAMITE,
+		MOD_DYNAMITE_SPLASH,
+		MOD_AIRSTRIKE, // JPW NERVE
+		MOD_SYRINGE,    // JPW NERVE
+		MOD_AMMO,   // JPW NERVE
+		MOD_ARTY,   // JPW NERVE
+
+		MOD_WATER,
+		MOD_SLIME,
+		MOD_LAVA,
+		MOD_CRUSH,
+		MOD_TELEFRAG,
+		MOD_FALLING,
+		MOD_SUICIDE,
+		MOD_TARGET_LASER,
+		MOD_TRIGGER_HURT,
+		MOD_GRAPPLE,
+		MOD_EXPLOSIVE,
+		MOD_POISONGAS,
+
+		// RF, AI attacks
+		MOD_ZOMBIESPIT,
+		MOD_ZOMBIESPIT_SPLASH,
+		MOD_ZOMBIESPIRIT,
+		MOD_ZOMBIESPIRIT_SPLASH,
+
+		MOD_LOPER_LEAP,
+		MOD_LOPER_GROUND,
+		MOD_LOPER_HIT,
+
+		// JPW NERVE multiplayer class-specific MODs
+		MOD_LT_AMMO,
+		MOD_LT_AIRSTRIKE,
+		MOD_ENGINEER,   // not sure if we'll use
+		MOD_MEDIC,      // these like this or not
+		//
+		MOD_BAT,
+
+		// OSPx
+		MOD_ADMKILL,
+		MOD_SELFKILL,
+		MOD_ARTILLERY,
+		MOD_SWITCHTEAM,
+		MOD_NUM_MODS
+		// -OSPx
+	};
+};
+
+
 static s16 PowerUps_3_90_U2Q[udtPowerUpIndex::Count];
 static s16 PowerUps_3_90_Q2U[udtPowerUpIndex::Count * 2];
 static const s16 PowerUps_3_90[udtPowerUpIndex::Count * 2] =
