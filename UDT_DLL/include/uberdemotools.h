@@ -351,7 +351,8 @@ struct udtPowerUpMask
 	N(Artillery, "artillery support", 61) \
 	N(Explosive, "explosive", 62) \
 	N(Syringe, "syring", 63) \
-	N(PoisonGas, "poison gas", 64)
+	N(PoisonGas, "poison gas", 64) \
+	N(GrenadeLauncher, "grenade", 65)
 
 #define UDT_MEAN_OF_DEATH_ITEM(Enum, Desc, Bit) Enum = Bit,
 struct udtMeanOfDeath
