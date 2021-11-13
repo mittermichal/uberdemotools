@@ -5,15 +5,17 @@
 #include <string.h>
 
 
-#define UNDEFINED UDT_S16_MIN
+#define TABLE_END UDT_S16_MIN
 
 #define TABLE_ENTRY(Table) Table, Table##_U2Q, Table##_Q2U
 
 #define VALIDATE_TABLE_SIZE(Table) \
 	static_assert(sizeof(Table) == sizeof(const s16*) * udtProtocol::Count * 3, #Table " invalid")
 
+// can't validate the last table entry at compile time... *sigh*
+// static_assert(Table[(sizeof(Table) / sizeof(Table[0])) - 1] == END_OF_LIST, #Table " invalid");
+// maybe constexpr can help, but my compiler doesn't handle it
 #define VALIDATE_TABLE_SIZES(Table, Count) \
-	static_assert(sizeof(Table) == sizeof(s16) * Count * 2, #Table " invalid"); \
 	static_assert(sizeof(Table##_U2Q) == sizeof(s16) * Count, #Table "_U2Q invalid"); \
 	static_assert(sizeof(Table##_Q2U) == sizeof(s16) * Count * 2, #Table "_Q2U invalid")
 
@@ -424,7 +426,7 @@ struct WolfMOD
 
 static s16 PowerUps_3_90_U2Q[udtPowerUpIndex::Count];
 static s16 PowerUps_3_90_Q2U[udtPowerUpIndex::Count * 2];
-static const s16 PowerUps_3_90[udtPowerUpIndex::Count * 2] =
+static const s16 PowerUps_3_90[] =
 {
 	(s16)udtPowerUpIndex::QuadDamage, 1,
 	(s16)udtPowerUpIndex::BattleSuit, 2,
@@ -433,13 +435,14 @@ static const s16 PowerUps_3_90[udtPowerUpIndex::Count * 2] =
 	(s16)udtPowerUpIndex::Regeneration, 5,
 	(s16)udtPowerUpIndex::Flight, 6,
 	(s16)udtPowerUpIndex::RedFlag, 7,
-	(s16)udtPowerUpIndex::BlueFlag, 8
+	(s16)udtPowerUpIndex::BlueFlag, 8,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(PowerUps_3_90, udtPowerUpIndex::Count);
 
 static s16 PowerUps_91_U2Q[udtPowerUpIndex::Count];
 static s16 PowerUps_91_Q2U[udtPowerUpIndex::Count * 2];
-static const s16 PowerUps_91[udtPowerUpIndex::Count * 2] =
+static const s16 PowerUps_91[] =
 {
 	(s16)udtPowerUpIndex::QuadDamage, 5,
 	(s16)udtPowerUpIndex::BattleSuit, 6,
@@ -454,7 +457,8 @@ static const s16 PowerUps_91[udtPowerUpIndex::Count * 2] =
 	(s16)udtPowerUpIndex::Guard, 13,
 	(s16)udtPowerUpIndex::Doubler, 14,
 	(s16)udtPowerUpIndex::ArmorRegeneration, 15,
-	(s16)udtPowerUpIndex::Invulnerability, 11
+	(s16)udtPowerUpIndex::Invulnerability, 11,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(PowerUps_91, udtPowerUpIndex::Count);
 
@@ -474,25 +478,27 @@ VALIDATE_TABLE_SIZE(PowerUpTables);
 
 static s16 LifeStats_3_68_U2Q[udtLifeStatsIndex::Count];
 static s16 LifeStats_3_68_Q2U[udtLifeStatsIndex::Count * 2];
-static const s16 LifeStats_3_68[udtLifeStatsIndex::Count * 2] =
+static const s16 LifeStats_3_68[] =
 {
 	(s16)udtLifeStatsIndex::Health, 0,
 	(s16)udtLifeStatsIndex::HoldableItem, 1,
 	(s16)udtLifeStatsIndex::Weapons, 2,
 	(s16)udtLifeStatsIndex::Armor, 3,
-	(s16)udtLifeStatsIndex::MaxHealth, 6
+	(s16)udtLifeStatsIndex::MaxHealth, 6,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(LifeStats_3_68, udtLifeStatsIndex::Count);
 
 static s16 LifeStats_73p_U2Q[udtLifeStatsIndex::Count];
 static s16 LifeStats_73p_Q2U[udtLifeStatsIndex::Count * 2];
-static const s16 LifeStats_73p[udtLifeStatsIndex::Count * 2] =
+static const s16 LifeStats_73p[] =
 {
 	(s16)udtLifeStatsIndex::Health, 0,
 	(s16)udtLifeStatsIndex::HoldableItem, 1,
 	(s16)udtLifeStatsIndex::Weapons, 3,
 	(s16)udtLifeStatsIndex::Armor, 4,
-	(s16)udtLifeStatsIndex::MaxHealth, 7
+	(s16)udtLifeStatsIndex::MaxHealth, 7,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(LifeStats_73p, udtLifeStatsIndex::Count);
 
@@ -512,7 +518,7 @@ VALIDATE_TABLE_SIZE(LifeStatsTables);
 
 static s16 PersStats_3_U2Q[udtPersStatsIndex::Count];
 static s16 PersStats_3_Q2U[udtPersStatsIndex::Count * 2];
-static const s16 PersStats_3[udtPersStatsIndex::Count * 2] =
+static const s16 PersStats_3[] =
 {
 	(s16)udtPersStatsIndex::Score, 0,
 	(s16)udtPersStatsIndex::DamageGiven, 1,
@@ -523,13 +529,14 @@ static const s16 PersStats_3[udtPersStatsIndex::Count * 2] =
 	(s16)udtPersStatsIndex::Deaths, 8,
 	(s16)udtPersStatsIndex::Impressives, 9,
 	(s16)udtPersStatsIndex::Excellents, 10,
-	(s16)udtPersStatsIndex::Humiliations, 11
+	(s16)udtPersStatsIndex::Humiliations, 11,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(PersStats_3, udtPersStatsIndex::Count);
 
 static s16 PersStats_48_68_U2Q[udtPersStatsIndex::Count];
 static s16 PersStats_48_68_Q2U[udtPersStatsIndex::Count * 2];
-static const s16 PersStats_48_68[udtPersStatsIndex::Count * 2] =
+static const s16 PersStats_48_68[] =
 {
 	(s16)udtPersStatsIndex::FlagCaptures, 14,
 	(s16)udtPersStatsIndex::Score, 0,
@@ -544,13 +551,14 @@ static const s16 PersStats_48_68[udtPersStatsIndex::Count * 2] =
 	(s16)udtPersStatsIndex::Excellents, 10,
 	(s16)udtPersStatsIndex::Defends, 11,
 	(s16)udtPersStatsIndex::Assists, 12,
-	(s16)udtPersStatsIndex::Humiliations, 13
+	(s16)udtPersStatsIndex::Humiliations, 13,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(PersStats_48_68, udtPersStatsIndex::Count);
 
 static s16 PersStats_73p_U2Q[udtPersStatsIndex::Count];
 static s16 PersStats_73p_Q2U[udtPersStatsIndex::Count * 2];
-static const s16 PersStats_73p[udtPersStatsIndex::Count * 2] =
+static const s16 PersStats_73p[] =
 {
 	(s16)udtPersStatsIndex::FlagCaptures, 13,
 	(s16)udtPersStatsIndex::Score, 0,
@@ -565,7 +573,8 @@ static const s16 PersStats_73p[udtPersStatsIndex::Count * 2] =
 	(s16)udtPersStatsIndex::Excellents, 9,
 	(s16)udtPersStatsIndex::Defends, 10,
 	(s16)udtPersStatsIndex::Assists, 11,
-	(s16)udtPersStatsIndex::Humiliations, 12
+	(s16)udtPersStatsIndex::Humiliations, 12,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(PersStats_73p, udtPersStatsIndex::Count);
 
@@ -585,7 +594,7 @@ VALIDATE_TABLE_SIZE(PersStatsTables);
 
 static s16 EntityTypes_3_U2Q[udtEntityType::Count];
 static s16 EntityTypes_3_Q2U[udtEntityType::Count * 2];
-static const s16 EntityTypes_3[udtEntityType::Count * 2] =
+static const s16 EntityTypes_3[] =
 {
 	(s16)udtEntityType::Event, 12,
 	(s16)udtEntityType::General, 0,
@@ -599,13 +608,14 @@ static const s16 EntityTypes_3[udtEntityType::Count * 2] =
 	(s16)udtEntityType::PushTrigger, 8,
 	(s16)udtEntityType::TeleportTrigger, 9,
 	(s16)udtEntityType::Invisible, 10,
-	(s16)udtEntityType::Grapple, 11
+	(s16)udtEntityType::Grapple, 11,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(EntityTypes_3, udtEntityType::Count);
 
 static s16 EntityTypes_48p_U2Q[udtEntityType::Count];
 static s16 EntityTypes_48p_Q2U[udtEntityType::Count * 2];
-static const s16 EntityTypes_48p[udtEntityType::Count * 2] =
+static const s16 EntityTypes_48p[] =
 {
 	(s16)udtEntityType::Event, 13,
 	(s16)udtEntityType::General, 0,
@@ -620,14 +630,15 @@ static const s16 EntityTypes_48p[udtEntityType::Count * 2] =
 	(s16)udtEntityType::TeleportTrigger, 9,
 	(s16)udtEntityType::Invisible, 10,
 	(s16)udtEntityType::Grapple, 11,
-	(s16)udtEntityType::Team, 12
+	(s16)udtEntityType::Team, 12,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(EntityTypes_48p, udtEntityType::Count);
 
 #if 0 // ET
 static s16 EntityTypes_84_U2Q[udtEntityType::Count];
 static s16 EntityTypes_84_Q2U[udtEntityType::Count * 2];
-static const s16 EntityTypes_84[udtEntityType::Count * 2] =
+static const s16 EntityTypes_84[] =
 {
 	(s16)udtEntityType::Event, 61,
 	(s16)udtEntityType::General, 0,
@@ -642,14 +653,15 @@ static const s16 EntityTypes_84[udtEntityType::Count * 2] =
 	(s16)udtEntityType::TeleportTrigger, 9,
 	(s16)udtEntityType::Invisible, 10,
 	(s16)udtEntityType::Grapple, 11,
-	(s16)udtEntityType::Team, 12
+	(s16)udtEntityType::Team, 12,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(EntityTypes_84, udtEntityType::Count);
 #endif
 
 static s16 EntityTypes_60_U2Q[udtEntityType::Count];
 static s16 EntityTypes_60_Q2U[udtEntityType::Count * 2];
-static const s16 EntityTypes_60[udtEntityType::Count * 2] =
+static const s16 EntityTypes_60[] =
 {
 	(s16)udtEntityType::Event, 40,
 	(s16)udtEntityType::General, 0,
@@ -663,7 +675,8 @@ static const s16 EntityTypes_60[udtEntityType::Count * 2] =
 	(s16)udtEntityType::PushTrigger, 8,
 	(s16)udtEntityType::TeleportTrigger, 9,
 	(s16)udtEntityType::Invisible, 10,
-	(s16)udtEntityType::Grapple, 11
+	(s16)udtEntityType::Grapple, 11,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(EntityTypes_48p, udtEntityType::Count);
 
@@ -683,7 +696,7 @@ VALIDATE_TABLE_SIZE(EntityTypeTables);
 
 static s16 EntityFlagBits_3_U2Q[udtEntityFlag::Count];
 static s16 EntityFlagBits_3_Q2U[udtEntityFlag::Count * 2];
-static const s16 EntityFlagBits_3[udtEntityFlag::Count * 2] =
+static const s16 EntityFlagBits_3[] =
 {
 	(s16)udtEntityFlag::Dead, 0,
 	(s16)udtEntityFlag::TeleportBit, 2,
@@ -695,13 +708,14 @@ static const s16 EntityFlagBits_3[udtEntityFlag::Count * 2] =
 	(s16)udtEntityFlag::Chatting, 12,
 	(s16)udtEntityFlag::ConnectionInterrupted, 13,
 	(s16)udtEntityFlag::HasVoted, 14,
-	(s16)udtEntityFlag::AwardImpressive, 15
+	(s16)udtEntityFlag::AwardImpressive, 15,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(EntityFlagBits_3, udtEntityFlag::Count);
 
 static s16 EntityFlagBits_48_U2Q[udtEntityFlag::Count];
 static s16 EntityFlagBits_48_Q2U[udtEntityFlag::Count * 2];
-static const s16 EntityFlagBits_48[udtEntityFlag::Count * 2] =
+static const s16 EntityFlagBits_48[] =
 {
 	(s16)udtEntityFlag::Dead, 0,
 	(s16)udtEntityFlag::TeleportBit, 2,
@@ -717,13 +731,14 @@ static const s16 EntityFlagBits_48[udtEntityFlag::Count * 2] =
 	(s16)udtEntityFlag::AwardDefense, 16,
 	(s16)udtEntityFlag::AwardAssist, 17,
 	(s16)udtEntityFlag::AwardDenied, 18,
-	(s16)udtEntityFlag::HasTeamVoted, 19
+	(s16)udtEntityFlag::HasTeamVoted, 19,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(EntityFlagBits_48, udtEntityFlag::Count);
 
 static s16 EntityFlagBits_66_90_U2Q[udtEntityFlag::Count];
 static s16 EntityFlagBits_66_90_Q2U[udtEntityFlag::Count * 2];
-static const s16 EntityFlagBits_66_90[udtEntityFlag::Count * 2] =
+static const s16 EntityFlagBits_66_90[] =
 {
 	(s16)udtEntityFlag::Dead, 0,
 	(s16)udtEntityFlag::TeleportBit, 2,
@@ -740,13 +755,14 @@ static const s16 EntityFlagBits_66_90[udtEntityFlag::Count * 2] =
 	(s16)udtEntityFlag::AwardDefense, 16,
 	(s16)udtEntityFlag::AwardAssist, 17,
 	(s16)udtEntityFlag::AwardDenied, 18,
-	(s16)udtEntityFlag::HasTeamVoted, 19
+	(s16)udtEntityFlag::HasTeamVoted, 19,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(EntityFlagBits_66_90, udtEntityFlag::Count);
 
 static s16 EntityFlagBits_91_U2Q[udtEntityFlag::Count];
 static s16 EntityFlagBits_91_Q2U[udtEntityFlag::Count * 2];
-static const s16 EntityFlagBits_91[udtEntityFlag::Count * 2] =
+static const s16 EntityFlagBits_91[] =
 {
 	(s16)udtEntityFlag::Dead, 0,
 	(s16)udtEntityFlag::TeleportBit, 2,
@@ -762,7 +778,8 @@ static const s16 EntityFlagBits_91[udtEntityFlag::Count * 2] =
 	(s16)udtEntityFlag::AwardDefense, 16,
 	(s16)udtEntityFlag::AwardAssist, 17,
 	(s16)udtEntityFlag::AwardDenied, 18,
-	(s16)udtEntityFlag::Spectator, 14
+	(s16)udtEntityFlag::Spectator, 14,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(EntityFlagBits_91, udtEntityFlag::Count);
 
@@ -782,7 +799,7 @@ VALIDATE_TABLE_SIZE(EntityFlagBitTables);
 
 static s16 EntityEvents_3_U2Q[udtEntityEvent::Count];
 static s16 EntityEvents_3_Q2U[udtEntityEvent::Count * 2];
-static const s16 EntityEvents_3[udtEntityEvent::Count * 2] =
+static const s16 EntityEvents_3[] =
 {
 	(s16)udtEntityEvent::Obituary, 58,
 	(s16)udtEntityEvent::WeaponFired, 23,
@@ -800,13 +817,14 @@ static const s16 EntityEvents_3[udtEntityEvent::Count * 2] =
 	(s16)udtEntityEvent::RailTrail, 51,
 	(s16)udtEntityEvent::PowerUpQuad, 59,
 	(s16)udtEntityEvent::PowerUpBattleSuit, 60,
-	(s16)udtEntityEvent::PowerUpRegen, 61
+	(s16)udtEntityEvent::PowerUpRegen, 61,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(EntityEvents_3, udtEntityEvent::Count);
 
 static s16 EntityEvents_48_68_U2Q[udtEntityEvent::Count];
 static s16 EntityEvents_48_68_Q2U[udtEntityEvent::Count * 2];
-static const s16 EntityEvents_48_68[udtEntityEvent::Count * 2] =
+static const s16 EntityEvents_48_68[] =
 {
 	(s16)udtEntityEvent::Obituary, 60,
 	(s16)udtEntityEvent::WeaponFired, 23,
@@ -826,13 +844,14 @@ static const s16 EntityEvents_48_68[udtEntityEvent::Count * 2] =
 	(s16)udtEntityEvent::RailTrail, 53,
 	(s16)udtEntityEvent::PowerUpQuad, 61,
 	(s16)udtEntityEvent::PowerUpBattleSuit, 62,
-	(s16)udtEntityEvent::PowerUpRegen, 63
+	(s16)udtEntityEvent::PowerUpRegen, 63,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(EntityEvents_48_68, udtEntityEvent::Count);
 
 static s16 EntityEvents_73p_U2Q[udtEntityEvent::Count];
 static s16 EntityEvents_73p_Q2U[udtEntityEvent::Count * 2];
-static const s16 EntityEvents_73p[udtEntityEvent::Count * 2] =
+static const s16 EntityEvents_73p[] =
 {
 	(s16)udtEntityEvent::Obituary, 58,
 	(s16)udtEntityEvent::WeaponFired, 20,
@@ -854,24 +873,26 @@ static const s16 EntityEvents_73p[udtEntityEvent::Count * 2] =
 	(s16)udtEntityEvent::PowerUpBattleSuit, 60,
 	(s16)udtEntityEvent::PowerUpRegen, 61,
 	(s16)udtEntityEvent::QL_Overtime, 84,
-	(s16)udtEntityEvent::QL_GameOver, 85
+	(s16)udtEntityEvent::QL_GameOver, 85,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(EntityEvents_73p, udtEntityEvent::Count);
 
 #if 0 // ET
 static s16 EntityEvents_84_U2Q[udtEntityEvent::Count];
 static s16 EntityEvents_84_Q2U[udtEntityEvent::Count * 2];
-static const s16 EntityEvents_84[udtEntityEvent::Count * 2] =
+static const s16 EntityEvents_84[] =
 {
 	(s16)udtEntityEvent::Obituary, 70,
-	(s16)udtEntityEvent::BulletHitFlesh, 57
+	(s16)udtEntityEvent::BulletHitFlesh, 57,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(EntityEvents_84, udtEntityEvent::Count);
 #endif
 
 static s16 EntityEvents_60_U2Q[udtEntityEvent::Count];
 static s16 EntityEvents_60_Q2U[udtEntityEvent::Count * 2];
-static const s16 EntityEvents_60[udtEntityEvent::Count * 2] =
+static const s16 EntityEvents_60[] =
 {
 	(s16)udtEntityEvent::Obituary, 86,
 	(s16)udtEntityEvent::WeaponFired, 40,
@@ -889,7 +910,8 @@ static const s16 EntityEvents_60[udtEntityEvent::Count * 2] =
 	(s16)udtEntityEvent::RailTrail, 75,
 	(s16)udtEntityEvent::PowerUpQuad, 88,
 	(s16)udtEntityEvent::PowerUpBattleSuit, 89,
-	(s16)udtEntityEvent::PowerUpRegen, 90
+	(s16)udtEntityEvent::PowerUpRegen, 90,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(EntityEvents_3, udtEntityEvent::Count);
 
@@ -909,7 +931,7 @@ VALIDATE_TABLE_SIZE(EntityEventTables);
 
 static s16 ConfigStringIndices_3_U2Q[udtConfigStringIndex::Count];
 static s16 ConfigStringIndices_3_Q2U[udtConfigStringIndex::Count * 2];
-static const s16 ConfigStringIndices_3[udtConfigStringIndex::Count * 2] =
+static const s16 ConfigStringIndices_3[] =
 {
 	(s16)udtConfigStringIndex::FirstPlayer, 544,
 	(s16)udtConfigStringIndex::Intermission, 14,
@@ -934,13 +956,14 @@ static const s16 ConfigStringIndices_3[udtConfigStringIndex::Count * 2] =
 	(s16)udtConfigStringIndex::QL_BlueTeamClanTag, 696,
 	(s16)udtConfigStringIndex::CPMA_GameInfo, 672,
 	(s16)udtConfigStringIndex::CPMA_RoundInfo, 710,
-	(s16)udtConfigStringIndex::OSP_GamePlay, 806
+	(s16)udtConfigStringIndex::OSP_GamePlay, 806,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(ConfigStringIndices_3, udtConfigStringIndex::Count);
 
 static s16 ConfigStringIndices_48_68_U2Q[udtConfigStringIndex::Count];
 static s16 ConfigStringIndices_48_68_Q2U[udtConfigStringIndex::Count * 2];
-static const s16 ConfigStringIndices_48_68[udtConfigStringIndex::Count * 2] =
+static const s16 ConfigStringIndices_48_68[] =
 {
 	(s16)udtConfigStringIndex::FirstPlayer, 544,
 	(s16)udtConfigStringIndex::Intermission, 22,
@@ -969,13 +992,14 @@ static const s16 ConfigStringIndices_48_68[udtConfigStringIndex::Count * 2] =
 	(s16)udtConfigStringIndex::QL_BlueTeamClanTag, 696,
 	(s16)udtConfigStringIndex::CPMA_GameInfo, 672,
 	(s16)udtConfigStringIndex::CPMA_RoundInfo, 710,
-	(s16)udtConfigStringIndex::OSP_GamePlay, 806
+	(s16)udtConfigStringIndex::OSP_GamePlay, 806,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(ConfigStringIndices_48_68, udtConfigStringIndex::Count);
 
 static s16 ConfigStringIndices_73_90_U2Q[udtConfigStringIndex::Count];
 static s16 ConfigStringIndices_73_90_Q2U[udtConfigStringIndex::Count * 2];
-static const s16 ConfigStringIndices_73_90[udtConfigStringIndex::Count * 2] =
+static const s16 ConfigStringIndices_73_90[] =
 {
 	(s16)udtConfigStringIndex::FirstPlayer, 529,
 	(s16)udtConfigStringIndex::Intermission, 14,
@@ -999,14 +1023,15 @@ static const s16 ConfigStringIndices_73_90[udtConfigStringIndex::Count * 2] =
 	(s16)udtConfigStringIndex::QL_ReadTeamClanName, 693,
 	(s16)udtConfigStringIndex::QL_BlueTeamClanName, 694,
 	(s16)udtConfigStringIndex::QL_RedTeamClanTag, 695,
-	(s16)udtConfigStringIndex::QL_BlueTeamClanTag, 696
+	(s16)udtConfigStringIndex::QL_BlueTeamClanTag, 696,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(ConfigStringIndices_73_90, udtConfigStringIndex::Count);
 
 #if 0 // ET
 static s16 ConfigStringIndices_84_U2Q[udtConfigStringIndex::Count];
 static s16 ConfigStringIndices_84_Q2U[udtConfigStringIndex::Count * 2];
-static const s16 ConfigStringIndices_84[udtConfigStringIndex::Count * 2] =
+static const s16 ConfigStringIndices_84[] =
 {
 	(s16)udtConfigStringIndex::FirstPlayer, 689,
 	(s16)udtConfigStringIndex::Intermission, 12,
@@ -1014,14 +1039,15 @@ static const s16 ConfigStringIndices_84[udtConfigStringIndex::Count * 2] =
 	(s16)udtConfigStringIndex::WarmUpEndTime, 5,
 	(s16)udtConfigStringIndex::ServerInfo, 0,
 	(s16)udtConfigStringIndex::SystemInfo, 1,
-	(s16)udtConfigStringIndex::GameVersion, 10
+	(s16)udtConfigStringIndex::GameVersion, 10,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(ConfigStringIndices_84, udtConfigStringIndex::Count);
 #endif
 
 static s16 ConfigStringIndices_91_U2Q[udtConfigStringIndex::Count];
 static s16 ConfigStringIndices_91_Q2U[udtConfigStringIndex::Count * 2];
-static const s16 ConfigStringIndices_91[udtConfigStringIndex::Count * 2] =
+static const s16 ConfigStringIndices_91[] =
 {
 	(s16)udtConfigStringIndex::FirstPlayer, 529,
 	(s16)udtConfigStringIndex::Intermission, 14,
@@ -1043,13 +1069,14 @@ static const s16 ConfigStringIndices_91[udtConfigStringIndex::Count * 2] =
 	(s16)udtConfigStringIndex::GameVersion, 12,
 	(s16)udtConfigStringIndex::ItemFlags, 15,
 	(s16)udtConfigStringIndex::QL_RedTeamTimeoutsLeft, 671,
-	(s16)udtConfigStringIndex::QL_BlueTeamTimeoutsLeft, 672
+	(s16)udtConfigStringIndex::QL_BlueTeamTimeoutsLeft, 672,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(ConfigStringIndices_91, udtConfigStringIndex::Count);
 
 static s16 ConfigStringIndices_60_U2Q[udtConfigStringIndex::Count];
 static s16 ConfigStringIndices_60_Q2U[udtConfigStringIndex::Count * 2];
-static const s16 ConfigStringIndices_60[udtConfigStringIndex::Count * 2] =
+static const s16 ConfigStringIndices_60[] =
 {
 	(s16)udtConfigStringIndex::FirstPlayer, 576,
 	(s16)udtConfigStringIndex::Intermission, 14,
@@ -1062,7 +1089,8 @@ static const s16 ConfigStringIndices_60[udtConfigStringIndex::Count * 2] =
 	(s16)udtConfigStringIndex::VoteTime, 8,
 	(s16)udtConfigStringIndex::VoteString, 9,
 	(s16)udtConfigStringIndex::VoteYes, 10,
-	(s16)udtConfigStringIndex::VoteNo, 11
+	(s16)udtConfigStringIndex::VoteNo, 11,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(ConfigStringIndices_60, udtConfigStringIndex::Count);
 
@@ -1082,12 +1110,13 @@ VALIDATE_TABLE_SIZE(ConfigStringIndexTables);
 
 static s16 Teams_U2Q[udtTeam::Count];
 static s16 Teams_Q2U[udtTeam::Count * 2];
-static const s16 Teams[udtTeam::Count * 2] =
+static const s16 Teams[] =
 {
 	(s16)udtTeam::Free, 0,
 	(s16)udtTeam::Red, 1,
 	(s16)udtTeam::Blue, 2,
-	(s16)udtTeam::Spectators, 3
+	(s16)udtTeam::Spectators, 3,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(Teams, udtTeam::Count);
 
@@ -1107,18 +1136,19 @@ VALIDATE_TABLE_SIZE(TeamTables);
 
 static s16 GameTypes_3_U2Q[udtGameType::Count];
 static s16 GameTypes_3_Q2U[udtGameType::Count * 2];
-static const s16 GameTypes_3[udtGameType::Count * 2] =
+static const s16 GameTypes_3[] =
 {
 	(s16)udtGameType::FFA, 0,
 	(s16)udtGameType::Duel, 1,
 	(s16)udtGameType::TDM, 3,
-	(s16)udtGameType::CTF, 4
+	(s16)udtGameType::CTF, 4,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(GameTypes_3, udtGameType::Count);
 
 static s16 GameTypes_48_68_U2Q[udtGameType::Count];
 static s16 GameTypes_48_68_Q2U[udtGameType::Count * 2];
-static const s16 GameTypes_48_68[udtGameType::Count * 2] =
+static const s16 GameTypes_48_68[] =
 {
 	(s16)udtGameType::FFA, 0,
 	(s16)udtGameType::Duel, 1,
@@ -1126,13 +1156,14 @@ static const s16 GameTypes_48_68[udtGameType::Count * 2] =
 	(s16)udtGameType::CTF, 4,
 	(s16)udtGameType::OneFlagCTF, 5,
 	(s16)udtGameType::Obelisk, 6,
-	(s16)udtGameType::Harvester, 7
+	(s16)udtGameType::Harvester, 7,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(GameTypes_48_68, udtGameType::Count);
 
 static s16 GameTypes_73p_U2Q[udtGameType::Count];
 static s16 GameTypes_73p_Q2U[udtGameType::Count * 2];
-static const s16 GameTypes_73p[udtGameType::Count * 2] =
+static const s16 GameTypes_73p[] =
 {
 	(s16)udtGameType::FFA, 0,
 	(s16)udtGameType::Duel, 1,
@@ -1146,7 +1177,8 @@ static const s16 GameTypes_73p[udtGameType::Count * 2] =
 	(s16)udtGameType::Harvester, 8,
 	(s16)udtGameType::Domination, 10,
 	(s16)udtGameType::CTFS, 11,
-	(s16)udtGameType::FT, 9
+	(s16)udtGameType::FT, 9,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(GameTypes_73p, udtGameType::Count);
 
@@ -1166,11 +1198,12 @@ VALIDATE_TABLE_SIZE(GameTypeTables);
 
 static s16 FlagStatus_U2Q[udtFlagStatus::Count];
 static s16 FlagStatus_Q2U[udtFlagStatus::Count * 2];
-static const s16 FlagStatus[udtFlagStatus::Count * 2] =
+static const s16 FlagStatus[] =
 {
 	(s16)udtFlagStatus::InBase, 0,
 	(s16)udtFlagStatus::Carried, 1,
-	(s16)udtFlagStatus::Missing, 2
+	(s16)udtFlagStatus::Missing, 2,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(FlagStatus, udtFlagStatus::Count);
 
@@ -1190,7 +1223,7 @@ VALIDATE_TABLE_SIZE(FlagStatusTables);
 
 static s16 Weapons_3_68_U2Q[udtWeapon::Count];
 static s16 Weapons_3_68_Q2U[udtWeapon::Count * 2];
-static const s16 Weapons_3_68[udtWeapon::Count * 2] =
+static const s16 Weapons_3_68[] =
 {
 	(s16)udtWeapon::Gauntlet, 1,
 	(s16)udtWeapon::MachineGun, 2,
@@ -1201,13 +1234,14 @@ static const s16 Weapons_3_68[udtWeapon::Count * 2] =
 	(s16)udtWeapon::Railgun, 7,
 	(s16)udtWeapon::LightningGun, 6,
 	(s16)udtWeapon::BFG, 9,
-	(s16)udtWeapon::GrapplingHook, 10
+	(s16)udtWeapon::GrapplingHook, 10,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(Weapons_3_68, udtWeapon::Count);
 
 static s16 Weapons_73p_U2Q[udtWeapon::Count];
 static s16 Weapons_73p_Q2U[udtWeapon::Count * 2];
-static const s16 Weapons_73p[udtWeapon::Count * 2] =
+static const s16 Weapons_73p[] =
 {
 	(s16)udtWeapon::Gauntlet, 1,
 	(s16)udtWeapon::MachineGun, 2,
@@ -1222,7 +1256,8 @@ static const s16 Weapons_73p[udtWeapon::Count * 2] =
 	(s16)udtWeapon::ChainGun, 13,
 	(s16)udtWeapon::ProximityMineLauncher, 12,
 	(s16)udtWeapon::HeavyMachineGun, 14,
-	(s16)udtWeapon::GrapplingHook, 10
+	(s16)udtWeapon::GrapplingHook, 10,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(Weapons_73p, udtWeapon::Count);
 
@@ -1242,7 +1277,7 @@ VALIDATE_TABLE_SIZE(WeaponTables);
 
 static s16 MeansOfDeath_3_68_U2Q[udtMeanOfDeath::Count];
 static s16 MeansOfDeath_3_68_Q2U[udtMeanOfDeath::Count * 2];
-static const s16 MeansOfDeath_3_68[udtMeanOfDeath::Count * 2] =
+static const s16 MeansOfDeath_3_68[] =
 {
 	(s16)udtMeanOfDeath::Shotgun, 1,
 	(s16)udtMeanOfDeath::Gauntlet, 2,
@@ -1266,13 +1301,14 @@ static const s16 MeansOfDeath_3_68[udtMeanOfDeath::Count * 2] =
 	(s16)udtMeanOfDeath::Suicide, 20,
 	(s16)udtMeanOfDeath::TargetLaser, 21,
 	(s16)udtMeanOfDeath::TriggerHurt, 22,
-	(s16)udtMeanOfDeath::Grapple, 23
+	(s16)udtMeanOfDeath::Grapple, 23,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(MeansOfDeath_3_68, udtMeanOfDeath::Count);
 
 static s16 MeansOfDeath_73p_U2Q[udtMeanOfDeath::Count];
 static s16 MeansOfDeath_73p_Q2U[udtMeanOfDeath::Count * 2];
-static const s16 MeansOfDeath_73p[udtMeanOfDeath::Count * 2] =
+static const s16 MeansOfDeath_73p[] =
 {
 	(s16)udtMeanOfDeath::Shotgun, 1,
 	(s16)udtMeanOfDeath::Gauntlet, 2,
@@ -1304,7 +1340,8 @@ static const s16 MeansOfDeath_73p[udtMeanOfDeath::Count * 2] =
 	(s16)udtMeanOfDeath::Grapple, 28,
 	(s16)udtMeanOfDeath::TeamSwitch, 29,
 	(s16)udtMeanOfDeath::Thaw, 30,
-	(s16)udtMeanOfDeath::HeavyMachineGun, 32
+	(s16)udtMeanOfDeath::HeavyMachineGun, 32,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(MeansOfDeath_73p, udtMeanOfDeath::Count);
 
@@ -1324,7 +1361,7 @@ VALIDATE_TABLE_SIZE(MeanOfDeathTables);
 
 static s16 Items_3_68_U2Q[udtItem::Count];
 static s16 Items_3_68_Q2U[udtItem::Count * 2];
-static const s16 Items_3_68[udtItem::Count * 2] =
+static const s16 Items_3_68[] =
 {
 	(s16)udtItem::AmmoBFG, 25,
 	(s16)udtItem::AmmoBullets, 19,
@@ -1360,13 +1397,14 @@ static const s16 Items_3_68[udtItem::Count * 2] =
 	(s16)udtItem::WeaponPlasmaGun, 15,
 	(s16)udtItem::WeaponRailgun, 14,
 	(s16)udtItem::WeaponRocketLauncher, 12,
-	(s16)udtItem::WeaponShotgun, 9
+	(s16)udtItem::WeaponShotgun, 9,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(Items_3_68, udtItem::Count);
 
 static s16 Items_73_U2Q[udtItem::Count];
 static s16 Items_73_Q2U[udtItem::Count * 2];
-static const s16 Items_73[udtItem::Count * 2] =
+static const s16 Items_73[] =
 {
 	(s16)udtItem::AmmoBFG, 26,
 	(s16)udtItem::AmmoBelt, 42,
@@ -1419,13 +1457,14 @@ static const s16 Items_73[udtItem::Count * 2] =
 	(s16)udtItem::WeaponProxLauncher, 51,
 	(s16)udtItem::WeaponRailgun, 15,
 	(s16)udtItem::WeaponRocketLauncher, 13,
-	(s16)udtItem::WeaponShotgun, 10
+	(s16)udtItem::WeaponShotgun, 10,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(Items_73, udtItem::Count);
 
 static s16 Items_90p_U2Q[udtItem::Count];
 static s16 Items_90p_Q2U[udtItem::Count * 2];
-static const s16 Items_90p[udtItem::Count * 2] =
+static const s16 Items_90p[] =
 {
 	(s16)udtItem::AmmoBFG, 26,
 	(s16)udtItem::AmmoBelt, 42,
@@ -1485,7 +1524,8 @@ static const s16 Items_90p[udtItem::Count * 2] =
 	(s16)udtItem::WeaponProxLauncher, 51,
 	(s16)udtItem::WeaponRailgun, 15,
 	(s16)udtItem::WeaponRocketLauncher, 13,
-	(s16)udtItem::WeaponShotgun, 10
+	(s16)udtItem::WeaponShotgun, 10,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(Items_90p, udtItem::Count);
 
@@ -1505,7 +1545,7 @@ VALIDATE_TABLE_SIZE(ItemTables);
 
 static s16 PMTypes_U2Q[udtPlayerMovementType::Count];
 static s16 PMTypes_Q2U[udtPlayerMovementType::Count * 2];
-static const s16 PMTypes[udtPlayerMovementType::Count * 2] =
+static const s16 PMTypes[] =
 {
 	(s16)udtPlayerMovementType::Normal, 0,
 	(s16)udtPlayerMovementType::NoClip, 1,
@@ -1513,7 +1553,8 @@ static const s16 PMTypes[udtPlayerMovementType::Count * 2] =
 	(s16)udtPlayerMovementType::Dead, 3,
 	(s16)udtPlayerMovementType::Freeze, 4,
 	(s16)udtPlayerMovementType::Intermission, 5,
-	(s16)udtPlayerMovementType::SPIntermission, 6
+	(s16)udtPlayerMovementType::SPIntermission, 6,
+	TABLE_END
 };
 VALIDATE_TABLE_SIZES(PMTypes, udtPlayerMovementType::Count);
 
@@ -1564,6 +1605,9 @@ static const MagicNumberTableGroup MagicNumberTables[udtMagicNumberType::Count] 
 };
 
 
+#define UNDEFINED UDT_S16_MIN
+
+
 static int SortCallback(const void* a, const void* b)
 {
 	return *((const s16*)a + 1) - *((const s16*)b + 1);
@@ -1585,13 +1629,35 @@ void BuildLookUpTables()
 			{
 				for(u32 i = 0; i < tableGroup.Count; ++i)
 				{
+					table_U2Q[i] = UNDEFINED;
+				}
+				for(u32 i = 0; i < tableGroup.Count; ++i)
+				{
 					const s16 newIdx = table[2 * i + 0];
+					if(newIdx < 0)
+					{
+						break;
+					}
 					table_U2Q[newIdx] = table[2 * i + 1];
 				}
 			}
 			if(table_Q2U != prevTable_Q2U)
 			{
-				memcpy(table_Q2U, table, (size_t)(tableGroup.Count * 2) * sizeof(s16));
+				for(u32 i = 0; i < tableGroup.Count; ++i)
+				{
+					s16 newIdx = (s16)i;
+					s16 newVal = UNDEFINED;
+					for(u32 j = 0; j < tableGroup.Count; ++j)
+					{
+						if(table[2 * j + 0] == newIdx)
+						{
+							newVal = table[2 * j + 1];
+							break;
+						}
+					}
+					table_Q2U[2 * i + 0] = newIdx;
+					table_Q2U[2 * i + 1] = newVal;
+				}
 				qsort(table_Q2U, (size_t)tableGroup.Count, 2 * sizeof(s16), &SortCallback);
 			}
 			prevTable_U2Q = table_U2Q;
