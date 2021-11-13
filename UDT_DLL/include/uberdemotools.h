@@ -2609,7 +2609,7 @@ extern "C"
 		s32 stats[ID_MAX_PS_STATS];
 		s32 persistant[ID_MAX_PS_PERSISTANT]; /* stats that aren't cleared on death */
 		s32 powerups[ID_MAX_PS_POWERUPS];     /* level.time that the powerup runs out */
-		s32 ammo[64];
+		s32 ammo[64]; // ID_MAX_PS_WEAPONS, 16 for all Quake protocols, 64 for RTCW
 		s32 generic1;
 		s32 loopSound;
 		s32 jumppad_ent; /* jumppad entity hit this frame */

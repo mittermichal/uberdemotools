@@ -2266,6 +2266,7 @@ bool udtMessage::RealWriteDeltaEntity(const idEntityStateBase* from, const idEnt
 	STATIC_ASSERT(EntityStateFieldCount91 + 1 == sizeof(idEntityState91) / 4);
 	STATIC_ASSERT(sizeof(idEntityState3)  % 4 == 0);
 	STATIC_ASSERT(sizeof(idEntityState48) % 4 == 0);
+	STATIC_ASSERT(sizeof(idEntityState60) % 4 == 0);
 	STATIC_ASSERT(sizeof(idEntityState66) % 4 == 0);
 	STATIC_ASSERT(sizeof(idEntityState67) % 4 == 0);
 	STATIC_ASSERT(sizeof(idEntityState68) % 4 == 0);

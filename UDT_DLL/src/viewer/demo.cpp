@@ -1259,6 +1259,7 @@ bool Demo::ProcessMessage_FinalPass(const udtCuMessageOutput& message)
 	// Core.
 	//
 
+	enum Constants { ID_MAX_PS_WEAPONS = 16 }; // always 16 for Quake, more for Wolfenstein
 	const s32 followedPlayerIndex = snapshot.PlayerState->clientNum;
 	const s32 weapon = snapshot.PlayerState->weapon;
 	u32 udtWeapon;
