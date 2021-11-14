@@ -3031,6 +3031,7 @@ extern "C"
 	{
 		enum Id
 		{
+			/* Wolf_ClientsReady: Bit mask of players ready to leave intermission. */
 			UDT_LIFE_STATS_LIST(UDT_IDENTITY_WITH_COMMA)
 			Count
 		};
@@ -3058,6 +3059,7 @@ extern "C"
 	{
 		enum Id
 		{
+			/* Wolf_AccuracyHits: It seems to account for the panzerfaust as well. */
 			UDT_PERSISTENT_STATS_LIST(UDT_IDENTITY_WITH_COMMA)
 			Count
 		};

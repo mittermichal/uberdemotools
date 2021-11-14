@@ -532,8 +532,8 @@ static const s16 LifeStats_60[] =
 	(s16)udtLifeStatsIndex::Health, 0,
 	(s16)udtLifeStatsIndex::HoldableItem, 1,
 	(s16)udtLifeStatsIndex::Armor, 2,
-	(s16)udtLifeStatsIndex::Wolf_Keys, 3, // 16 bit fields
-	(s16)udtLifeStatsIndex::Wolf_ClientsReady, 5, // bit mask of players ready to leave intermission
+	(s16)udtLifeStatsIndex::Wolf_Keys, 3,
+	(s16)udtLifeStatsIndex::Wolf_ClientsReady, 5,
 	(s16)udtLifeStatsIndex::MaxHealth, 6,
 	(s16)udtLifeStatsIndex::Wolf_PlayerClass, 7,
 	(s16)udtLifeStatsIndex::Wolf_RedScore, 8,
@@ -630,7 +630,7 @@ static const s16 PersStats_60[] =
 	(s16)udtPersStatsIndex::LastAttacker, 7,
 	(s16)udtPersStatsIndex::Deaths, 8,
 	(s16)udtPersStatsIndex::Wolf_RespawnsLeft, 9,
-	(s16)udtPersStatsIndex::Wolf_AccuracyHits , 11, // seems to account for the panzerfaust as well
+	(s16)udtPersStatsIndex::Wolf_AccuracyHits , 11,
 	TABLE_END
 };
 VALIDATE_TABLE_SIZES(PersStats_60, udtPersStatsIndex::Count);
