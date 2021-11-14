@@ -1315,7 +1315,7 @@ static const s16* FlagStatusTables[] =
 {
 	TABLE_ENTRY(FlagStatus), // 3
 	TABLE_ENTRY(FlagStatus), // 48
-	TABLE_ENTRY(FlagStatus), // 60 @TODO: RTCW
+	TABLE_ENTRY(FlagStatus), // 60 - not relevant but no need to make a new table for it
 	TABLE_ENTRY(FlagStatus), // 66
 	TABLE_ENTRY(FlagStatus), // 67
 	TABLE_ENTRY(FlagStatus), // 68
