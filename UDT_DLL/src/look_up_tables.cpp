@@ -1269,11 +1269,28 @@ static const s16 GameTypes_73p[] =
 };
 VALIDATE_TABLE_SIZES(GameTypes_73p, udtGameType::Count);
 
+static s16 GameTypes_60_U2Q[udtGameType::Count];
+static s16 GameTypes_60_Q2U[udtGameType::Count * 2];
+static const s16 GameTypes_60[] =
+{
+	(s16)udtGameType::FFA, 0,
+	(s16)udtGameType::Duel, 1,
+	(s16)udtGameType::SP, 2,
+	(s16)udtGameType::TDM, 3,
+	(s16)udtGameType::CTF, 4,
+	(s16)udtGameType::Wolf_Objective, 5,
+	(s16)udtGameType::Wolf_Stopwatch, 6,
+	(s16)udtGameType::Wolf_Checkpoint, 7,
+	(s16)udtGameType::Wolf_CaptureAndHold, 8,
+	TABLE_END
+};
+VALIDATE_TABLE_SIZES(GameTypes_60, udtGameType::Count);
+
 static const s16* GameTypeTables[] =
 {
 	TABLE_ENTRY(GameTypes_3), // 3
 	TABLE_ENTRY(GameTypes_48_68), // 48
-	TABLE_ENTRY(GameTypes_48_68), // 60 @TODO: RTCW
+	TABLE_ENTRY(GameTypes_60), // 60
 	TABLE_ENTRY(GameTypes_48_68), // 66
 	TABLE_ENTRY(GameTypes_48_68), // 67
 	TABLE_ENTRY(GameTypes_48_68), // 68

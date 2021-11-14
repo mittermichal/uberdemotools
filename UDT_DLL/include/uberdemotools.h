@@ -745,7 +745,7 @@ struct udtGameTypeMask
 	};
 };
 
-/* @TODO: investigate obelisk harvester domination */
+/* @TODO: investigate obelisk harvester domination checkpoint capture-and-hold */
 /* The first team mode is always TDM. */
 #define UDT_GAME_TYPE_LIST(N) \
 	N(SP, "SP", "Single Player", udtGameTypeMask::HasFragLimit) \
@@ -765,7 +765,11 @@ struct udtGameTypeMask
 	N(CTFS, "CTFS", "Capture Strike", udtGameTypeMask::HasScoreLimit | udtGameTypeMask::Team | udtGameTypeMask::RoundBased) \
 	N(NTF, "NTF", "Not Team Fortress", udtGameTypeMask::Team | udtGameTypeMask::HasCaptureLimit) \
 	N(TwoVsTwo, "2v2", "2v2 TDM", udtGameTypeMask::HasFragLimit | udtGameTypeMask::Team) \
-	N(FT, "FT", "Freeze Tag", udtGameTypeMask::HasRoundLimit | udtGameTypeMask::Team | udtGameTypeMask::RoundBased)
+	N(FT, "FT", "Freeze Tag", udtGameTypeMask::HasRoundLimit | udtGameTypeMask::Team | udtGameTypeMask::RoundBased) \
+	N(Wolf_Objective, "MP", "Objective", udtGameTypeMask::Team) \
+	N(Wolf_Stopwatch, "SW", "Stopwatch", udtGameTypeMask::Team | udtGameTypeMask::RoundBased) \
+	N(Wolf_Checkpoint, "CP", "Checkpoint", udtGameTypeMask::Team) \
+	N(Wolf_CaptureAndHold, "CPH", "Capture and Hold", udtGameTypeMask::Team)
 	
 #define UDT_GAME_TYPE_ITEM(Enum, ShortDesc, Desc, Flags) Enum,
 struct udtGameType
