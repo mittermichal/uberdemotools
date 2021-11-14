@@ -79,6 +79,29 @@ static u32 PopCount(const u8* flags, u32 byteCount)
 	return count;
 }
 
+static const char* GetIdTeamName(s32 idTeamIndex, udtProtocol::Id protocol)
+{
+	u32 udtTeamIndex = u32(-1);
+	if(!GetUDTNumber(udtTeamIndex, udtMagicNumberType::Team, idTeamIndex, protocol))
+	{
+		return "?";
+	}
+
+	const char** strings = NULL;
+	u32 stringCount = 0;
+	if(udtGetStringArray(udtStringArray::Teams, &strings, &stringCount) != (s32)udtErrorCode::None)
+	{
+		return "?";
+	}
+
+	if(udtTeamIndex >= stringCount)
+	{
+		return "?";
+	}
+
+	return strings[udtTeamIndex];
+}
+
 
 udtParserPlugInStats::udtParserPlugInStats()
 {
@@ -98,9 +121,6 @@ udtParserPlugInStats::~udtParserPlugInStats()
 void udtParserPlugInStats::InitAllocators(u32 demoCount)
 {
 	_analyzer.InitAllocators(*TempAllocator, demoCount);
-
-	_redString = udtString::NewClone(_stringAllocator, "RED");
-	_blueString = udtString::NewClone(_stringAllocator, "BLUE");
 }
 
 void udtParserPlugInStats::CopyBuffersStruct(void* buffersStruct) const
@@ -177,6 +197,15 @@ void udtParserPlugInStats::ProcessGamestateMessage(const udtGamestateCallbackArg
 	_plugInTokenizer = &parser._context->Tokenizer;
 	_protocol = parser._inProtocol;
 	_followedClientNumber = -1;
+
+	// we delay the allocation of team names since we need to know the protocol
+	// 1 = red/axis
+	// 2 = blue/allies
+	if(!_redString.IsValid() || !_blueString.IsValid())
+	{
+		_redString = udtString::NewClone(_stringAllocator, GetIdTeamName(1, _protocol));
+		_blueString = udtString::NewClone(_stringAllocator, GetIdTeamName(2, _protocol));
+	}
 
 	_firstPlaceClientNumber = -1;
 	_secondPlaceClientNumber = -1;
@@ -459,10 +488,12 @@ void udtParserPlugInStats::ProcessPlayerConfigString(const char* configString, s
 		return;
 	}
 
-	s32 teamIndex = -1;
-	if(ParseConfigStringValueInt(teamIndex, *TempAllocator, "t", configString))
+	s32 idTeamIndex = -1;
+	if(ParseConfigStringValueInt(idTeamIndex, *TempAllocator, "t", configString))
 	{
-		_playerTeamIndices[playerIndex] = teamIndex;
+		u32 udtTeamIndex = (s32)idTeamIndex;
+		GetUDTNumber(udtTeamIndex, udtMagicNumberType::Team, idTeamIndex, _protocol);
+		_playerTeamIndices[playerIndex] = udtTeamIndex;
 	}
 
 	udtString clan, name;
