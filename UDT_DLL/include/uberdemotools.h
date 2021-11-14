@@ -262,7 +262,13 @@ struct udtWeapon
 	N(Guard, "guard", 10) \
 	N(Doubler, "doubler", 11) \
 	N(ArmorRegeneration, "armor regeneration", 12) \
-	N(Invulnerability, "invulnerability", 13)
+	N(Invulnerability, "invulnerability", 13) \
+	N(Wolf_Fire, "fire", 14) \
+	N(Wolf_Electric, "electric", 15) \
+	N(Wolf_Breather, "breather", 16) \
+	N(Wolf_NoFatigue, "stamina", 17) \
+	N(Wolf_Ready, "ready", 18) \
+	N(Wolf_Blackout, "speclock", 19)
 
 #define UDT_POWER_UP_ITEM(Enum, Desc, Bit) Enum = Bit,
 struct udtPowerUp
@@ -3014,7 +3020,12 @@ extern "C"
 	N(HoldableItem) \
 	N(Weapons) \
 	N(Armor) \
-	N(MaxHealth)
+	N(MaxHealth) \
+	N(Wolf_Keys) \
+	N(Wolf_ClientsReady) \
+	N(Wolf_PlayerClass) \
+	N(Wolf_RedScore) \
+	N(Wolf_BlueScore)
 
 	struct udtLifeStatsIndex
 	{

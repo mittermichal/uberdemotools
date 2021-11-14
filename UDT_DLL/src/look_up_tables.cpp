@@ -462,11 +462,34 @@ static const s16 PowerUps_91[] =
 };
 VALIDATE_TABLE_SIZES(PowerUps_91, udtPowerUpIndex::Count);
 
+static s16 PowerUps_60_U2Q[udtPowerUpIndex::Count];
+static s16 PowerUps_60_Q2U[udtPowerUpIndex::Count * 2];
+static const s16 PowerUps_60[] =
+{
+	(s16)udtPowerUpIndex::QuadDamage, 1,
+	(s16)udtPowerUpIndex::BattleSuit, 2,
+	(s16)udtPowerUpIndex::Haste, 3,
+	(s16)udtPowerUpIndex::Invisibility, 4,
+	(s16)udtPowerUpIndex::Regeneration, 5,
+	(s16)udtPowerUpIndex::Flight, 6,
+	(s16)udtPowerUpIndex::RedFlag, 12,
+	(s16)udtPowerUpIndex::BlueFlag, 13,
+	(s16)udtPowerUpIndex::Invulnerability, 7,
+	(s16)udtPowerUpIndex::Wolf_Fire, 8,
+	(s16)udtPowerUpIndex::Wolf_Electric, 9,
+	(s16)udtPowerUpIndex::Wolf_Breather, 10,
+	(s16)udtPowerUpIndex::Wolf_NoFatigue, 11,
+	(s16)udtPowerUpIndex::Wolf_Ready, 15,
+	(s16)udtPowerUpIndex::Wolf_Blackout, 16,
+	TABLE_END
+};
+VALIDATE_TABLE_SIZES(PowerUps_60, udtPowerUpIndex::Count);
+
 static const s16* PowerUpTables[] =
 {
 	TABLE_ENTRY(PowerUps_3_90), // 3
 	TABLE_ENTRY(PowerUps_3_90), // 48
-	TABLE_ENTRY(PowerUps_3_90), // 60 @TODO: RTCW
+	TABLE_ENTRY(PowerUps_60), // 60
 	TABLE_ENTRY(PowerUps_3_90), // 66
 	TABLE_ENTRY(PowerUps_3_90), // 67
 	TABLE_ENTRY(PowerUps_3_90), // 68
@@ -502,11 +525,28 @@ static const s16 LifeStats_73p[] =
 };
 VALIDATE_TABLE_SIZES(LifeStats_73p, udtLifeStatsIndex::Count);
 
+static s16 LifeStats_60_U2Q[udtLifeStatsIndex::Count];
+static s16 LifeStats_60_Q2U[udtLifeStatsIndex::Count * 2];
+static const s16 LifeStats_60[] =
+{
+	(s16)udtLifeStatsIndex::Health, 0,
+	(s16)udtLifeStatsIndex::HoldableItem, 1,
+	(s16)udtLifeStatsIndex::Armor, 2,
+	(s16)udtLifeStatsIndex::Wolf_Keys, 3, // 16 bit fields
+	(s16)udtLifeStatsIndex::Wolf_ClientsReady, 5, // bit mask of players ready to leave intermission
+	(s16)udtLifeStatsIndex::MaxHealth, 6,
+	(s16)udtLifeStatsIndex::Wolf_PlayerClass, 7,
+	(s16)udtLifeStatsIndex::Wolf_RedScore, 8,
+	(s16)udtLifeStatsIndex::Wolf_BlueScore, 9,
+	TABLE_END
+};
+VALIDATE_TABLE_SIZES(LifeStats_60, udtLifeStatsIndex::Count);
+
 static const s16* LifeStatsTables[] =
 {
 	TABLE_ENTRY(LifeStats_3_68), // 3
 	TABLE_ENTRY(LifeStats_3_68), // 48
-	TABLE_ENTRY(LifeStats_3_68), // 60 @TODO: RTCW
+	TABLE_ENTRY(LifeStats_60), // 60
 	TABLE_ENTRY(LifeStats_3_68), // 66
 	TABLE_ENTRY(LifeStats_3_68), // 67
 	TABLE_ENTRY(LifeStats_3_68), // 68
