@@ -618,11 +618,28 @@ static const s16 PersStats_73p[] =
 };
 VALIDATE_TABLE_SIZES(PersStats_73p, udtPersStatsIndex::Count);
 
+static s16 PersStats_60_U2Q[udtPersStatsIndex::Count];
+static s16 PersStats_60_Q2U[udtPersStatsIndex::Count * 2];
+static const s16 PersStats_60[] =
+{
+	(s16)udtPersStatsIndex::Score, 0,
+	(s16)udtPersStatsIndex::DamageGiven, 1,
+	(s16)udtPersStatsIndex::Rank, 2,
+	(s16)udtPersStatsIndex::Team, 3,
+	(s16)udtPersStatsIndex::SpawnCount, 4,
+	(s16)udtPersStatsIndex::LastAttacker, 7,
+	(s16)udtPersStatsIndex::Deaths, 8,
+	(s16)udtPersStatsIndex::Wolf_RespawnsLeft, 9,
+	(s16)udtPersStatsIndex::Wolf_AccuracyHits , 11, // seems to account for the panzerfaust as well
+	TABLE_END
+};
+VALIDATE_TABLE_SIZES(PersStats_60, udtPersStatsIndex::Count);
+
 static const s16* PersStatsTables[] =
 {
 	TABLE_ENTRY(PersStats_3), // 3
 	TABLE_ENTRY(PersStats_48_68), // 48
-	TABLE_ENTRY(PersStats_48_68), // 60 @TODO: RTCW
+	TABLE_ENTRY(PersStats_60), // 60
 	TABLE_ENTRY(PersStats_48_68), // 66
 	TABLE_ENTRY(PersStats_48_68), // 67
 	TABLE_ENTRY(PersStats_48_68), // 68

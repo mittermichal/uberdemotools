@@ -3050,7 +3050,9 @@ extern "C"
 	N(Excellents) \
 	N(Defends) \
 	N(Assists) \
-	N(Humiliations)
+	N(Humiliations) \
+	N(Wolf_RespawnsLeft) \
+	N(Wolf_AccuracyHits)
 
 	struct udtPersStatsIndex
 	{
