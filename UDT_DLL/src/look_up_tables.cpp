@@ -840,11 +840,29 @@ static const s16 EntityFlagBits_91[] =
 };
 VALIDATE_TABLE_SIZES(EntityFlagBits_91, udtEntityFlag::Count);
 
+static s16 EntityFlagBits_60_U2Q[udtEntityFlag::Count];
+static s16 EntityFlagBits_60_Q2U[udtEntityFlag::Count * 2];
+static const s16 EntityFlagBits_60[] =
+{
+	(s16)udtEntityFlag::Dead, 0,
+	(s16)udtEntityFlag::TeleportBit, 2,
+	(s16)udtEntityFlag::Wolf_Crouching, 5,
+	(s16)udtEntityFlag::NoDraw, 7,
+	(s16)udtEntityFlag::Firing, 8,
+	(s16)udtEntityFlag::Chatting, 12,
+	(s16)udtEntityFlag::ConnectionInterrupted, 13,
+	(s16)udtEntityFlag::Wolf_Headshot, 15,
+	(s16)udtEntityFlag::HasVoted, 17,
+	(s16)udtEntityFlag::Wolf_Zooming, 22,
+	TABLE_END
+};
+VALIDATE_TABLE_SIZES(EntityFlagBits_60, udtEntityFlag::Count);
+
 static const s16* EntityFlagBitTables[] =
 {
 	TABLE_ENTRY(EntityFlagBits_3), // 3
 	TABLE_ENTRY(EntityFlagBits_48), // 48
-	TABLE_ENTRY(EntityFlagBits_66_90), // 60 @TODO: RTCW
+	TABLE_ENTRY(EntityFlagBits_60), // 60
 	TABLE_ENTRY(EntityFlagBits_66_90), // 66
 	TABLE_ENTRY(EntityFlagBits_66_90), // 67
 	TABLE_ENTRY(EntityFlagBits_66_90), // 68

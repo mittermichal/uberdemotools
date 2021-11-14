@@ -3082,7 +3082,10 @@ extern "C"
 	N(AwardAssist) \
 	N(AwardDenied) \
 	N(HasTeamVoted) \
-	N(Spectator)
+	N(Spectator) \
+	N(Wolf_Crouching) \
+	N(Wolf_Headshot) \
+	N(Wolf_Zooming)
 
 	struct udtEntityFlag
 	{
