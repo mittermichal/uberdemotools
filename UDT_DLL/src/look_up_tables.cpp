@@ -1810,20 +1810,19 @@ void BuildLookUpTables()
 			}
 			if(table_Q2U != prevTable_Q2U)
 			{
+				for(u32 i = 0; i < tableGroup.Count * 2; ++i)
+				{
+					table_Q2U[i] = UNDEFINED;
+				}
 				for(u32 i = 0; i < tableGroup.Count; ++i)
 				{
-					s16 newIdx = (s16)i;
-					s16 newVal = UNDEFINED;
-					for(u32 j = 0; j < tableGroup.Count; ++j)
+					const s16 newIdx = table[2 * i + 0];
+					if(newIdx < 0)
 					{
-						if(table[2 * j + 0] == newIdx)
-						{
-							newVal = table[2 * j + 1];
-							break;
-						}
+						break;
 					}
 					table_Q2U[2 * i + 0] = newIdx;
-					table_Q2U[2 * i + 1] = newVal;
+					table_Q2U[2 * i + 1] = table[2 * i + 1];
 				}
 				qsort(table_Q2U, (size_t)tableGroup.Count, 2 * sizeof(s16), &SortCallback);
 			}
