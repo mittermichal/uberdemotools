@@ -420,7 +420,9 @@ struct udtPlayerMeanOfDeathMask
 	N(Free, "free") \
 	N(Red, "red") \
 	N(Blue, "blue") \
-	N(Spectators, "spectators")
+	N(Spectators, "spectators") \
+	N(Axis, "axis") \
+	N(Allies, "allies")
 
 #define UDT_TEAM_ITEM(Enum, Desc) Enum,
 struct udtTeam

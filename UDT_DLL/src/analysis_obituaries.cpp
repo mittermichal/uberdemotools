@@ -3,6 +3,13 @@
 #include "scoped_stack_allocator.hpp"
 
 
+static u32 GetUDTTeamIndex(s32 idTeamIndex, udtProtocol::Id protocol)
+{
+	u32 udtTeamIndex = udtTeam::Count;
+	GetUDTNumber(udtTeamIndex, udtMagicNumberType::Team, idTeamIndex, protocol);
+	return udtTeamIndex;
+}
+
 void udtObituariesAnalyzer::InitAllocators(u32, udtVMLinearAllocator& tempAllocator)
 {
 	_tempAllocator = &tempAllocator;
@@ -40,8 +47,8 @@ void udtObituariesAnalyzer::ProcessSnapshotMessage(const udtSnapshotCallbackArg&
 		const udtString modName = udtString::NewClone(_stringAllocator, GetUDTModName(eventInfo.MeanOfDeath));
 
 		udtParseDataObituary info;
-		info.TargetTeamIdx = targetTeamIdx;
-		info.AttackerTeamIdx = attackerTeamIdx;
+		info.TargetTeamIdx = GetUDTTeamIndex(targetTeamIdx, parser._inProtocol);
+		info.AttackerTeamIdx = GetUDTTeamIndex(attackerTeamIdx, parser._inProtocol);
 		info.MeanOfDeath = eventInfo.MeanOfDeath;
 		info.GameStateIndex = parser._inGameStateIndex;
 		info.ServerTimeMs = arg.Snapshot->serverTime;

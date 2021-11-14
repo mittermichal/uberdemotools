@@ -1183,9 +1183,9 @@ static const s16* ConfigStringIndexTables[] =
 };
 VALIDATE_TABLE_SIZE(ConfigStringIndexTables);
 
-static s16 Teams_U2Q[udtTeam::Count];
-static s16 Teams_Q2U[udtTeam::Count * 2];
-static const s16 Teams[] =
+static s16 TeamsQuake_U2Q[udtTeam::Count];
+static s16 TeamsQuake_Q2U[udtTeam::Count * 2];
+static const s16 TeamsQuake[] =
 {
 	(s16)udtTeam::Free, 0,
 	(s16)udtTeam::Red, 1,
@@ -1193,19 +1193,31 @@ static const s16 Teams[] =
 	(s16)udtTeam::Spectators, 3,
 	TABLE_END
 };
-VALIDATE_TABLE_SIZES(Teams, udtTeam::Count);
+VALIDATE_TABLE_SIZES(TeamsQuake, udtTeam::Count);
+
+static s16 TeamsWolf_U2Q[udtTeam::Count];
+static s16 TeamsWolf_Q2U[udtTeam::Count * 2];
+static const s16 TeamsWolf[] =
+{
+	(s16)udtTeam::Free, 0,
+	(s16)udtTeam::Axis, 1,
+	(s16)udtTeam::Allies, 2,
+	(s16)udtTeam::Spectators, 3,
+	TABLE_END
+};
+VALIDATE_TABLE_SIZES(TeamsWolf, udtTeam::Count);
 
 static const s16* TeamTables[] =
 {
-	TABLE_ENTRY(Teams), // 3
-	TABLE_ENTRY(Teams), // 48
-	TABLE_ENTRY(Teams), // 60 @TODO: RTCW
-	TABLE_ENTRY(Teams), // 66
-	TABLE_ENTRY(Teams), // 67
-	TABLE_ENTRY(Teams), // 68
-	TABLE_ENTRY(Teams), // 73
-	TABLE_ENTRY(Teams), // 90
-	TABLE_ENTRY(Teams) // 91
+	TABLE_ENTRY(TeamsQuake), // 3
+	TABLE_ENTRY(TeamsQuake), // 48
+	TABLE_ENTRY(TeamsWolf), // 60
+	TABLE_ENTRY(TeamsQuake), // 66
+	TABLE_ENTRY(TeamsQuake), // 67
+	TABLE_ENTRY(TeamsQuake), // 68
+	TABLE_ENTRY(TeamsQuake), // 73
+	TABLE_ENTRY(TeamsQuake), // 90
+	TABLE_ENTRY(TeamsQuake) // 91
 };
 VALIDATE_TABLE_SIZE(TeamTables);
 
