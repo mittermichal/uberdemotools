@@ -153,7 +153,11 @@ void udtGeneralAnalyzer::ProcessGamestateMessage(const udtGamestateCallbackArg& 
 	ProcessMapNameOnce();
 	ProcessGameTypeFromServerInfo(parser._inConfigStrings[CS_SERVERINFO].GetPtr());
 
-	if(_game == udtGame::CPMA)
+	if(_protocol == udtProtocol::Dm60)
+	{
+		_gamePlay = udtGamePlay::VRTCW;
+	}
+	else if(_game == udtGame::CPMA)
 	{
 		ProcessCPMAGameInfoConfigString(parser._inConfigStrings[CS_CPMA_GAME_INFO].GetPtr());
 	}
