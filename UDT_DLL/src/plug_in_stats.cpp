@@ -521,6 +521,10 @@ void udtParserPlugInStats::ParseScores()
 	{
 		ParseQ3ScoresDM3();
 	}
+	else if(_protocol == udtProtocol::Dm60)
+	{
+		ParseWolfScores();
+	}
 	else
 	{
 		ParseQ3Scores();
@@ -2528,6 +2532,60 @@ void udtParserPlugInStats::ParseCPMAPrintStatsTeam(const udtString& message)
 void udtParserPlugInStats::ResetCPMAPrintStats()
 {
 	memset(&_cpmaPrintStats, 0, sizeof(_cpmaPrintStats));
+}
+
+void udtParserPlugInStats::ParseWolfScores()
+{
+	if(_tokenizer->GetArgCount() < 2)
+	{
+		return;
+	}
+
+	s32 scoreCount = GetValue(1);
+	if(scoreCount < 0)
+	{
+		return;
+	}
+
+	scoreCount = udt_min(scoreCount, 64);
+
+	static const udtStatsField teamFields[] =
+	{
+		TEAM_FIELD(Score, 0)
+	};
+
+	ParseTeamFields(0, teamFields, (s32)UDT_COUNT_OF(teamFields), 2);
+	ParseTeamFields(1, teamFields, (s32)UDT_COUNT_OF(teamFields), 3);
+
+	if((s32)_tokenizer->GetArgCount() != 4 + (scoreCount * 8))
+	{
+		return;
+	}
+
+	static const udtStatsField playerFields[] =
+	{
+		// player class: 0=soldier, 1=medic, 2=engineer, 3=lieutenant
+		PLAYER_FIELD(Score, 0),
+		PLAYER_FIELD(Ping, 1),
+		PLAYER_FIELD(Time, 2),
+		// skipped 3: score flags
+		// skipped 4: power-ups
+		PLAYER_FIELD(PlayerClass, 5),
+		PLAYER_FIELD(RespawnsLeft, 6)
+	};
+
+	s32 offset = 4;
+	for(s32 i = 0; i < scoreCount; ++i)
+	{
+		const s32 clientNumber = GetValue(offset);
+		if(clientNumber >= 0 && clientNumber < 64)
+		{
+			_playerIndices[i] = (u8)clientNumber;
+			ParsePlayerFields(clientNumber, playerFields, (s32)UDT_COUNT_OF(playerFields), offset + 1);
+		}
+
+		offset += 8;
+	}
 }
 
 void udtParserPlugInStats::ParseFields(u8* destMask, s32* destFields, const udtStatsField* fields, s32 fieldCount, s32 tokenOffset)

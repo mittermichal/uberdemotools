@@ -248,6 +248,26 @@ static void WriteTeamStats(s32& fieldsRead, udtJSONExporter& writer, const u8* f
 	writer.EndObject();
 }
 
+static void WriteWolfClassName(udtJSONExporter& writer, const char* keyName, s32 wolfClass)
+{
+	if(keyName == NULL)
+	{
+		return;
+	}
+
+	const char* className;
+	switch(wolfClass)
+	{
+		case 0: className = "soldier"; break;
+		case 1: className = "medic"; break;
+		case 2: className = "engineer"; break;
+		case 3: className = "lieutenant"; break;
+		default: className = "unknown"; break;
+	}
+
+	writer.WriteStringValue(keyName, className);
+}
+
 static void WritePlayerStats(s32& fieldsRead, udtJSONExporter& writer, const udtPlayerStats& stats, const u8* flags, const s32* fields, s32 clientNumber, const char** fieldNames)
 {
 	writer.StartObject();
@@ -270,6 +290,10 @@ static void WritePlayerStats(s32& fieldsRead, udtJSONExporter& writer, const udt
 
 				case udtPlayerStatsField::TeamIndex:
 					WriteUDTTeamIndex(writer, (udtTeam::Id)field);
+					break;
+
+				case udtPlayerStatsField::PlayerClass:
+					WriteWolfClassName(writer, fieldNames[i], field);
 					break;
 
 				default:
