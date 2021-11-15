@@ -156,6 +156,7 @@ void udtGeneralAnalyzer::ProcessGamestateMessage(const udtGamestateCallbackArg& 
 	if(_protocol == udtProtocol::Dm60)
 	{
 		_gamePlay = udtGamePlay::VRTCW;
+		ProcessWolfInfoConfigString(parser._inConfigStrings[CS_WOLF_INFO].GetPtr());
 	}
 	else if(_game == udtGame::CPMA)
 	{
@@ -311,7 +312,11 @@ void udtGeneralAnalyzer::ProcessCommandMessage(const udtCommandCallbackArg& /*ar
 		ProcessQLServerInfoConfigString(configString);
 	}
 
-	if(_game == udtGame::CPMA && csIndex == CS_CPMA_GAME_INFO)
+	if(_protocol == udtProtocol::Dm60 && csIndex == CS_WOLF_INFO)
+	{
+		ProcessWolfInfoConfigString(configString);
+	}
+	else if(_game == udtGame::CPMA && csIndex == CS_CPMA_GAME_INFO)
 	{
 		ProcessCPMAGameInfoConfigString(configString);
 	}
@@ -977,6 +982,44 @@ void udtGeneralAnalyzer::ProcessQLPauseEndConfigString(const char* configString)
 	{
 		SetTimeOutEndTime(endTime);
 		_serverPause = true;
+	}
+}
+
+void udtGeneralAnalyzer::ProcessWolfInfoConfigString(const char* configString)
+{
+	udtVMScopedStackAllocator tempAllocScope(*_tempAllocator);
+
+	// do we care about tracking rounds? the key is "g_currentRound"
+
+	struct WolfGS
+	{
+		enum Id
+		{
+			Initialize = -1,
+			InProgress,
+			CountDown,
+			WarmUp,
+			Intermission,
+			WaitingForPlayers,
+			Reset
+		};
+	};
+
+	s32 wolfGS = -1;
+	if(ParseConfigStringValueInt(wolfGS, *_tempAllocator, "gamestate", configString))
+	{
+		switch((WolfGS::Id)wolfGS)
+		{
+			// Initialize + WarmUp + WaitingForPlayers + invalid/unsure -> WarmUp
+			case WolfGS::InProgress: _gameState = udtGameState::InProgress; break;
+			case WolfGS::CountDown: _gameState = udtGameState::CountDown; break;
+			case WolfGS::Intermission: _gameState = udtGameState::Intermission; break;
+			default: _gameState = udtGameState::WarmUp; break;
+		}
+	}
+	else
+	{
+		_gameState = udtGameState::WarmUp;
 	}
 }
 

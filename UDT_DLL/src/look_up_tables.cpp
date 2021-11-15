@@ -1165,6 +1165,9 @@ static const s16 ConfigStringIndices_60[] =
 	(s16)udtConfigStringIndex::VoteString, 9,
 	(s16)udtConfigStringIndex::VoteYes, 10,
 	(s16)udtConfigStringIndex::VoteNo, 11,
+	(s16)udtConfigStringIndex::Wolf_Info, 36,
+	(s16)udtConfigStringIndex::Wolf_Paused, 40,
+	(s16)udtConfigStringIndex::Wolf_Ready, 41,
 	TABLE_END
 };
 VALIDATE_TABLE_SIZES(ConfigStringIndices_60, udtConfigStringIndex::Count);

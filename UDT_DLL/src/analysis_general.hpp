@@ -97,6 +97,7 @@ private:
 	void ProcessScores2Player(const char* configString);
 	void ProcessQLPauseStartConfigString(const char* configString);
 	void ProcessQLPauseEndConfigString(const char* configString);
+	void ProcessWolfInfoConfigString(const char* configString);
 	s32  GetLevelStartTime();
 	s32  GetWarmUpEndTime();
 	bool IsIntermission();

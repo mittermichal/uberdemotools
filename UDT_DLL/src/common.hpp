@@ -85,11 +85,16 @@ extern void Q_strncpyz(char* dest, const char* src, s32 destsize);
 
 #define	MAX_CONFIGSTRINGS	1024
 
+// all CS_ values here are for config strings whose index never changes
 #define CS_SERVERINFO             0 // an info string with all the serverinfo cvars
 #define CS_SYSTEMINFO             1 // an info string for server system to client system configuration (timescale, etc)
 #define CS_CPMA_GAME_INFO       672
 #define CS_CPMA_ROUND_INFO      710
 #define CS_OSP_GAMEPLAY         806
+// delete these if other Wolf versions have different CS numbers
+#define CS_WOLF_INFO             36
+#define CS_WOLF_PAUSED           40
+#define CS_WOLF_READY            41
 
 /*
 ==============================================================

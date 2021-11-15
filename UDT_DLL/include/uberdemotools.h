@@ -2999,7 +2999,10 @@ extern "C"
 	N(QL_BlueTeamClanTag) \
 	N(CPMA_GameInfo) \
 	N(CPMA_RoundInfo) \
-	N(OSP_GamePlay)
+	N(OSP_GamePlay) \
+	N(Wolf_Info) \
+	N(Wolf_Paused) \
+	N(Wolf_Ready)
 	
 	struct udtConfigStringIndex
 	{
