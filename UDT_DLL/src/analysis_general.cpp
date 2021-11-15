@@ -159,6 +159,9 @@ void udtGeneralAnalyzer::ProcessGamestateMessage(const udtGamestateCallbackArg& 
 		_gamePlay = udtGamePlay::VRTCW;
 		ProcessWolfInfoConfigString(parser._inConfigStrings[CS_WOLF_INFO].GetPtr());
         ProcessWolfServerInfoConfigString(parser._inConfigStrings[CS_SERVERINFO].GetPtr());
+        s32 paused = 0;
+        ParseConfigStringInt(paused,parser, CS_WOLF_PAUSED);
+        _serverPause = paused > 0;
 	}
 	else if(_game == udtGame::CPMA)
 	{

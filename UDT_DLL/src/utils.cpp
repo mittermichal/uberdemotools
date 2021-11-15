@@ -685,3 +685,14 @@ void PlayerStateToEntityState(idEntityStateBase& es, s32& lastEventSequence, con
 	es.loopSound = ps.loopSound;
 	es.generic1 = ps.generic1;
 }
+
+void ParseConfigStringInt(s32& value, udtBaseParser& parser, s32 csIndex)
+{
+    const char* const cs = parser.GetConfigString(csIndex).GetPtr();
+    if(cs == NULL)
+    {
+        return;
+    }
+
+    StringParseInt(value, cs);
+}
