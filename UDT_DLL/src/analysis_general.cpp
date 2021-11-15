@@ -87,6 +87,7 @@ void udtGeneralAnalyzer::ResetForNextDemo()
 	_fragLimit = 0;
 	_captureLimit = 0;
 	_roundLimit = 0;
+    _roundIndex = 0;
 	_game = udtGame::Q3;
 	_gameType = udtGameType::Invalid;
 	_gameState = udtGameState::WarmUp;
@@ -157,6 +158,7 @@ void udtGeneralAnalyzer::ProcessGamestateMessage(const udtGamestateCallbackArg& 
 	{
 		_gamePlay = udtGamePlay::VRTCW;
 		ProcessWolfInfoConfigString(parser._inConfigStrings[CS_WOLF_INFO].GetPtr());
+        ProcessWolfServerInfoConfigString(parser._inConfigStrings[CS_SERVERINFO].GetPtr());
 	}
 	else if(_game == udtGame::CPMA)
 	{
@@ -316,6 +318,10 @@ void udtGeneralAnalyzer::ProcessCommandMessage(const udtCommandCallbackArg& /*ar
 	{
 		ProcessWolfInfoConfigString(configString);
 	}
+    else if(_protocol == udtProtocol::Dm60 && csIndex == CS_SERVERINFO)
+    {
+        ProcessWolfServerInfoConfigString(configString);
+    }
 	else if(_game == udtGame::CPMA && csIndex == CS_CPMA_GAME_INFO)
 	{
 		ProcessCPMAGameInfoConfigString(configString);
@@ -397,6 +403,7 @@ void udtGeneralAnalyzer::ResetForNextMatch()
 	_fragLimit = 0;
 	_captureLimit = 0;
 	_roundLimit = 0;
+    _roundIndex = 0;
 	_overTimeType = udtOvertimeType::Timed;
 	_forfeited = false;
 	_timeOut = false;
@@ -989,7 +996,11 @@ void udtGeneralAnalyzer::ProcessWolfInfoConfigString(const char* configString)
 {
 	udtVMScopedStackAllocator tempAllocScope(*_tempAllocator);
 
-	// do we care about tracking rounds? the key is "g_currentRound"
+    s32 roundIndex;
+    if(ParseConfigStringValueInt(roundIndex, *_tempAllocator, "g_currentRound", configString))
+    {
+        _roundIndex = (u32)roundIndex;
+    }
 
 	struct WolfGS
 	{
@@ -1021,6 +1032,16 @@ void udtGeneralAnalyzer::ProcessWolfInfoConfigString(const char* configString)
 	{
 		_gameState = udtGameState::WarmUp;
 	}
+}
+
+void udtGeneralAnalyzer::ProcessWolfServerInfoConfigString(const char* configString)
+{
+    udtVMScopedStackAllocator tempAllocScope(*_tempAllocator);
+    s32 timeLimit;
+    if(ParseConfigStringValueInt(timeLimit, *_tempAllocator, "timelimit", configString))
+    {
+        _timeLimit = timeLimit;
+    }
 }
 
 void udtGeneralAnalyzer::ProcessModNameAndVersionOnce()

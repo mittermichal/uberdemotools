@@ -98,6 +98,7 @@ private:
 	void ProcessQLPauseStartConfigString(const char* configString);
 	void ProcessQLPauseEndConfigString(const char* configString);
 	void ProcessWolfInfoConfigString(const char* configString);
+    void ProcessWolfServerInfoConfigString(const char* configString);
 	s32  GetLevelStartTime();
 	s32  GetWarmUpEndTime();
 	bool IsIntermission();
@@ -128,7 +129,8 @@ private:
 	u32 _fragLimit;
 	u32 _captureLimit;
 	u32 _roundLimit;
-	s32 _te;
+    u32 _roundIndex;
+    s32 _te;
 	udtGame::Id _game;
 	udtGameType::Id _gameType;
 	udtGameState::Id _gameState;
