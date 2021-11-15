@@ -11,7 +11,6 @@
 #define  SCORE_NO_ONE  -9999
 
 
-
 static void CloneConfigString(udtString& string, udtVMLinearAllocator& alloc, udtBaseParser& parser, s32 csIndex)
 {
 	const udtString cs = parser.GetConfigString(csIndex);

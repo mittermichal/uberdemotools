@@ -325,6 +325,12 @@ void udtGeneralAnalyzer::ProcessCommandMessage(const udtCommandCallbackArg& /*ar
     {
         ProcessWolfServerInfoConfigString(configString);
     }
+	else if(_protocol == udtProtocol::Dm60 && csIndex == CS_WOLF_PAUSED)
+	{
+		s32 paused = 0;
+		ParseConfigStringInt(paused, parser, CS_WOLF_PAUSED);
+		_serverPause = paused > 0;
+	}
 	else if(_game == udtGame::CPMA && csIndex == CS_CPMA_GAME_INFO)
 	{
 		ProcessCPMAGameInfoConfigString(configString);
@@ -997,6 +1003,11 @@ void udtGeneralAnalyzer::ProcessQLPauseEndConfigString(const char* configString)
 
 void udtGeneralAnalyzer::ProcessWolfInfoConfigString(const char* configString)
 {
+	if(configString == NULL)
+	{
+		return;
+	}
+
 	udtVMScopedStackAllocator tempAllocScope(*_tempAllocator);
 
     s32 roundIndex;
@@ -1039,7 +1050,13 @@ void udtGeneralAnalyzer::ProcessWolfInfoConfigString(const char* configString)
 
 void udtGeneralAnalyzer::ProcessWolfServerInfoConfigString(const char* configString)
 {
+	if(configString == NULL)
+	{
+		return;
+	}
+
     udtVMScopedStackAllocator tempAllocScope(*_tempAllocator);
+
     s32 timeLimit;
     if(ParseConfigStringValueInt(timeLimit, *_tempAllocator, "timelimit", configString))
     {
