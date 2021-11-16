@@ -282,6 +282,7 @@ void udtGeneralAnalyzer::ProcessCommandMessage(const udtCommandCallbackArg& /*ar
 	}
 	
 	if(_game != udtGame::CPMA &&
+	   _protocol != udtProtocol::Dm60 &&
 	   tokenizer.GetArgCount() == 1 &&
 	   udtString::Equals(command, "map_restart"))
 	{
@@ -365,7 +366,7 @@ void udtGeneralAnalyzer::ProcessCommandMessage(const udtCommandCallbackArg& /*ar
 			_totalTimeOutDuration = shiftedStartTime - _matchStartTime;
 		}
 	}
-	else if(_game != udtGame::CPMA && csIndex == GetIdNumber(udtMagicNumberType::ConfigStringIndex, udtConfigStringIndex::Intermission, _protocol))
+	else if(_game != udtGame::CPMA && _protocol != udtProtocol::Dm60 && csIndex == GetIdNumber(udtMagicNumberType::ConfigStringIndex, udtConfigStringIndex::Intermission, _protocol))
 	{	
 		ProcessIntermissionConfigString(tokenizer.GetArg(2));
 	}
@@ -1030,21 +1031,27 @@ void udtGeneralAnalyzer::ProcessWolfInfoConfigString(const char* configString)
 		};
 	};
 
+	udtGameState::Id newGameState = udtGameState::WarmUp;
 	s32 wolfGS = -1;
 	if(ParseConfigStringValueInt(wolfGS, *_tempAllocator, "gamestate", configString))
 	{
 		switch((WolfGS::Id)wolfGS)
 		{
 			// Initialize + WarmUp + WaitingForPlayers + invalid/unsure -> WarmUp
-			case WolfGS::InProgress: _gameState = udtGameState::InProgress; break;
-			case WolfGS::CountDown: _gameState = udtGameState::CountDown; break;
-			case WolfGS::Intermission: _gameState = udtGameState::Intermission; break;
-			default: _gameState = udtGameState::WarmUp; break;
+			case WolfGS::InProgress: newGameState = udtGameState::InProgress; break;
+			case WolfGS::CountDown: newGameState = udtGameState::CountDown; break;
+			case WolfGS::Intermission: newGameState = udtGameState::Intermission; break;
+			default: break;
 		}
 	}
-	else
+	UpdateGameState(newGameState);
+	if(HasMatchJustStarted())
 	{
-		_gameState = udtGameState::WarmUp;
+		_matchStartTime = _parser->_inServerTime;
+	}
+	else if(HasMatchJustEnded())
+	{
+		_matchEndTime = _parser->_inServerTime;
 	}
 }
 

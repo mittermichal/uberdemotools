@@ -2675,8 +2675,9 @@ void udtParserPlugInStats::AddCurrentStats()
 		return;
 	}
 
+	const s32 matchStartTime = _analyzer.MatchStartTime();
 	if(_statsArray.GetSize() >= 1 &&
-	   _lastMatchEndTime > _analyzer.MatchStartTime())
+	   _lastMatchEndTime > matchStartTime)
 	{
 		return;
 	}
