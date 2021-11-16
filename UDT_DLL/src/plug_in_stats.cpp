@@ -2640,24 +2640,24 @@ void udtParserPlugInStats::ParseWolfWeapStats()
 	{
 		WEAPON_FIELDS(Knife, 0)
 		/*
-		WEAPON_FIELDS(Luger, 5),
-		WEAPON_FIELDS(Colt, 10),
-		WEAPON_FIELDS(MP40, 15),
-		WEAPON_FIELDS(Thompson, 20),
-		WEAPON_FIELDS(Sten, 25),
-		WEAPON_FIELDS(FG42, 30),
-		WEAPON_FIELDS(Panzerfaust, 35),
-		WEAPON_FIELDS(Flamethrower, 40),
-		WEAPON_FIELDS(Grenade, 45),
-		WEAPON_FIELDS(Morta, 50),
-		WEAPON_FIELDS(Dynamite, 55),
-		WEAPON_FIELDS(Airstrike, 60),
-		WEAPON_FIELDS(Artillery, 65),
-		WEAPON_FIELDS(Syringe, 70),
-		WEAPON_FIELDS(Smoke, 75),
-		WEAPON_FIELDS(MG42, 80),
-		WEAPON_FIELDS(Rifle, 85),
-		WEAPON_FIELDS(Venom, 90)
+		WEAPON_FIELDS(Luger, 0),
+		WEAPON_FIELDS(Colt, 0),
+		WEAPON_FIELDS(MP40, 0),
+		WEAPON_FIELDS(Thompson, 0),
+		WEAPON_FIELDS(Sten, 0),
+		WEAPON_FIELDS(FG42, 0),
+		WEAPON_FIELDS(Panzerfaust, 0),
+		WEAPON_FIELDS(Flamethrower, 0),
+		WEAPON_FIELDS(Grenade, 0),
+		WEAPON_FIELDS(Morta, 0),
+		WEAPON_FIELDS(Dynamite, 0),
+		WEAPON_FIELDS(Airstrike, 0),
+		WEAPON_FIELDS(Artillery, 0),
+		WEAPON_FIELDS(Syringe, 0),
+		WEAPON_FIELDS(Smoke, 0),
+		WEAPON_FIELDS(MG42, 0),
+		WEAPON_FIELDS(Rifle, 0),
+		WEAPON_FIELDS(Venom, 0)
 		*/
 	};
 
