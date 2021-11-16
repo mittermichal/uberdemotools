@@ -42,6 +42,7 @@ private:
 	s32  GetValue(s32 index);
 	void ParseFields(u8* destMask, s32* destFields, const udtStatsField* fields, s32 fieldCount, s32 tokenOffset = 0);
 	void SetFields(u8* destMask, s32* destFields, const udtStatsFieldValue* fields, s32 fieldCount);
+	bool GetField(s32& fieldValue, const u8* mask, const s32* fields, s32 fieldIndex);
 	s64  CreateBitMask(const udtStatsField* fields, s32 fieldCount);
 	void AddCurrentStats();
 	void ClearStats(bool newGameState = false);
@@ -127,6 +128,16 @@ private:
 	{
 		const udtStatsFieldValue field = { (s32)fieldId, value };
 		SetFields(GetTeamFlags(teamIndex), GetTeamFields(teamIndex), &field, 1);
+	}
+
+	bool GetPlayerField(s32& fieldValue, s32 clientNumber, udtPlayerStatsField::Id fieldId)
+	{
+		return GetField(fieldValue, GetPlayerFlags(clientNumber), GetPlayerFields(clientNumber), (s32)fieldId);
+	}
+
+	bool GetTeamField(s32& fieldValue, s32 teamIndex, udtTeamStatsField::Id fieldId)
+	{
+		return GetField(fieldValue, GetTeamFlags(teamIndex), GetTeamFields(teamIndex), (s32)fieldId);
 	}
 
 	struct udtCPMAPrintStats

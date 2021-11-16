@@ -2705,6 +2705,19 @@ void udtParserPlugInStats::SetFields(u8* destMask, s32* destFields, const udtSta
 	}
 }
 
+bool udtParserPlugInStats::GetField(s32& fieldValue, const u8* mask, const s32* fields, s32 fieldIndex)
+{
+	const s32 byteIndex = fieldIndex >> 3;
+	const s32 bitIndex = fieldIndex & 7;
+	if((mask[byteIndex] & ((u8)1 << (u8)bitIndex)) == 0)
+	{
+		return false;
+	}
+
+	fieldValue = fields[fieldIndex];
+	return true;
+}
+
 s32 udtParserPlugInStats::GetValue(s32 index)
 {
 	s32 result = 0;
@@ -3248,6 +3261,25 @@ void udtParserPlugInStats::ComputePlayerAccuracies(s32 clientNumber)
 	COMPUTE_ACC(ProximityMineLauncher);
 	COMPUTE_ACC(ChainGun);
 	COMPUTE_ACC(HeavyMachineGun);
+	COMPUTE_ACC(Knife);
+	COMPUTE_ACC(Luger);
+	COMPUTE_ACC(Colt);
+	COMPUTE_ACC(MP40);
+	COMPUTE_ACC(Thompson);
+	COMPUTE_ACC(Sten);
+	COMPUTE_ACC(FG42);
+	COMPUTE_ACC(Panzerfaust);
+	COMPUTE_ACC(Flamethrower);
+	COMPUTE_ACC(Grenade);
+	COMPUTE_ACC(Mortar);
+	COMPUTE_ACC(Dynamite);
+	COMPUTE_ACC(Airstrike);
+	COMPUTE_ACC(Artillery);
+	COMPUTE_ACC(Syringe);
+	COMPUTE_ACC(Smoke);
+	COMPUTE_ACC(MG42);
+	COMPUTE_ACC(Rifle);
+	COMPUTE_ACC(Venom);
 #undef COMPUTE_ACC
 }
 
