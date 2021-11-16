@@ -2597,8 +2597,8 @@ void udtParserPlugInStats::ParseWolfWeapStats()
 	}
 
 	s32 token = 1;
-	const s32 clientNum = GetValue(token++);
-	const s32 rounds = GetValue(token++);
+	const s32 clientNumber = GetValue(token++);
+	token++; // skipped: rounds
 	const u32 weaponMask = (u32)GetValue(token++);
 	if(weaponMask == 0)
 	{
@@ -2629,8 +2629,42 @@ void udtParserPlugInStats::ParseWolfWeapStats()
 		WS_MAX
 	} extWeaponStats_t;
 
+#define WEAPON_FIELDS(Weapon, Offset) \
+	PLAYER_FIELD(Weapon##Hits, Offset + 0), \
+	PLAYER_FIELD(Weapon##Shots, Offset + 1), \
+	PLAYER_FIELD(Weapon##Kills, Offset + 2), \
+	PLAYER_FIELD(Weapon##Deaths, Offset + 3), \
+	PLAYER_FIELD(Weapon##Headshots, Offset + 4)
+	
+	const udtStatsField weaponFields[] =
+	{
+		WEAPON_FIELDS(Knife, 0)
+		/*
+		WEAPON_FIELDS(Luger, 5),
+		WEAPON_FIELDS(Colt, 10),
+		WEAPON_FIELDS(MP40, 15),
+		WEAPON_FIELDS(Thompson, 20),
+		WEAPON_FIELDS(Sten, 25),
+		WEAPON_FIELDS(FG42, 30),
+		WEAPON_FIELDS(Panzerfaust, 35),
+		WEAPON_FIELDS(Flamethrower, 40),
+		WEAPON_FIELDS(Grenade, 45),
+		WEAPON_FIELDS(Morta, 50),
+		WEAPON_FIELDS(Dynamite, 55),
+		WEAPON_FIELDS(Airstrike, 60),
+		WEAPON_FIELDS(Artillery, 65),
+		WEAPON_FIELDS(Syringe, 70),
+		WEAPON_FIELDS(Smoke, 75),
+		WEAPON_FIELDS(MG42, 80),
+		WEAPON_FIELDS(Rifle, 85),
+		WEAPON_FIELDS(Venom, 90)
+		*/
+	};
+
+#undef WEAPON_FIELDS
+
 	bool hasStats = false;
-	for(u32 i = WS_KNIFE; i < WS_MAX; ++i)
+	for(u32 i = WS_KNIFE, fieldIndex = 0; i < WS_MAX; ++i, fieldIndex += 5)
 	{
 		if((weaponMask & (1 << i)) == 0)
 		{
@@ -2638,11 +2672,13 @@ void udtParserPlugInStats::ParseWolfWeapStats()
 		}
 
 		// @TODO: write these out to the right fields
-		s32 hits = GetValue(token++);
-		s32 atts = GetValue(token++);
-		s32 kills = GetValue(token++);
-		s32 deaths = GetValue(token++);
-		s32 headshots = GetValue(token++);
+		const s32 hits = GetValue(token + 0);
+		const s32 atts = GetValue(token + 1);
+		const s32 kills = GetValue(token + 2);
+		const s32 deaths = GetValue(token + 3);
+		//const s32 headshots = GetValue(token + 4);
+		//ParsePlayerFields(clientNumber, weaponFields + fieldIndex, 5, token);
+		token += 5;
 		if(atts > 0 || hits > 0 || kills > 0 || deaths > 0)
 		{
 			hasStats = true;
@@ -2651,10 +2687,10 @@ void udtParserPlugInStats::ParseWolfWeapStats()
 
 	if(hasStats)
 	{
-		SetPlayerField(clientNum, udtPlayerStatsField::DamageGiven, GetValue(token++));
-		SetPlayerField(clientNum, udtPlayerStatsField::DamageReceived, GetValue(token++));
-		SetPlayerField(clientNum, udtPlayerStatsField::TeamDamage, GetValue(token++));
-		SetPlayerField(clientNum, udtPlayerStatsField::GibbedBodies, GetValue(token++));
+		SetPlayerField(clientNumber, udtPlayerStatsField::DamageGiven, GetValue(token++));
+		SetPlayerField(clientNumber, udtPlayerStatsField::DamageReceived, GetValue(token++));
+		SetPlayerField(clientNumber, udtPlayerStatsField::TeamDamage, GetValue(token++));
+		SetPlayerField(clientNumber, udtPlayerStatsField::GibbedBodies, GetValue(token++));
 	}
 }
 

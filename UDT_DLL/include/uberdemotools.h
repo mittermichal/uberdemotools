@@ -673,7 +673,14 @@ struct udtMatchStatsDataType
 	N(HeavyMachineGunDrops, "heavy machinegun drops", SmallerWins, Positive) \
 	N(RespawnsLeft, "respawns left", NeitherWins, Generic) \
 	N(PlayerClass, "player class", NeitherWins, Generic) \
-	N(GibbedBodies, "gibbed bodies", BiggerWins, Positive)
+	N(GibbedBodies, "gibbed bodies", BiggerWins, Positive) \
+	N(KnifeKills, "knife kills", BiggerWins, Positive) \
+	N(KnifeShots, "knife attacks", BiggerWins, Positive) \
+	N(KnifeHits, "knife hits", BiggerWins, Positive) \
+	N(KnifeDamage, "knife damage", BiggerWins, Positive) \
+	N(KnifeDeaths, "knife damage", SmallerWins, Positive) \
+	N(KnifeHeadshots, "knife headshots", BiggerWins, Positive) \
+	N(KnifeAccuracy, "knife accuracy", BiggerWins, Percentage)
 
 #define UDT_PLAYER_STATS_ITEM(Enum, Desc, Comp, Type) Enum,
 struct udtPlayerStatsField
