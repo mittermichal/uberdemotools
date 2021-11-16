@@ -678,9 +678,135 @@ struct udtMatchStatsDataType
 	N(KnifeShots, "knife attacks", BiggerWins, Positive) \
 	N(KnifeHits, "knife hits", BiggerWins, Positive) \
 	N(KnifeDamage, "knife damage", BiggerWins, Positive) \
-	N(KnifeDeaths, "knife damage", SmallerWins, Positive) \
+	N(KnifeDeaths, "knife deaths", SmallerWins, Positive) \
 	N(KnifeHeadshots, "knife headshots", BiggerWins, Positive) \
-	N(KnifeAccuracy, "knife accuracy", BiggerWins, Percentage)
+	N(KnifeAccuracy, "knife accuracy", BiggerWins, Percentage) \
+	N(LugerKills, "luger kills", BiggerWins, Positive) \
+	N(LugerShots, "luger shots", BiggerWins, Positive) \
+	N(LugerHits, "luger hits", BiggerWins, Positive) \
+	N(LugerDamage, "luger damage", BiggerWins, Positive) \
+	N(LugerDeaths, "luger deaths", SmallerWins, Positive) \
+	N(LugerHeadshots, "luger headshots", BiggerWins, Positive) \
+	N(LugerAccuracy, "luger accuracy", BiggerWins, Percentage) \
+	N(ColtKills, "colt kills", BiggerWins, Positive) \
+	N(ColtShots, "colt shots", BiggerWins, Positive) \
+	N(ColtHits, "colt hits", BiggerWins, Positive) \
+	N(ColtDamage, "colt damage", BiggerWins, Positive) \
+	N(ColtDeaths, "colt deaths", SmallerWins, Positive) \
+	N(ColtHeadshots, "colt headshots", BiggerWins, Positive) \
+	N(ColtAccuracy, "colt accuracy", BiggerWins, Percentage) \
+	N(MP40Kills, "MP40 kills", BiggerWins, Positive) \
+	N(MP40Shots, "MP40 shots", BiggerWins, Positive) \
+	N(MP40Hits, "MP40 hits", BiggerWins, Positive) \
+	N(MP40Damage, "MP40 damage", BiggerWins, Positive) \
+	N(MP40Deaths, "MP40 deaths", SmallerWins, Positive) \
+	N(MP40Headshots, "MP40 headshots", BiggerWins, Positive) \
+	N(MP40Accuracy, "MP40 accuracy", BiggerWins, Percentage) \
+	N(ThompsonKills, "thompson kills", BiggerWins, Positive) \
+	N(ThompsonShots, "thompson shots", BiggerWins, Positive) \
+	N(ThompsonHits, "thompson hits", BiggerWins, Positive) \
+	N(ThompsonDamage, "thompson damage", BiggerWins, Positive) \
+	N(ThompsonDeaths, "thompson deaths", SmallerWins, Positive) \
+	N(ThompsonHeadshots, "thompson headshots", BiggerWins, Positive) \
+	N(ThompsonAccuracy, "thompson accuracy", BiggerWins, Percentage) \
+	N(StenKills, "sten kills", BiggerWins, Positive) \
+	N(StenShots, "sten shots", BiggerWins, Positive) \
+	N(StenHits, "sten hits", BiggerWins, Positive) \
+	N(StenDamage, "sten damage", BiggerWins, Positive) \
+	N(StenDeaths, "sten deaths", SmallerWins, Positive) \
+	N(StenHeadshots, "sten headshots", BiggerWins, Positive) \
+	N(StenAccuracy, "sten accuracy", BiggerWins, Percentage) \
+	N(FG42Kills, "FG42 kills", BiggerWins, Positive) \
+	N(FG42Shots, "FG42 shots", BiggerWins, Positive) \
+	N(FG42Hits, "FG42 hits", BiggerWins, Positive) \
+	N(FG42Damage, "FG42 damage", BiggerWins, Positive) \
+	N(FG42Deaths, "FG42 deaths", SmallerWins, Positive) \
+	N(FG42Headshots, "FG42 headshots", BiggerWins, Positive) \
+	N(FG42Accuracy, "FG42 accuracy", BiggerWins, Percentage) \
+	N(PanzerfaustKills, "panzerfaust kills", BiggerWins, Positive) \
+	N(PanzerfaustShots, "panzerfaust shots", BiggerWins, Positive) \
+	N(PanzerfaustHits, "panzerfaust hits", BiggerWins, Positive) \
+	N(PanzerfaustDamage, "panzerfaust damage", BiggerWins, Positive) \
+	N(PanzerfaustDeaths, "panzerfaust deaths", SmallerWins, Positive) \
+	N(PanzerfaustHeadshots, "panzerfaust headshots", BiggerWins, Positive) \
+	N(PanzerfaustAccuracy, "panzerfaust accuracy", BiggerWins, Percentage) \
+	N(FlamethrowerKills, "flamethrower kills", BiggerWins, Positive) \
+	N(FlamethrowerShots, "flamethrower shots", BiggerWins, Positive) \
+	N(FlamethrowerHits, "flamethrower hits", BiggerWins, Positive) \
+	N(FlamethrowerDamage, "flamethrower damage", BiggerWins, Positive) \
+	N(FlamethrowerDeaths, "flamethrower deaths", SmallerWins, Positive) \
+	N(FlamethrowerHeadshots, "flamethrower headshots", BiggerWins, Positive) \
+	N(FlamethrowerAccuracy, "flamethrower accuracy", BiggerWins, Percentage) \
+	N(GrenadeKills, "grenade kills", BiggerWins, Positive) \
+	N(GrenadeShots, "grenade shots", BiggerWins, Positive) \
+	N(GrenadeHits, "grenade hits", BiggerWins, Positive) \
+	N(GrenadeDamage, "grenade damage", BiggerWins, Positive) \
+	N(GrenadeDeaths, "grenade deaths", SmallerWins, Positive) \
+	N(GrenadeHeadshots, "grenade headshots", BiggerWins, Positive) \
+	N(GrenadeAccuracy, "grenade accuracy", BiggerWins, Percentage) \
+	N(MortarKills, "mortar kills", BiggerWins, Positive) \
+	N(MortarShots, "mortar shots", BiggerWins, Positive) \
+	N(MortarHits, "mortar hits", BiggerWins, Positive) \
+	N(MortarDamage, "mortar damage", BiggerWins, Positive) \
+	N(MortarDeaths, "mortar deaths", SmallerWins, Positive) \
+	N(MortarHeadshots, "mortar headshots", BiggerWins, Positive) \
+	N(MortarAccuracy, "mortar accuracy", BiggerWins, Percentage) \
+	N(DynamiteKills, "dynamite kills", BiggerWins, Positive) \
+	N(DynamiteShots, "dynamite shots", BiggerWins, Positive) \
+	N(DynamiteHits, "dynamite hits", BiggerWins, Positive) \
+	N(DynamiteDamage, "dynamite damage", BiggerWins, Positive) \
+	N(DynamiteDeaths, "dynamite deaths", SmallerWins, Positive) \
+	N(DynamiteHeadshots, "dynamite headshots", BiggerWins, Positive) \
+	N(DynamiteAccuracy, "dynamite accuracy", BiggerWins, Percentage) \
+	N(AirstrikeKills, "airstrike kills", BiggerWins, Positive) \
+	N(AirstrikeShots, "airstrike shots", BiggerWins, Positive) \
+	N(AirstrikeHits, "airstrike hits", BiggerWins, Positive) \
+	N(AirstrikeDamage, "airstrike damage", BiggerWins, Positive) \
+	N(AirstrikeDeaths, "airstrike deaths", SmallerWins, Positive) \
+	N(AirstrikeHeadshots, "airstrike headshots", BiggerWins, Positive) \
+	N(AirstrikeAccuracy, "airstrike accuracy", BiggerWins, Percentage) \
+	N(ArtilleryKills, "artillery kills", BiggerWins, Positive) \
+	N(ArtilleryShots, "artillery shots", BiggerWins, Positive) \
+	N(ArtilleryHits, "artillery hits", BiggerWins, Positive) \
+	N(ArtilleryDamage, "artillery damage", BiggerWins, Positive) \
+	N(ArtilleryDeaths, "artillery deaths", SmallerWins, Positive) \
+	N(ArtilleryHeadshots, "artillery headshots", BiggerWins, Positive) \
+	N(ArtilleryAccuracy, "artillery accuracy", BiggerWins, Percentage) \
+	N(SyringeKills, "syringe kills", BiggerWins, Positive) \
+	N(SyringeShots, "syringe shots", BiggerWins, Positive) \
+	N(SyringeHits, "syringe hits", BiggerWins, Positive) \
+	N(SyringeDamage, "syringe damage", BiggerWins, Positive) \
+	N(SyringeDeaths, "syringe deaths", SmallerWins, Positive) \
+	N(SyringeHeadshots, "syringe headshots", BiggerWins, Positive) \
+	N(SyringeAccuracy, "syringe accuracy", BiggerWins, Percentage) \
+	N(SmokeKills, "smoke kills", BiggerWins, Positive) \
+	N(SmokeShots, "smoke shots", BiggerWins, Positive) \
+	N(SmokeHits, "smoke hits", BiggerWins, Positive) \
+	N(SmokeDamage, "smoke damage", BiggerWins, Positive) \
+	N(SmokeDeaths, "smoke deaths", SmallerWins, Positive) \
+	N(SmokeHeadshots, "smoke headshots", BiggerWins, Positive) \
+	N(SmokeAccuracy, "smoke accuracy", BiggerWins, Percentage) \
+	N(MG42Kills, "MG42 kills", BiggerWins, Positive) \
+	N(MG42Shots, "MG42 shots", BiggerWins, Positive) \
+	N(MG42Hits, "MG42 hits", BiggerWins, Positive) \
+	N(MG42Damage, "MG42 damage", BiggerWins, Positive) \
+	N(MG42Deaths, "MG42 deaths", SmallerWins, Positive) \
+	N(MG42Headshots, "MG42 headshots", BiggerWins, Positive) \
+	N(MG42Accuracy, "MG42 accuracy", BiggerWins, Percentage) \
+	N(RifleKills, "rifle kills", BiggerWins, Positive) \
+	N(RifleShots, "rifle shots", BiggerWins, Positive) \
+	N(RifleHits, "rifle hits", BiggerWins, Positive) \
+	N(RifleDamage, "rifle damage", BiggerWins, Positive) \
+	N(RifleDeaths, "rifle deaths", SmallerWins, Positive) \
+	N(RifleHeadshots, "rifle headshots", BiggerWins, Positive) \
+	N(RifleAccuracy, "rifle accuracy", BiggerWins, Percentage) \
+	N(VenomKills, "venom kills", BiggerWins, Positive) \
+	N(VenomShots, "venom shots", BiggerWins, Positive) \
+	N(VenomHits, "venom hits", BiggerWins, Positive) \
+	N(VenomDamage, "venom damage", BiggerWins, Positive) \
+	N(VenomDeaths, "venom deaths", SmallerWins, Positive) \
+	N(VenomHeadshots, "venom headshots", BiggerWins, Positive) \
+	N(VenomAccuracy, "venom accuracy", BiggerWins, Percentage)
 
 #define UDT_PLAYER_STATS_ITEM(Enum, Desc, Comp, Type) Enum,
 struct udtPlayerStatsField
@@ -891,7 +1017,7 @@ struct udtPerfStatsField
 
 #define    UDT_MAX_MERGE_DEMO_COUNT             8
 #define    UDT_TEAM_STATS_MASK_BYTE_COUNT       8
-#define    UDT_PLAYER_STATS_MASK_BYTE_COUNT    32
+#define    UDT_PLAYER_STATS_MASK_BYTE_COUNT    40
 
 
 #if defined(__cplusplus)

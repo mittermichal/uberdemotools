@@ -2605,30 +2605,6 @@ void udtParserPlugInStats::ParseWolfWeapStats()
 		return;
 	}
 
-	typedef enum extWeaponStats_s
-	{
-		WS_KNIFE,               // 0
-		WS_LUGER,               // 1
-		WS_COLT,                // 2
-		WS_MP40,                // 3
-		WS_THOMPSON,            // 4
-		WS_STEN,                // 5
-		WS_FG42,                // 6	-- Also includes WS_BAR (allies version of fg42)
-		WS_PANZERFAUST,         // 7
-		WS_FLAMETHROWER,        // 8
-		WS_GRENADE,             // 9	-- Includes axis and allies grenade types
-		WS_MORTAR,              // 10
-		WS_DYNAMITE,            // 11
-		WS_AIRSTRIKE,           // 12	-- Lt. smoke grenade attack
-		WS_ARTILLERY,           // 13	-- Lt. binocular attack
-		WS_SYRINGE,             // 14	-- Medic syringe uses/successes
-		WS_SMOKE,               // 15
-		WS_MG42,                // 16
-		WS_RIFLE,				// 17 - equivalent american weapon to german mauser
-		WS_VENOM,				// 18
-		WS_MAX
-	} extWeaponStats_t;
-
 #define WEAPON_FIELDS(Weapon, Offset) \
 	PLAYER_FIELD(Weapon##Hits, Offset + 0), \
 	PLAYER_FIELD(Weapon##Shots, Offset + 1), \
@@ -2638,8 +2614,7 @@ void udtParserPlugInStats::ParseWolfWeapStats()
 	
 	const udtStatsField weaponFields[] =
 	{
-		WEAPON_FIELDS(Knife, 0)
-		/*
+		WEAPON_FIELDS(Knife, 0),
 		WEAPON_FIELDS(Luger, 0),
 		WEAPON_FIELDS(Colt, 0),
 		WEAPON_FIELDS(MP40, 0),
@@ -2649,7 +2624,7 @@ void udtParserPlugInStats::ParseWolfWeapStats()
 		WEAPON_FIELDS(Panzerfaust, 0),
 		WEAPON_FIELDS(Flamethrower, 0),
 		WEAPON_FIELDS(Grenade, 0),
-		WEAPON_FIELDS(Morta, 0),
+		WEAPON_FIELDS(Mortar, 0),
 		WEAPON_FIELDS(Dynamite, 0),
 		WEAPON_FIELDS(Airstrike, 0),
 		WEAPON_FIELDS(Artillery, 0),
@@ -2658,26 +2633,24 @@ void udtParserPlugInStats::ParseWolfWeapStats()
 		WEAPON_FIELDS(MG42, 0),
 		WEAPON_FIELDS(Rifle, 0),
 		WEAPON_FIELDS(Venom, 0)
-		*/
 	};
 
 #undef WEAPON_FIELDS
 
 	bool hasStats = false;
-	for(u32 i = WS_KNIFE, fieldIndex = 0; i < WS_MAX; ++i, fieldIndex += 5)
+	for(u32 i = 0, fieldIndex = 0; i < 19; ++i, fieldIndex += 5)
 	{
 		if((weaponMask & (1 << i)) == 0)
 		{
 			continue;
 		}
 
-		// @TODO: write these out to the right fields
 		const s32 hits = GetValue(token + 0);
 		const s32 atts = GetValue(token + 1);
 		const s32 kills = GetValue(token + 2);
 		const s32 deaths = GetValue(token + 3);
-		//const s32 headshots = GetValue(token + 4);
-		//ParsePlayerFields(clientNumber, weaponFields + fieldIndex, 5, token);
+		// skipped: headshots
+		ParsePlayerFields(clientNumber, weaponFields + fieldIndex, 5, token);
 		token += 5;
 		if(atts > 0 || hits > 0 || kills > 0 || deaths > 0)
 		{
