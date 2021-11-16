@@ -672,7 +672,8 @@ struct udtMatchStatsDataType
 	N(HeavyMachineGunDamage, "heavy machinegun damage", BiggerWins, Positive) \
 	N(HeavyMachineGunDrops, "heavy machinegun drops", SmallerWins, Positive) \
 	N(RespawnsLeft, "respawns left", NeitherWins, Generic) \
-	N(PlayerClass, "player class", NeitherWins, Generic)
+	N(PlayerClass, "player class", NeitherWins, Generic) \
+	N(GibbedBodies, "gibbed bodies", BiggerWins, Positive)
 
 #define UDT_PLAYER_STATS_ITEM(Enum, Desc, Comp, Type) Enum,
 struct udtPlayerStatsField

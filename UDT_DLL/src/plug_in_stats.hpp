@@ -87,6 +87,7 @@ private:
 	void ParseCPMAPrintStatsTeam(const udtString& message);
 	void ResetCPMAPrintStats();
 	void ParseWolfScores();
+	void ParseWolfWeapStats();
 	void ComputePlayerAccuracies(s32 clientNumber);
 	void ComputePlayerAccuracy(s32 clientNumber, s32 acc, s32 hits, s32 shots);
 	void ComputePlayerRocketSkill(s32 clientNumber);

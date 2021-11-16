@@ -307,7 +307,8 @@ void udtParserPlugInStats::ProcessCommandMessage(const udtCommandCallbackArg& ar
 		HANDLER("scores_ft", ParseQLScoresFT),
 		HANDLER("rrscores", ParseQLScoresRROld),
 		HANDLER("scores_rr", ParseQLScoresRR),
-		HANDLER("print", ParsePrint)
+		HANDLER("print", ParsePrint),
+		HANDLER("ws", ParseWolfWeapStats)
 	};
 #undef HANDLER
 	/*
@@ -2585,6 +2586,75 @@ void udtParserPlugInStats::ParseWolfScores()
 		}
 
 		offset += 8;
+	}
+}
+
+void udtParserPlugInStats::ParseWolfWeapStats()
+{
+	if(_tokenizer->GetArgCount() < 1 + 3)
+	{
+		return;
+	}
+
+	s32 token = 1;
+	const s32 clientNum = GetValue(token++);
+	const s32 rounds = GetValue(token++);
+	const u32 weaponMask = (u32)GetValue(token++);
+	if(weaponMask == 0)
+	{
+		return;
+	}
+
+	typedef enum extWeaponStats_s
+	{
+		WS_KNIFE,               // 0
+		WS_LUGER,               // 1
+		WS_COLT,                // 2
+		WS_MP40,                // 3
+		WS_THOMPSON,            // 4
+		WS_STEN,                // 5
+		WS_FG42,                // 6	-- Also includes WS_BAR (allies version of fg42)
+		WS_PANZERFAUST,         // 7
+		WS_FLAMETHROWER,        // 8
+		WS_GRENADE,             // 9	-- Includes axis and allies grenade types
+		WS_MORTAR,              // 10
+		WS_DYNAMITE,            // 11
+		WS_AIRSTRIKE,           // 12	-- Lt. smoke grenade attack
+		WS_ARTILLERY,           // 13	-- Lt. binocular attack
+		WS_SYRINGE,             // 14	-- Medic syringe uses/successes
+		WS_SMOKE,               // 15
+		WS_MG42,                // 16
+		WS_RIFLE,				// 17 - equivalent american weapon to german mauser
+		WS_VENOM,				// 18
+		WS_MAX
+	} extWeaponStats_t;
+
+	bool hasStats = false;
+	for(u32 i = WS_KNIFE; i < WS_MAX; ++i)
+	{
+		if((weaponMask & (1 << i)) == 0)
+		{
+			continue;
+		}
+
+		// @TODO: write these out to the right fields
+		s32 hits = GetValue(token++);
+		s32 atts = GetValue(token++);
+		s32 kills = GetValue(token++);
+		s32 deaths = GetValue(token++);
+		s32 headshots = GetValue(token++);
+		if(atts > 0 || hits > 0 || kills > 0 || deaths > 0)
+		{
+			hasStats = true;
+		}
+	}
+
+	if(hasStats)
+	{
+		SetPlayerField(clientNum, udtPlayerStatsField::DamageGiven, GetValue(token++));
+		SetPlayerField(clientNum, udtPlayerStatsField::DamageReceived, GetValue(token++));
+		SetPlayerField(clientNum, udtPlayerStatsField::TeamDamage, GetValue(token++));
+		SetPlayerField(clientNum, udtPlayerStatsField::GibbedBodies, GetValue(token++));
 	}
 }
 
