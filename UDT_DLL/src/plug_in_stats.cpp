@@ -308,7 +308,8 @@ void udtParserPlugInStats::ProcessCommandMessage(const udtCommandCallbackArg& ar
 		HANDLER("rrscores", ParseQLScoresRROld),
 		HANDLER("scores_rr", ParseQLScoresRR),
 		HANDLER("print", ParsePrint),
-		HANDLER("ws", ParseWolfWeapStats)
+		HANDLER("ws", ParseWolfWeapStats),
+		HANDLER("sc", ParseWolfSC)
 	};
 #undef HANDLER
 	/*
@@ -2664,6 +2665,44 @@ void udtParserPlugInStats::ParseWolfWeapStats()
 		SetPlayerField(clientNumber, udtPlayerStatsField::DamageReceived, GetValue(token++));
 		SetPlayerField(clientNumber, udtPlayerStatsField::TeamDamage, GetValue(token++));
 		SetPlayerField(clientNumber, udtPlayerStatsField::GibbedBodies, GetValue(token++));
+	}
+}
+
+void udtParserPlugInStats::ParseWolfSC()
+{
+	if(_tokenizer->GetArgCount() != 2)
+	{
+		return;
+	}
+
+	const udtString message = _tokenizer->GetArg(1);
+	udtString cleanMessage = udtString::NewCloneFromRef(*TempAllocator, message);
+	udtString::CleanUp(cleanMessage, _protocol);
+	udtString::TrimLeadingCharacter(cleanMessage, '\n');
+	udtString::TrimTrailingCharacter(cleanMessage, '\n');
+
+	if(udtString::IsNullOrEmpty(cleanMessage) ||
+	   udtString::StartsWith(cleanMessage, "Mod"))
+	{
+		return;
+	}
+
+	if(udtString::StartsWith(cleanMessage, "Axis Team") ||
+	   udtString::StartsWith(cleanMessage, "Allied Team"))
+	{
+		// @TODO: parse header
+	}
+	else if(udtString::StartsWith(cleanMessage, "----"))
+	{
+		_disableStatsOverrides = true;
+		// @TODO: parse team stats
+		_disableStatsOverrides = false;
+	}
+	else
+	{
+		_disableStatsOverrides = true;
+		// @TODO: parse player stats
+		_disableStatsOverrides = false;
 	}
 }
 

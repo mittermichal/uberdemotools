@@ -800,6 +800,32 @@ void udtString::RemoveCharacter(udtString& result, char toRemove)
 	result.Length = newLength;
 }
 
+void udtString::TrimLeadingCharacter(udtString& result, char toRemove)
+{
+	if(IsNullOrEmpty(result))
+	{
+		return;
+	}
+
+	// Make sure we're not trying to modify a read-only string.
+	UDT_ASSERT_OR_RETURN(result.ReservedBytes > 0);
+
+	char* src = result.GetWritePtr();
+	if(*src != toRemove)
+	{
+		return;
+	}
+
+	u32 removed = 0;
+	while(*src++ == toRemove)
+	{
+		removed++;
+	}
+
+	result.Offset += removed;
+	result.Length += removed;
+}
+
 void udtString::TrimTrailingCharacter(udtString& result, char toRemove)
 {
 	if(IsNullOrEmpty(result))
