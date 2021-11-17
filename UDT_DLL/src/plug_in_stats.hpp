@@ -156,12 +156,28 @@ private:
 		bool TeamStats;
 	};
 
+	struct udtWolfSCStats
+	{
+		struct Header
+		{
+			u16 StringStart;
+			u16 StringLength;
+			s16 PlayerField;
+			s16 TeamField;
+		};
+
+		Header Headers[64];
+		u32 HeaderCount;
+		u32 CurrentTeamIndex;
+	};
+
 	u8 _playerIndices[64];
 	udtGeneralAnalyzer _analyzer;
 	udtVMArray<udtParseDataStats> _statsArray { "ParserPlugInStats::StatsArray" };
 	udtParseDataStatsBuffers _buffers;
 	udtParseDataStats _stats;
 	udtCPMAPrintStats _cpmaPrintStats;
+	udtWolfSCStats _wolfSCStats;
 	udtPlayerStats _playerStats[64];
 	s32 _playerTeamIndices[64];
 	s32 _playerFields[64][udtPlayerStatsField::Count];

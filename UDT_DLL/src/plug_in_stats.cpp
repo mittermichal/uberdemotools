@@ -2678,8 +2678,6 @@ void udtParserPlugInStats::ParseWolfSC()
 	const udtString message = _tokenizer->GetArg(1);
 	udtString cleanMessage = udtString::NewCloneFromRef(*TempAllocator, message);
 	udtString::CleanUp(cleanMessage, _protocol);
-	udtString::TrimLeadingCharacter(cleanMessage, '\n');
-	udtString::TrimTrailingCharacter(cleanMessage, '\n');
 
 	if(udtString::IsNullOrEmpty(cleanMessage) ||
 	   udtString::StartsWith(cleanMessage, "Mod"))
@@ -2690,7 +2688,80 @@ void udtParserPlugInStats::ParseWolfSC()
 	if(udtString::StartsWith(cleanMessage, "Axis Team") ||
 	   udtString::StartsWith(cleanMessage, "Allied Team"))
 	{
-		// @TODO: parse header
+		struct Field
+		{
+			const char* Name;
+			s16 PlayerField;
+			s16 TeamField;
+		};
+
+#define FIELD(Name, Field) { Name, (s16)udtPlayerStatsField::Field, (s16)udtTeamStatsField::Field }
+		static const Field fields[] =
+		{
+			{ "Player", -1, -666 },
+			FIELD("Kll", Kills),
+			FIELD("Dth", Deaths),
+			FIELD("Sui", Suicides),
+			FIELD("TK", TeamKills),
+			FIELD("Eff", Efficiency),
+			FIELD("Gib", GibbedBodies),
+			FIELD("Accrcy", Accuracy),
+			FIELD("HS", Headshots),
+			FIELD("DG", DamageGiven),
+			FIELD("DR", DamageReceived),
+			FIELD("TD", TeamDamage),
+			FIELD("Rev", Revives),
+			FIELD("Score", Score)
+		};
+#undef FIELD
+
+		_wolfSCStats.CurrentTeamIndex = udtString::StartsWithNoCase(cleanMessage, "Allied Team") ? 1 : 0;
+
+		udtString::TrimTrailingCharacter(cleanMessage, '-');
+
+		udtString headerString = cleanMessage;
+		u32 headerStart = 0;
+		if(udtString::Contains(headerStart, cleanMessage, "----Player"))
+		{
+			headerStart += 4;
+			headerString = udtString::NewSubstringClone(*TempAllocator, cleanMessage, headerStart);
+		}
+
+		idTokenizer* const tokenizer = _plugInTokenizer;
+		tokenizer->Tokenize(headerString.GetPtr());
+		
+		const u32 tokenCount = tokenizer->GetArgCount();
+		const u32 fieldCount = (u32)UDT_COUNT_OF(fields);
+		u32& headerCount = _wolfSCStats.HeaderCount;
+		headerCount = 0;
+		for(u32 t = 0; t < tokenCount; ++t)
+		{
+			const udtString token = tokenizer->GetArg(t);
+			for(u32 f = 0; f < fieldCount; ++f)
+			{
+				if(udtString::Equals(token, fields[f].Name))
+				{
+					udtWolfSCStats::Header& header = _wolfSCStats.Headers[headerCount++];
+					header.PlayerField = fields[f].PlayerField;
+					header.TeamField = fields[f].TeamField;
+
+					const u16 startOffset = (u16)tokenizer->GetArgOffset(t);
+					u16 length = 0;
+					if(t + 1 < tokenCount)
+					{
+						length = (u16)tokenizer->GetArgOffset(t + 1) - startOffset;
+					}
+					else
+					{
+						length = (u16)headerString.GetLength() - startOffset;
+					}
+					header.StringStart = startOffset;
+					header.StringLength = length;
+
+					break;
+				}
+			}
+		}
 	}
 	else if(udtString::StartsWith(cleanMessage, "----"))
 	{

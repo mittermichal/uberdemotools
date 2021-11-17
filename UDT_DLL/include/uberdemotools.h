@@ -806,7 +806,10 @@ struct udtMatchStatsDataType
 	N(VenomDamage, "venom damage", BiggerWins, Positive) \
 	N(VenomDeaths, "venom deaths", SmallerWins, Positive) \
 	N(VenomHeadshots, "venom headshots", BiggerWins, Positive) \
-	N(VenomAccuracy, "venom accuracy", BiggerWins, Percentage)
+	N(VenomAccuracy, "venom accuracy", BiggerWins, Percentage) \
+	N(Efficiency, "efficiency", BiggerWins, Positive) \
+	N(Headshots, "headshots", BiggerWins, Positive) \
+	N(Revives, "revives", BiggerWins, Positive)
 
 #define UDT_PLAYER_STATS_ITEM(Enum, Desc, Comp, Type) Enum,
 struct udtPlayerStatsField
@@ -854,7 +857,12 @@ struct udtPlayerStatsField
 	N(RocketLauncherPickups, "rocket launcher pickups", BiggerWins, Positive) \
 	N(PlasmaGunPickups, "plasma gun pickups", BiggerWins, Positive) \
 	N(RailgunPickups, "railgun pickups", BiggerWins, Positive) \
-	N(LightningGunPickups, "lightning gun pickups", BiggerWins, Positive)
+	N(LightningGunPickups, "lightning gun pickups", BiggerWins, Positive) \
+	N(Efficiency, "efficiency", BiggerWins, Positive) \
+	N(GibbedBodies, "gibbed bodies", BiggerWins, Positive) \
+	N(Headshots, "headshots", BiggerWins, Positive) \
+	N(Revives, "revives", BiggerWins, Positive) \
+	N(Accuracy, "accuracy", BiggerWins, Percentage)
 
 #define UDT_TEAM_STATS_ITEM(Enum, Desc, Comp, Type) Enum,
 struct udtTeamStatsField
