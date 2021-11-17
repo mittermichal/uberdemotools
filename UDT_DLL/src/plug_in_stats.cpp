@@ -2772,7 +2772,7 @@ void udtParserPlugInStats::ParseWolfSCHeader(const udtString& cleanMessage)
 				{
 					const u16 endOffset = (u16)tokenizer->GetArgOffset(t) + (u16)tokenizer->GetArgLength(t);
 					startOffset = (u16)tokenizer->GetArgOffset(t - 1) + (u16)tokenizer->GetArgLength(t - 1);
-					length = endOffset - startOffset + 1;
+					length = endOffset - startOffset;
 				}
 				else
 				{
@@ -2828,7 +2828,6 @@ void udtParserPlugInStats::ParseWolfSCStatsPlayer(const udtString& message)
 	const udtTeam::Id team = _wolfSCStats.TeamIndex ? udtTeam::Allies : udtTeam::Axis;
 	SetPlayerField(clientNumber, udtPlayerStatsField::TeamIndex, (s32)team);
 
-	idTokenizer* const tokenizer = _plugInTokenizer;
 	for(u32 i = 0; i < headerCount; ++i)
 	{
 		const udtWolfSCStats::Header& header = _wolfSCStats.Headers[i];
@@ -2839,18 +2838,36 @@ void udtParserPlugInStats::ParseWolfSCStatsPlayer(const udtString& message)
 
 		s32 value = 0;
 		const udtString section = udtString::NewSubstringClone(*TempAllocator, message, header.StringStart, header.StringLength);
-		tokenizer->Tokenize(section.GetPtr());
-		if(tokenizer->GetArgCount() >= 1)
-		{
-			StringParseInt(value, tokenizer->GetArgString(0));
-		}
+		StringParseInt(value, section.GetPtr());
 		SetPlayerField(clientNumber, (udtPlayerStatsField::Id)header.PlayerField, value);
 	}
 }
 
-void udtParserPlugInStats::ParseWolfSCStatsTeam(const udtString& message)
+void udtParserPlugInStats::ParseWolfSCStatsTeam(const udtString& cleanMessage)
 {
-	// @TODO:
+	const u32 headerCount = _wolfSCStats.HeaderCount;
+	if(headerCount < 2)
+	{
+		return;
+	}
+
+	udtString message = cleanMessage;
+	udtString::TrimLeadingCharacter(message, '-');
+
+	const s32 teamIndex = (s32)_wolfSCStats.TeamIndex;
+	for(u32 i = 0; i < headerCount; ++i)
+	{
+		const udtWolfSCStats::Header& header = _wolfSCStats.Headers[i];
+		if(header.TeamField < 0)
+		{
+			continue;
+		}
+
+		s32 value = 0;
+		const udtString section = udtString::NewSubstringClone(*TempAllocator, message, header.StringStart, header.StringLength);
+		StringParseInt(value, section.GetPtr());
+		SetTeamField(teamIndex, (udtTeamStatsField::Id)header.TeamField, value);
+	}
 }
 
 void udtParserPlugInStats::ParseFields(u8* destMask, s32* destFields, const udtStatsField* fields, s32 fieldCount, s32 tokenOffset)
