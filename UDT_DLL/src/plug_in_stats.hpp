@@ -86,10 +86,12 @@ private:
 	void ParseCPMAPrintStats(const udtString& message);
 	void ParseCPMAPrintStatsPlayer(const udtString& message);
 	void ParseCPMAPrintStatsTeam(const udtString& message);
-	void ResetCPMAPrintStats();
 	void ParseWolfScores();
 	void ParseWolfWeapStats();
 	void ParseWolfSC();
+	void ParseWolfSCHeader(const udtString& message);
+	void ParseWolfSCStatsPlayer(const udtString& message);
+	void ParseWolfSCStatsTeam(const udtString& message);
 	void ComputePlayerAccuracies(s32 clientNumber);
 	void ComputePlayerAccuracy(s32 clientNumber, s32 acc, s32 hits, s32 shots);
 	void ComputePlayerRocketSkill(s32 clientNumber);
@@ -168,7 +170,7 @@ private:
 
 		Header Headers[64];
 		u32 HeaderCount;
-		u32 CurrentTeamIndex;
+		u32 TeamIndex;
 	};
 
 	u8 _playerIndices[64];
