@@ -138,7 +138,7 @@ struct udtErrorCode
 #define UDT_PROTOCOL_LIST(N) \
 	N(Dm3 , ".dm3"  ) \
 	N(Dm48, ".dm_48") \
-    N(Dm60, ".dm_60") \
+	N(Dm60, ".dm_60") \
 	N(Dm66, ".dm_66") \
 	N(Dm67, ".dm_67") \
 	N(Dm68, ".dm_68") \
@@ -2644,26 +2644,26 @@ extern "C"
 	{
 	};
 
-    struct idEntityState60 : idEntityStateBase
+	struct idEntityState60 : idEntityStateBase
 	{
-        int dl_intensity;  /* used for coronas */
-        int eventSequence; /* pmove generated events */
-        int events[4];
-        int eventParms[4];
-        int density;       /* for particle effects */
+		int dl_intensity;  /* used for coronas */
+		int eventSequence; /* pmove generated events */
+		int events[4];
+		int eventParms[4];
+		int density;       /* for particle effects */
 		/* to pass along additional information for damage effects for players */
 		/* also used for cursorhints for non-player entities */
-        int dmgFlags;
-        int onFireStart;
+		int dmgFlags;
+		int onFireStart;
 		int onFireEnd;
 		int aiChar;
 		int teamNum;
 		int effect1Time;
 		int effect2Time;
 		int effect3Time;
-        int aiState;
-        int animMovetype;  /* clients can't derive movetype of other clients for anim scripting system */
-    };
+		int aiState;
+		int animMovetype;  /* clients can't derive movetype of other clients for anim scripting system */
+	};
 
 	struct idEntityState66 : idEntityStateBase
 	{
@@ -2785,41 +2785,41 @@ extern "C"
 	{
 	};
 
-    struct idPlayerState60 : idPlayerStateBase
+	struct idPlayerState60 : idPlayerStateBase
 	{
 		/* for weapons that don't fire immediately when 'fire' is hit (grenades, venom, ...) */
-        int weaponDelay;
+		int weaponDelay;
 		/* for delayed grenade throwing. this is set to a #define for grenade */
 		/* lifetime when the attack button goes down, then when attack is released * /
 		/* this is the amount of time left before the grenade goes off */
 		/* (or if it gets to 0 while in player's hand, it explodes) */
-        int grenadeTimeLeft;
-        float leanf;             /* amount of 'lean' when player is looking around corner */
-        int weapons[2];          /* 64 bits for weapons held */
-        int weapAnim;            /* mask off ANIM_TOGGLEBIT */
-        idVec3 mins, maxs;
-        float crouchMaxZ;
-        float crouchViewHeight, standViewHeight, deadViewHeight;
+		int grenadeTimeLeft;
+		float leanf;             /* amount of 'lean' when player is looking around corner */
+		int weapons[2];          /* 64 bits for weapons held */
+		int weapAnim;            /* mask off ANIM_TOGGLEBIT */
+		idVec3 mins, maxs;
+		float crouchMaxZ;
+		float crouchViewHeight, standViewHeight, deadViewHeight;
 		float runSpeedScale, sprintSpeedScale, crouchSpeedScale; /* variable movement speed */
 		int viewlocked;          /* view locking for mg42 */
-        int viewlocked_entNum;
-        /* need this to fix friction problems with slow zombies whereby */
-        /* the friction prevents them from accelerating to their full potential */
-        float friction;
-        int aiChar;              /* AI character id is used for weapon association */
-        int teamNum;
-        int gunfx;
-        int sprintTime;
-        int aimSpreadScale;      /* 0-255 increases with angular movement */
-        int onFireStart;         /* burning effect is required for view blending effect */
-        int classWeaponTime;
-        int serverCursorHint;    /* what type of cursor hint the server is dictating */
-        int serverCursorHintVal; /* a value (0-255) associated with the above */
-        int curWeapHeat;         /* for the currently selected weapon */
-        int aiState;
-        s32 ammoclip[64];
-        s32 holdable[16];
-    };
+		int viewlocked_entNum;
+		/* need this to fix friction problems with slow zombies whereby */
+		/* the friction prevents them from accelerating to their full potential */
+		float friction;
+		int aiChar;              /* AI character id is used for weapon association */
+		int teamNum;
+		int gunfx;
+		int sprintTime;
+		int aimSpreadScale;      /* 0-255 increases with angular movement */
+		int onFireStart;         /* burning effect is required for view blending effect */
+		int classWeaponTime;
+		int serverCursorHint;    /* what type of cursor hint the server is dictating */
+		int serverCursorHintVal; /* a value (0-255) associated with the above */
+		int curWeapHeat;         /* for the currently selected weapon */
+		int aiState;
+		s32 ammoclip[64];
+		s32 holdable[16];
+	};
 
 	struct idPlayerState66 : idPlayerStateBase
 	{
