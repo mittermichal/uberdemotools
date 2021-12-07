@@ -2646,21 +2646,23 @@ extern "C"
 
     struct idEntityState60 : idEntityStateBase
 	{
-        int dl_intensity;       // used for coronas
-        int eventSequence;      // pmove generated events
+        int dl_intensity;  /* used for coronas */
+        int eventSequence; /* pmove generated events */
         int events[4];
         int eventParms[4];
-        int density;            // for particle effects
-        int dmgFlags;           // to pass along additional information for damage effects for players/ Also used for cursorhints for non-player entities
-        // Ridah
-        int onFireStart, onFireEnd;
-        int aiChar, teamNum;
-
-        int effect1Time, effect2Time, effect3Time;
-
+        int density;       /* for particle effects */
+		/* to pass along additional information for damage effects for players */
+		/* also used for cursorhints for non-player entities */
+        int dmgFlags;
+        int onFireStart;
+		int onFireEnd;
+		int aiChar;
+		int teamNum;
+		int effect1Time;
+		int effect2Time;
+		int effect3Time;
         int aiState;
-
-        int animMovetype;       // clients can't derive movetype of other clients for anim scripting system
+        int animMovetype;  /* clients can't derive movetype of other clients for anim scripting system */
     };
 
 	struct idEntityState66 : idEntityStateBase
@@ -2766,7 +2768,7 @@ extern "C"
 		s32 stats[ID_MAX_PS_STATS];
 		s32 persistant[ID_MAX_PS_PERSISTANT]; /* stats that aren't cleared on death */
 		s32 powerups[ID_MAX_PS_POWERUPS];     /* level.time that the powerup runs out */
-		s32 ammo[64]; // ID_MAX_PS_WEAPONS, 16 for all Quake protocols, 64 for RTCW
+		s32 ammo[64];    /* ID_MAX_PS_WEAPONS, 16 for all Quake protocols, 64 for RTCW */
 		s32 generic1;
 		s32 loopSound;
 		s32 jumppad_ent; /* jumppad entity hit this frame */
@@ -2785,52 +2787,36 @@ extern "C"
 
     struct idPlayerState60 : idPlayerStateBase
 	{
-        int weaponDelay;            // for weapons that don't fire immediately when 'fire' is hit (grenades, venom, ...)
-        int grenadeTimeLeft;            // for delayed grenade throwing.  this is set to a #define for grenade
-        // lifetime when the attack button goes down, then when attack is released
-        // this is the amount of time left before the grenade goes off (or if it
-        // gets to 0 while in players hand, it explodes)
-
-        float leanf;                // amount of 'lean' when player is looking around corner //----(SA)	added
-        int weapons[2];   // 64 bits for weapons held
-        int weapAnim;               // mask off ANIM_TOGGLEBIT										//----(SA)	added
+		/* for weapons that don't fire immediately when 'fire' is hit (grenades, venom, ...) */
+        int weaponDelay;
+		/* for delayed grenade throwing. this is set to a #define for grenade */
+		/* lifetime when the attack button goes down, then when attack is released * /
+		/* this is the amount of time left before the grenade goes off */
+		/* (or if it gets to 0 while in player's hand, it explodes) */
+        int grenadeTimeLeft;
+        float leanf;             /* amount of 'lean' when player is looking around corner */
+        int weapons[2];          /* 64 bits for weapons held */
+        int weapAnim;            /* mask off ANIM_TOGGLEBIT */
         idVec3 mins, maxs;
         float crouchMaxZ;
         float crouchViewHeight, standViewHeight, deadViewHeight;
-        // variable movement speed
-        float runSpeedScale, sprintSpeedScale, crouchSpeedScale;
-        // done.
-
-        // Ridah, view locking for mg42
-        int viewlocked;
+		float runSpeedScale, sprintSpeedScale, crouchSpeedScale; /* variable movement speed */
+		int viewlocked;          /* view locking for mg42 */
         int viewlocked_entNum;
-
-        // Ridah, need this to fix friction problems with slow zombie's whereby
-        // the friction prevents them from accelerating to their full potential
+        /* need this to fix friction problems with slow zombies whereby */
+        /* the friction prevents them from accelerating to their full potential */
         float friction;
-
-        // Ridah, AI character id is used for weapon association
-        int aiChar;
+        int aiChar;              /* AI character id is used for weapon association */
         int teamNum;
-
-        // Rafael
         int gunfx;
-
         int sprintTime;
-        int aimSpreadScale;         // 0 - 255 increases with angular movement
-
-        // RF, burning effect is required for view blending effect
-        int onFireStart;
-
+        int aimSpreadScale;      /* 0-255 increases with angular movement */
+        int onFireStart;         /* burning effect is required for view blending effect */
         int classWeaponTime;
-
-        int serverCursorHint;               // what type of cursor hint the server is dictating
-        int serverCursorHintVal;            // a value (0-255) associated with the above
-
-        int curWeapHeat;                    // value for the currently selected weapon (for transmission to client)
-
+        int serverCursorHint;    /* what type of cursor hint the server is dictating */
+        int serverCursorHintVal; /* a value (0-255) associated with the above */
+        int curWeapHeat;         /* for the currently selected weapon */
         int aiState;
-
         s32 ammoclip[64];
         s32 holdable[16];
     };
