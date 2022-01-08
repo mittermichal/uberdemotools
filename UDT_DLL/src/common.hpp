@@ -95,6 +95,8 @@ extern void Q_strncpyz(char* dest, const char* src, s32 destsize);
 #define CS_WOLF_INFO             36
 #define CS_WOLF_PAUSED           40
 #define CS_WOLF_READY            41
+#define CS_WOLF_MULTI_MAPWINNER  16 // winning team 0=axis, 1=allies
+#define CS_WOLF_MULTI_INFO       15 // defending team 0=axis, 1=allies
 
 /*
 ==============================================================

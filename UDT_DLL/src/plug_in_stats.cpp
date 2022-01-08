@@ -3192,7 +3192,16 @@ void udtParserPlugInStats::AddCurrentStats()
 	{
 		s32 redScore = 0;
 		s32 blueScore = 0;
-		if(forfeited &&
+		if (_protocol == udtProtocol::Dm60)
+		{
+			_stats.FirstPlaceScore = _firstPlaceScore; // @TODO fix
+			_stats.SecondPlaceScore = _secondPlaceScore;
+			const char* winner = _analyzer.WolfWinningTeam() == udtTeam::Allies ? "allies" : "axis";
+			const char* loser = _analyzer.WolfWinningTeam() == udtTeam::Allies ? "axis" : "allies" ;
+			WriteStringToApiStruct(_stats.FirstPlaceName, udtString::NewConstRef(winner));
+			WriteStringToApiStruct(_stats.SecondPlaceName, udtString::NewConstRef(loser));
+		}
+		else if(forfeited &&
 		   _protocol >= udtProtocol::Dm73)
 		{
 			// Short-circuit the scores commands in case of a forfeit so we don't get the -999 scores.

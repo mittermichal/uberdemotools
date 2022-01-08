@@ -161,6 +161,9 @@ void udtGeneralAnalyzer::ProcessGamestateMessage(const udtGamestateCallbackArg& 
         s32 paused = 0;
         ParseConfigStringInt(paused,parser, CS_WOLF_PAUSED);
         _serverPause = paused > 0;
+
+		_rtcwWinningTeam = ParseWolfTeamFromConfigString(CS_WOLF_MULTI_MAPWINNER, "winner");
+		_rtcwDefendingTeam = ParseWolfTeamFromConfigString(CS_WOLF_MULTI_INFO, "defender");
 	}
 	else if(_game == udtGame::CPMA)
 	{
@@ -330,6 +333,14 @@ void udtGeneralAnalyzer::ProcessCommandMessage(const udtCommandCallbackArg& /*ar
 		s32 paused = 0;
 		ParseConfigStringInt(paused, parser, CS_WOLF_PAUSED);
 		_serverPause = paused > 0;
+	}
+	else if (_protocol == udtProtocol::Dm60 && csIndex == CS_WOLF_MULTI_INFO)
+	{
+		_rtcwDefendingTeam = ParseWolfTeamFromConfigString(csIndex, "defender");
+	}
+	else if (_protocol == udtProtocol::Dm60 && csIndex == CS_WOLF_MULTI_MAPWINNER)
+	{
+		_rtcwWinningTeam = ParseWolfTeamFromConfigString(csIndex, "winner");
 	}
 	else if(_game == udtGame::CPMA && csIndex == CS_CPMA_GAME_INFO)
 	{
@@ -1079,6 +1090,18 @@ void udtGeneralAnalyzer::ProcessWolfServerInfoConfigString(const char* configStr
 			_gamePlay = udtGamePlay::RTCWPRO;
 		}
 	}
+}
+
+udtTeam::Id udtGeneralAnalyzer::ParseWolfTeamFromConfigString(u32 csIndex, const char* keyName)
+{
+	udtVMScopedStackAllocator scopedTempAllocator(*_tempAllocator);
+	const char* const cs = _parser->_inConfigStrings[csIndex].GetPtr();
+	s32 team;
+	if(ParseConfigStringValueInt(team, *_tempAllocator, keyName, cs) && team == 1)
+	{
+		return udtTeam::Allies;
+	}
+	return udtTeam::Axis;
 }
 
 void udtGeneralAnalyzer::ProcessModNameAndVersionOnce()

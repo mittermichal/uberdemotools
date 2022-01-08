@@ -51,6 +51,8 @@ public:
 	udtGamePlay::Id     GamePlay() const;
 	udtString           ModVersion() const;
 	udtString           MapName() const;
+	udtTeam::Id         WolfWinningTeam() const { return _rtcwWinningTeam; }
+	udtTeam::Id         WolfDefendingTeam() const { return _rtcwDefendingTeam; }
 
 private:
 	UDT_NO_COPY_SEMANTICS(udtGeneralAnalyzer);
@@ -99,6 +101,7 @@ private:
 	void ProcessQLPauseEndConfigString(const char* configString);
 	void ProcessWolfInfoConfigString(const char* configString);
     void ProcessWolfServerInfoConfigString(const char* configString);
+	udtTeam::Id ParseWolfTeamFromConfigString(u32 csIndex, const char* keyName);
 	s32  GetLevelStartTime();
 	s32  GetWarmUpEndTime();
 	bool IsIntermission();
@@ -131,6 +134,8 @@ private:
 	u32 _roundLimit;
     u32 _roundIndex;
     s32 _te;
+	udtTeam::Id _rtcwWinningTeam;
+	udtTeam::Id _rtcwDefendingTeam;
 	udtGame::Id _game;
 	udtGameType::Id _gameType;
 	udtGameState::Id _gameState;
