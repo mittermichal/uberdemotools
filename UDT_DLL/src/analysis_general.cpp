@@ -338,7 +338,7 @@ void udtGeneralAnalyzer::ProcessCommandMessage(const udtCommandCallbackArg& /*ar
 	{
 		_rtcwDefendingTeam = ParseWolfTeamFromConfigString(csIndex, "defender");
 	}
-	else if(_protocol == udtProtocol::Dm60 && csIndex == CS_WOLF_MULTI_MAPWINNER)
+	else if(_protocol == udtProtocol::Dm60 && csIndex == CS_WOLF_MULTI_MAPWINNER && _gameState == udtGameState::InProgress)
 	{
 		_rtcwWinningTeam = ParseWolfTeamFromConfigString(csIndex, "winner");
 	}
@@ -1086,6 +1086,7 @@ void udtGeneralAnalyzer::ProcessWolfServerInfoConfigString(const char* configStr
 	{
 		if (udtString::StartsWithNoCase(gameName, "RtcwPro "))
 		{
+			_mod = udtMod::RTCWPro;
 			_modVersion = udtString::NewSubstringClone(_stringAllocator, gameName, 8);
 			_gamePlay = udtGamePlay::RTCWPRO;
 		}

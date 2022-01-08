@@ -933,6 +933,7 @@ struct udtGameType
 	N(CPMA, "CPMA") \
 	N(OSP, "OSP") \
 	N(Defrag, "DeFRaG") \
+	N(RTCWPro, "RtcwPro") \
 	N(Unknown, "Unknown")
 
 #define UDT_MOD_NAME_ITEM(Enum, Name) Enum,

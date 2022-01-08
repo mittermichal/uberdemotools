@@ -3194,13 +3194,20 @@ void udtParserPlugInStats::AddCurrentStats()
 		s32 blueScore = 0;
 		if(_protocol == udtProtocol::Dm60)
 		{
-			udtTeam::Id team = _analyzer.WolfWinningTeam();
-			_stats.FirstPlaceScore = 0;
-			_stats.SecondPlaceScore = 0;
-			const char* winner = team == udtTeam::Allies ? "allies" : "axis";
-			const char* loser = team == udtTeam::Allies ? "axis" : "allies";
+			const udtTeam::Id winningTeam = _analyzer.WolfWinningTeam();
+			const char* winner = winningTeam == udtTeam::Allies ? "allies" : "axis";
+			const char* loser = winningTeam == udtTeam::Allies ? "axis" : "allies";
 			WriteStringToApiStruct(_stats.FirstPlaceName, udtString::NewClone(_stringAllocator, winner));
 			WriteStringToApiStruct(_stats.SecondPlaceName, udtString::NewClone(_stringAllocator, loser));
+			if((_stats.ValidTeams & 3) == 3 &&
+			   IsBitSet(GetTeamFlags(0), (u32)udtTeamStatsField::Score) &&
+			   IsBitSet(GetTeamFlags(1), (u32)udtTeamStatsField::Score))
+			{
+				const int axisScore = GetTeamFields(0)[udtTeamStatsField::Score];
+				const int alliesScore = GetTeamFields(1)[udtTeamStatsField::Score];
+				_stats.FirstPlaceScore = winningTeam == udtTeam::Allies ? alliesScore : axisScore;
+				_stats.SecondPlaceScore = winningTeam == udtTeam::Allies ? axisScore : alliesScore;
+			}
 		}
 		else if(forfeited && _protocol >= udtProtocol::Dm73)
 		{
