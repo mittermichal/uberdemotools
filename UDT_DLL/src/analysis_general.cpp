@@ -156,7 +156,6 @@ void udtGeneralAnalyzer::ProcessGamestateMessage(const udtGamestateCallbackArg& 
 
 	if(_protocol == udtProtocol::Dm60)
 	{
-		_gamePlay = udtGamePlay::VRTCW;
 		ProcessWolfInfoConfigString(parser._inConfigStrings[CS_WOLF_INFO].GetPtr());
         ProcessWolfServerInfoConfigString(parser._inConfigStrings[CS_SERVERINFO].GetPtr());
         s32 paused = 0;
@@ -1069,6 +1068,17 @@ void udtGeneralAnalyzer::ProcessWolfServerInfoConfigString(const char* configStr
     {
         _timeLimit = timeLimit;
     }
+
+	_gamePlay = udtGamePlay::VRTCW;
+	udtString gameName;
+	if (ParseConfigStringValueString(gameName, *_tempAllocator, "gamename", configString))
+	{
+		if (udtString::StartsWithNoCase(gameName, "RtcwPro "))
+		{
+			_modVersion = udtString::NewSubstringClone(_stringAllocator, gameName, 8);
+			_gamePlay = udtGamePlay::RTCWPRO;
+		}
+	}
 }
 
 void udtGeneralAnalyzer::ProcessModNameAndVersionOnce()

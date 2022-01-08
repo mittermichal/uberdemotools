@@ -955,7 +955,8 @@ struct udtMod
 	N(CQL,   "VQL",   "Classic Quake Live") \
 	N(PQL,   "PQL",   "Turbo Quake Live") \
 	N(DQL,   "QL",    "Default Quake Live") \
-	N(VRTCW, "VRTCW", "Vanilla Return to Castle Wolfenstein")
+	N(VRTCW, "VRTCW", "Vanilla Return to Castle Wolfenstein") \
+	N(RTCWPRO, "RtcwPro", "Return to Castle Wolfenstein RtcwPro")
 
 #define UDT_GAMEPLAY_ITEM(Enum, ShortName, LongName) Enum,
 struct udtGamePlay
