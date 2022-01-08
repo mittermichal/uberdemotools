@@ -334,11 +334,11 @@ void udtGeneralAnalyzer::ProcessCommandMessage(const udtCommandCallbackArg& /*ar
 		ParseConfigStringInt(paused, parser, CS_WOLF_PAUSED);
 		_serverPause = paused > 0;
 	}
-	else if (_protocol == udtProtocol::Dm60 && csIndex == CS_WOLF_MULTI_INFO)
+	else if(_protocol == udtProtocol::Dm60 && csIndex == CS_WOLF_MULTI_INFO)
 	{
 		_rtcwDefendingTeam = ParseWolfTeamFromConfigString(csIndex, "defender");
 	}
-	else if (_protocol == udtProtocol::Dm60 && csIndex == CS_WOLF_MULTI_MAPWINNER)
+	else if(_protocol == udtProtocol::Dm60 && csIndex == CS_WOLF_MULTI_MAPWINNER)
 	{
 		_rtcwWinningTeam = ParseWolfTeamFromConfigString(csIndex, "winner");
 	}
