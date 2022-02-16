@@ -2552,7 +2552,8 @@ extern "C"
 #define	ID_MAX_PS_EVENTS	        2
 #define	ID_MAX_PARSE_ENTITIES    2048
 #define	ID_MAX_CLIENTS	           64 /* max player count */
-#define ID_MAX_MSG_LENGTH       16384 /* max length of a message, which may be fragmented into multiple packets */
+#define ID_MAX_MSG_LENGTH       32768 /* max length of a message, which may be fragmented into multiple packets */
+                                      /* Q3 16384 - RtCW/ET 32768 */
 
 	typedef f32   idVec;
 	typedef idVec idVec2[2];
