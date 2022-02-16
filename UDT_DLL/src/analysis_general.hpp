@@ -135,6 +135,7 @@ private:
     u32 _roundIndex;
     s32 _te;
 	udtTeam::Id _rtcwWinningTeam;
+	udtTeam::Id _rtcwWinningTeamInter;
 	udtTeam::Id _rtcwDefendingTeam;
 	udtGame::Id _game;
 	udtGameType::Id _gameType;

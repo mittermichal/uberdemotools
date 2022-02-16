@@ -338,9 +338,16 @@ void udtGeneralAnalyzer::ProcessCommandMessage(const udtCommandCallbackArg& /*ar
 	{
 		_rtcwDefendingTeam = ParseWolfTeamFromConfigString(csIndex, "defender");
 	}
-	else if(_protocol == udtProtocol::Dm60 && csIndex == CS_WOLF_MULTI_MAPWINNER && _gameState == udtGameState::InProgress)
+	else if(_protocol == udtProtocol::Dm60 && csIndex == CS_WOLF_MULTI_MAPWINNER)
 	{
-		_rtcwWinningTeam = ParseWolfTeamFromConfigString(csIndex, "winner");
+		if(_gameState == udtGameState::InProgress)
+		{
+			_rtcwWinningTeam = ParseWolfTeamFromConfigString(csIndex, "winner");
+		}
+		else if(_gameState == udtGameState::Intermission)
+		{
+			_rtcwWinningTeamInter = ParseWolfTeamFromConfigString(csIndex, "winner");
+		}
 	}
 	else if(_game == udtGame::CPMA && csIndex == CS_CPMA_GAME_INFO)
 	{
@@ -570,6 +577,18 @@ void udtGeneralAnalyzer::UpdateGameState(udtGameState::Id gameState)
 	{
 		_lastGameState = _gameState;
 		_gameState = gameState;
+
+		// This is necessary because the stats are written right after the transition
+		// from in-progress to intermission. We therefore wait for the follow-up
+		// state transition to safely override the current value we've been given
+		// during the last intermission.
+		if(_protocol == udtProtocol::Dm60 &&
+		   (_lastGameState == udtGameState::WarmUp || _lastGameState == udtGameState::CountDown) &&
+		   _gameState == udtGameState::InProgress &&
+		   (_rtcwWinningTeamInter == udtTeam::Axis || _rtcwWinningTeamInter == udtTeam::Allies))
+		{
+			_rtcwWinningTeam = _rtcwWinningTeamInter;
+		}
 	}
 }
 
