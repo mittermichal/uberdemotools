@@ -2986,6 +2986,9 @@ void udtParserPlugInStats::AddCurrentStats()
 	// Fix up the stats and save them.
 	//
 
+	_stats.DefenderName = u32(~0);
+	_stats.DefenderNameLength = 0;
+
 	const bool forfeited = _cpma150ValidDuelEndScores ? _cpma150Forfeit : _analyzer.Forfeited();
 	
 	_stats.MatchDurationMs = (u32)(_analyzer.MatchEndTime() - _analyzer.MatchStartTime() - _analyzer.TotalTimeOutDuration());
@@ -3208,6 +3211,9 @@ void udtParserPlugInStats::AddCurrentStats()
 				_stats.FirstPlaceScore = winningTeam == udtTeam::Allies ? alliesScore : axisScore;
 				_stats.SecondPlaceScore = winningTeam == udtTeam::Allies ? axisScore : alliesScore;
 			}
+			const udtTeam::Id defendingTeam = _analyzer.WolfDefendingTeam();
+			const char* defender = defendingTeam == udtTeam::Allies ? "allies" : "axis";
+			WriteStringToApiStruct(_stats.DefenderName, udtString::NewClone(_stringAllocator, defender));
 		}
 		else if(forfeited && _protocol >= udtProtocol::Dm73)
 		{

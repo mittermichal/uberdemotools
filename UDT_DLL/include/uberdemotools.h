@@ -2021,6 +2021,12 @@ extern "C"
 		/* If there was no intermission (e.g. CPMA forfeits), this holds the match's end time. */
 		s32 IntermissionEndTimeMs;
 
+		/* String offset. Name of the team who was defending this round. For RtCW Stopwatch. */
+		u32 DefenderName;
+
+		/* String length. */
+		u32 DefenderNameLength;
+
 		/* Ignore this. */
 		s32 Reserved1;
 	}

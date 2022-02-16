@@ -354,6 +354,7 @@ static void WriteStats(udtJSONExporter& writer, const udtParseDataStatsBuffers& 
 		writer.WriteStringValue("winner", stats.SecondPlaceWon ? stats.SecondPlaceName : stats.FirstPlaceName);
 		writer.WriteStringValue("first place name", stats.FirstPlaceName);
 		writer.WriteStringValue("second place name", stats.SecondPlaceName);
+		writer.WriteStringValue("defender name", stats.DefenderName);
 		writer.WriteIntValue("first place score", (s32)stats.FirstPlaceScore);
 		writer.WriteIntValue("second place score", (s32)stats.SecondPlaceScore);
 		WriteStartDate(writer, stats.StartDateEpoch);
