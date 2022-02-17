@@ -219,6 +219,11 @@ namespace Uber.DemoTools
             ".dm_91"
         };
 
+        private static readonly List<string> DemoExtensionsRTCW = new List<string>
+        {
+            ".dm_60"
+        };
+
         private static readonly Dictionary<string, UDT_DLL.udtProtocol> ProtocolFileExtDic = new Dictionary<string, UDT_DLL.udtProtocol>
         {
             { ".dm3",   UDT_DLL.udtProtocol.Dm3  },
@@ -1295,11 +1300,17 @@ namespace Uber.DemoTools
                     extensionsQL += ";*" + DemoExtensionsQL[i];
                 }
 
+                var extensionsRTCW = "*" + DemoExtensionsRTCW[0];
+                for(var i = 1; i < DemoExtensionsRTCW.Count; ++i)
+                {
+                    extensionsRTCW += ";*" + DemoExtensionsRTCW[i];
+                }
+
                 var folderPath = GetDefaultBrowsingFolder();
                 openFileDialog.CheckPathExists = true;
                 openFileDialog.Multiselect = true;
                 openFileDialog.InitialDirectory = folderPath ?? Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                openFileDialog.Filter = string.Format("Quake 3 demos ({0})|{0}|Quake Live demos ({1})|{1}", extensionsQ3, extensionsQL);
+                openFileDialog.Filter = string.Format("Quake 3 demos ({0})|{0}|Quake Live demos ({1})|{1}|Return to Castle Wolfenstein demos ({2})|{2}", extensionsQ3, extensionsQL, extensionsRTCW);
                 if(openFileDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
                 {
                     return;
