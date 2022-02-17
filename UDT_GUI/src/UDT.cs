@@ -715,6 +715,7 @@ namespace Uber.DemoTools
         {
             Dm3,
             Dm48,
+            Dm60,
             Dm66,
             Dm67,
             Dm68,
@@ -1314,6 +1315,8 @@ namespace Uber.DemoTools
             public UInt32 GameStateIndex;
             public Int32 CountDownStartTimeMs;
             public Int32 IntermissionEndTimeMs;
+            public UInt32 DefenderName; // string offset
+            public UInt32 DefenderNameLength;
             public Int32 Reserved1;
 	    }
 
@@ -1936,6 +1939,7 @@ namespace Uber.DemoTools
             {
                 case udtProtocol.Dm3:  return "3 (Quake 3 1.11-1.17)";
                 case udtProtocol.Dm48: return "48 (Quake 3 1.27)";
+                case udtProtocol.Dm60: return "60 (RtCW)";
                 case udtProtocol.Dm66: return "66 (Quake 3 1.29-1.30)";
                 case udtProtocol.Dm67: return "67 (Quake 3 1.31)";
                 case udtProtocol.Dm68: return "68 (Quake 3 1.32)";
@@ -3103,6 +3107,12 @@ namespace Uber.DemoTools
             if(blueTeamName != null)
             {
                 stats.AddGenericField("Blue team name", blueTeamName);
+            }
+
+            var defenderName = data.DefenderName != uint.MaxValue ? buffers.GetString(data.DefenderName, data.DefenderNameLength) : null;
+            if(defenderName != null)
+            {
+                stats.AddGenericField("Defending team's name", defenderName);
             }
 
             stats.AddGenericField("Mod", GetUDTStringForValueOrNull(udtStringArray.ModNames, data.Mod));

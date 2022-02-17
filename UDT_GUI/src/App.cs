@@ -194,6 +194,7 @@ namespace Uber.DemoTools
         {
             ".dm3",
             ".dm_48",
+            ".dm_60",
             ".dm_66",
             ".dm_67",
             ".dm_68",
@@ -222,6 +223,7 @@ namespace Uber.DemoTools
         {
             { ".dm3",   UDT_DLL.udtProtocol.Dm3  },
             { ".dm_48", UDT_DLL.udtProtocol.Dm48 },
+            { ".dm_60", UDT_DLL.udtProtocol.Dm60 },
             { ".dm_66", UDT_DLL.udtProtocol.Dm66 },
             { ".dm_67", UDT_DLL.udtProtocol.Dm67 },
             { ".dm_68", UDT_DLL.udtProtocol.Dm68 },
@@ -232,6 +234,7 @@ namespace Uber.DemoTools
 
         private static readonly List<UDT_DLL.udtProtocol> ValidWriteProtocols = new List<UDT_DLL.udtProtocol>
         {
+            { UDT_DLL.udtProtocol.Dm60 },
             { UDT_DLL.udtProtocol.Dm66 },
             { UDT_DLL.udtProtocol.Dm67 },
             { UDT_DLL.udtProtocol.Dm68 },
