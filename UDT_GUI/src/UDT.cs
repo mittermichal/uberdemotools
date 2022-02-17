@@ -1950,6 +1950,11 @@ namespace Uber.DemoTools
             }
         }
 
+        public static bool IsWolfensteinProtocol(udtProtocol protocol)
+        {
+            return protocol == UDT_DLL.udtProtocol.Dm60;
+        }
+
         public static bool SplitDemo(udtParserContextRef context, ref udtParseArg parseArg, string filePath)
         {
             if(context == IntPtr.Zero)
