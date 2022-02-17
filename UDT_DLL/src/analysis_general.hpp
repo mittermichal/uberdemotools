@@ -101,6 +101,7 @@ private:
 	void ProcessQLPauseEndConfigString(const char* configString);
 	void ProcessWolfInfoConfigString(const char* configString);
     void ProcessWolfServerInfoConfigString(const char* configString);
+	void ProcessWolfPausedConfigString(const char* configString);
 	udtTeam::Id ParseWolfTeamFromConfigString(u32 csIndex, const char* keyName);
 	s32  GetLevelStartTime();
 	s32  GetWarmUpEndTime();

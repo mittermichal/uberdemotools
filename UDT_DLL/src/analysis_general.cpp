@@ -157,10 +157,8 @@ void udtGeneralAnalyzer::ProcessGamestateMessage(const udtGamestateCallbackArg& 
 	if(_protocol == udtProtocol::Dm60)
 	{
 		ProcessWolfInfoConfigString(parser._inConfigStrings[CS_WOLF_INFO].GetPtr());
-        ProcessWolfServerInfoConfigString(parser._inConfigStrings[CS_SERVERINFO].GetPtr());
-        s32 paused = 0;
-        ParseConfigStringInt(paused,parser, CS_WOLF_PAUSED);
-        _serverPause = paused > 0;
+		ProcessWolfServerInfoConfigString(parser._inConfigStrings[CS_SERVERINFO].GetPtr());
+		ProcessWolfPausedConfigString(parser._inConfigStrings[CS_WOLF_PAUSED].GetPtr());
 
 		_rtcwWinningTeam = ParseWolfTeamFromConfigString(CS_WOLF_MULTI_MAPWINNER, "winner");
 		_rtcwDefendingTeam = ParseWolfTeamFromConfigString(CS_WOLF_MULTI_INFO, "defender");
@@ -330,9 +328,7 @@ void udtGeneralAnalyzer::ProcessCommandMessage(const udtCommandCallbackArg& /*ar
     }
 	else if(_protocol == udtProtocol::Dm60 && csIndex == CS_WOLF_PAUSED)
 	{
-		s32 paused = 0;
-		ParseConfigStringInt(paused, parser, CS_WOLF_PAUSED);
-		_serverPause = paused > 0;
+		ProcessWolfPausedConfigString(configString);
 	}
 	else if(_protocol == udtProtocol::Dm60 && csIndex == CS_WOLF_MULTI_INFO)
 	{
@@ -1109,6 +1105,29 @@ void udtGeneralAnalyzer::ProcessWolfServerInfoConfigString(const char* configStr
 			_modVersion = udtString::NewSubstringClone(_stringAllocator, gameName, 8);
 			_gamePlay = udtGamePlay::RTCWPRO;
 		}
+	}
+}
+
+void udtGeneralAnalyzer::ProcessWolfPausedConfigString(const char* configString)
+{
+	s32 paused = 0;
+	StringParseInt(paused, configString);
+	const bool prevPaused = _serverPause;
+	const bool currPaused = paused > 0;
+	_serverPause = currPaused;
+
+	if(!prevPaused && currPaused)
+	{
+		SetTimeOutStartTime(_parser->_inServerTime);
+	}
+	else if(prevPaused && !currPaused)
+	{
+		const s32 startTime = GetTimeOutStartTime();
+		const s32 endTime = _parser->_inServerTime;
+		const s32 duration = endTime - startTime;
+		SetTimeOutEndTime(endTime);
+		++_timeOutCount;
+		_totalTimeOutDuration += duration;
 	}
 }
 
