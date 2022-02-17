@@ -1284,33 +1284,34 @@ namespace Uber.DemoTools
             return component.RootControl == tab.Content;
         }
 
+        private static string CreateDialogExtensionListString(List<string> extensionList)
+        {
+            var extensions = "*" + extensionList[0];
+            for(var i = 1; i < extensionList.Count; ++i)
+            {
+                extensions += ";*" + extensionList[i];
+            }
+
+            return extensions;
+        }
+
         private void OnOpenDemo()
         {
             using(var openFileDialog = new System.Windows.Forms.OpenFileDialog())
             {
-                var extensionsQ3 = "*" + DemoExtensionsQ3[0];
-                for(var i = 1; i < DemoExtensionsQ3.Count; ++i)
-                {
-                    extensionsQ3 += ";*" + DemoExtensionsQ3[i];
-                }
-
-                var extensionsQL = "*" + DemoExtensionsQL[0];
-                for(var i = 1; i < DemoExtensionsQL.Count; ++i)
-                {
-                    extensionsQL += ";*" + DemoExtensionsQL[i];
-                }
-
-                var extensionsRTCW = "*" + DemoExtensionsRTCW[0];
-                for(var i = 1; i < DemoExtensionsRTCW.Count; ++i)
-                {
-                    extensionsRTCW += ";*" + DemoExtensionsRTCW[i];
-                }
+                var extensionsAll = CreateDialogExtensionListString(DemoExtensions);
+                var extensionsQ3 = CreateDialogExtensionListString(DemoExtensionsQ3);
+                var extensionsQL = CreateDialogExtensionListString(DemoExtensionsQL);
+                var extensionsRTCW = CreateDialogExtensionListString(DemoExtensionsRTCW);
 
                 var folderPath = GetDefaultBrowsingFolder();
                 openFileDialog.CheckPathExists = true;
                 openFileDialog.Multiselect = true;
                 openFileDialog.InitialDirectory = folderPath ?? Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                openFileDialog.Filter = string.Format("Quake 3 demos ({0})|{0}|Quake Live demos ({1})|{1}|Return to Castle Wolfenstein demos ({2})|{2}", extensionsQ3, extensionsQL, extensionsRTCW);
+                openFileDialog.Filter = string.Format(
+                    "All demos ({0})|{0}|Quake 3 demos ({1})|{1}" +
+                    "|Quake Live demos ({2})|{2}|Return to Castle Wolfenstein demos ({3})|{3}",
+                    extensionsAll, extensionsQ3, extensionsQL, extensionsRTCW);
                 if(openFileDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
                 {
                     return;
