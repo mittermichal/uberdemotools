@@ -244,82 +244,6 @@ struct WolfET
 	};
 };
 
-// @TODO: remove once processed
-struct WolfWP
-{
-	enum Id
-	{
-		WP_NONE,                // 0
-
-		WP_KNIFE,               // 1
-		// German weapons
-		WP_LUGER,               // 2
-		WP_MP40,                // 3
-		WP_MAUSER,              // 4
-		WP_FG42,                // 5
-		WP_GRENADE_LAUNCHER,    // 6
-		WP_PANZERFAUST,         // 7
-		WP_VENOM,               // 8
-		WP_FLAMETHROWER,        // 9
-		WP_TESLA,               // 10
-		WP_SPEARGUN,            // 11
-
-		// weapon keys only go 1-0, so put the alternates above that (since selection will be a double click on the german weapon key)
-
-		// American equivalents
-		WP_KNIFE2,              // 12
-		WP_COLT,                // 13	equivalent american weapon to german luger
-		WP_THOMPSON,            // 14	equivalent american weapon to german mp40
-		WP_GARAND,              // 15	equivalent american weapon to german mauser
-		WP_BAR,                 // 16	equivalent american weapon to german fg42
-		WP_GRENADE_PINEAPPLE,   // 17
-		WP_ROCKET_LAUNCHER,     // 18	equivalent american weapon to german panzerfaust
-
-		// secondary fire weapons
-		WP_SNIPERRIFLE,         // 19
-		WP_SNOOPERSCOPE,        // 20
-		WP_VENOM_FULL,          // 21
-		WP_SPEARGUN_CO2,        // 22
-		WP_FG42SCOPE,           // 23	fg42 alt fire
-		WP_BAR2,                // 24
-
-		// more weapons
-		WP_STEN,                // 25	silenced sten sub-machinegun
-		WP_MEDIC_SYRINGE,       // 26	// JPW NERVE -- broken out from CLASS_SPECIAL per Id request
-		WP_AMMO,                // 27	// JPW NERVE likewise
-		WP_ARTY,                // 28
-		WP_SILENCER,            // 29	// used to be sp5
-		WP_AKIMBO,              // 30	//----(SA)	added
-
-		// jpw
-		WP_CROSS,               // 31
-		WP_DYNAMITE,            // 32
-		WP_DYNAMITE2,           // 33
-		WP_PROX,                // 34
-
-		WP_MONSTER_ATTACK1,     // 35	// generic monster attack, slot 1
-		WP_MONSTER_ATTACK2,     // 36	// generic monster attack, slot 2
-		WP_MONSTER_ATTACK3,     // 37	// generic monster attack, slot 2
-
-		WP_SMOKETRAIL,          // 38
-
-		WP_GAUNTLET,            // 39
-
-		WP_SNIPER,              // 40
-		WP_MORTAR,              // 41
-		VERYBIGEXPLOSION,       // 42	// explosion effect for airplanes
-
-		// NERVE - SMF - special weapons are here now
-		WP_MEDKIT,              // 43
-		WP_PLIERS,              // 44
-		WP_SMOKE_GRENADE,       // 45
-		// -NERVE - SMF
-		WP_BINOCULARS,          // 46
-
-		WP_NUM_WEAPONS          // 47   NOTE: this cannot be larger than 64 for AI/player weapons!
-	};
-};
-
 
 static s16 PowerUps_3_90_U2Q[udtPowerUpIndex::Count];
 static s16 PowerUps_3_90_Q2U[udtPowerUpIndex::Count * 2];
@@ -1265,11 +1189,65 @@ static const s16 Weapons_73p[] =
 };
 VALIDATE_TABLE_SIZES(Weapons_73p, udtWeapon::Count);
 
+static s16 Weapons_60_U2Q[udtWeapon::Count];
+static s16 Weapons_60_Q2U[udtWeapon::Count * 2];
+static const s16 Weapons_60[] =
+{
+	(s16)udtWeapon::Knife, 1,
+	(s16)udtWeapon::Luger, 2,
+	(s16)udtWeapon::MP40, 3,
+	(s16)udtWeapon::Mauser, 4,
+	(s16)udtWeapon::FG42, 5,
+	(s16)udtWeapon::GrenadeLauncher, 6,
+	(s16)udtWeapon::Panzerfaust, 7,
+	(s16)udtWeapon::Venom, 8,
+	(s16)udtWeapon::Flamethrower, 9,
+	(s16)udtWeapon::Tesla, 10,
+	(s16)udtWeapon::Speargun, 11,
+	(s16)udtWeapon::Knife2, 12,
+	(s16)udtWeapon::Colt, 13,
+	(s16)udtWeapon::Thompson, 14,
+	(s16)udtWeapon::Garand, 15,
+	(s16)udtWeapon::Bar, 16,
+	(s16)udtWeapon::GrenadePineapple, 17,
+	(s16)udtWeapon::RocketLauncher, 18,
+	(s16)udtWeapon::SniperRifle, 19,
+	(s16)udtWeapon::SnooperScope, 20,
+	(s16)udtWeapon::VenomFull, 21,
+	(s16)udtWeapon::SpeargunCO2, 22,
+	(s16)udtWeapon::FG42Scope, 23,
+	(s16)udtWeapon::Bar2, 24,
+	(s16)udtWeapon::Sten, 25,
+	(s16)udtWeapon::MedicSyringe, 26,
+	(s16)udtWeapon::Ammo, 27,
+	(s16)udtWeapon::Artillery, 28,
+	(s16)udtWeapon::Silencer, 29,
+	(s16)udtWeapon::Akimbo, 30,
+	(s16)udtWeapon::Cross, 31,
+	(s16)udtWeapon::Dynamite, 32,
+	(s16)udtWeapon::Dynamite2, 33,
+	(s16)udtWeapon::Prox, 34,
+	(s16)udtWeapon::MonsterAttack1, 35,
+	(s16)udtWeapon::MonsterAttack2, 36,
+	(s16)udtWeapon::MonsterAttack3, 37,
+	(s16)udtWeapon::SmokeTrail, 38,
+	(s16)udtWeapon::Gauntlet, 39,
+	(s16)udtWeapon::Sniper, 40,
+	(s16)udtWeapon::Mortar, 41,
+	(s16)udtWeapon::VeryBigExplosion, 42,
+	(s16)udtWeapon::Medkit, 43,
+	(s16)udtWeapon::Pliers, 44,
+	(s16)udtWeapon::SmokeGrenade, 45,
+	(s16)udtWeapon::Binoculars, 46,
+	TABLE_END
+};
+VALIDATE_TABLE_SIZES(Weapons_60, udtWeapon::Count);
+
 static const s16* WeaponTables[] =
 {
 	TABLE_ENTRY(Weapons_3_68), // 3
 	TABLE_ENTRY(Weapons_3_68), // 48
-	TABLE_ENTRY(Weapons_3_68), // 60 @TODO: RTCW
+	TABLE_ENTRY(Weapons_60), // 60
 	TABLE_ENTRY(Weapons_3_68), // 66
 	TABLE_ENTRY(Weapons_3_68), // 67
 	TABLE_ENTRY(Weapons_3_68), // 68

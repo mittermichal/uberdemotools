@@ -224,18 +224,50 @@ struct udtParserPlugIn
 	N(ChainGun, "chaingun", 10) \
 	N(ProximityMineLauncher, "proximity mine launcher", 11) \
 	N(HeavyMachineGun, "heavy machine gun", 12) \
-	N(GrapplingHook, "grappling hook", 13)
-
-#define UDT_WEAPON_ITEM(Enum, Desc, Bit) Enum = UDT_BIT(Bit),
-struct udtWeaponMask
-{
-	enum Id
-	{
-		UDT_WEAPON_LIST(UDT_WEAPON_ITEM)
-		AfterLast
-	};
-};
-#undef UDT_WEAPON_ITEM
+	N(GrapplingHook, "grappling hook", 13) \
+	N(Knife, "knife", 14) \
+	N(Luger, "luger 9mm", 15) \
+	N(MP40, "MP40", 16) \
+	N(Mauser, "mauser", 17) \
+	N(FG42, "FG42", 18) \
+	N(Panzerfaust, "panzerfaust", 19) \
+	N(Venom, "venom", 20) \
+	N(Flamethrower, "flamethrower", 21) \
+	N(Tesla, "tesla", 22) \
+	N(Speargun, "speargun", 23) \
+	N(Knife2, "knife", 24) \
+	N(Colt, ".45ACP 1911", 25) \
+	N(Thompson, "thompson", 26) \
+	N(Garand, "garand", 27) \
+	N(Bar, "BAR", 28) \
+	N(GrenadePineapple, "pineapple grenade", 29) \
+	N(SniperRifle, "sniper rifle", 30) \
+	N(SnooperScope, "snooper", 31) \
+	N(VenomFull, "venom", 32) \
+	N(SpeargunCO2, "speargun", 33) \
+	N(FG42Scope, "FG42 scope", 34) \
+	N(Bar2, "BAR", 35) \
+	N(Sten, "sten", 36) \
+	N(MedicSyringe, "syringe", 37) \
+	N(Ammo, "ammo", 38) \
+	N(Artillery, "artillery support", 39) \
+	N(Silencer, "silencer", 40) \
+	N(Akimbo, "dual colts", 41) \
+	N(Cross, "cross", 42) \
+	N(Dynamite, "dynamite", 43) \
+	N(Dynamite2, "dynamite 2", 44) \
+	N(Prox, "prox", 45) \
+	N(MonsterAttack1, "monster attack", 46) \
+	N(MonsterAttack2, "monster attack", 47) \
+	N(MonsterAttack3, "monster attack", 48) \
+	N(SmokeTrail, "smoke trail", 49) \
+	N(Sniper, "sniper", 50) \
+	N(Mortar, "mortar", 51) \
+	N(VeryBigExplosion, "explosion", 52) \
+	N(Medkit, "medkit", 53) \
+	N(Pliers, "pliers", 54) \
+	N(SmokeGrenade, "smoke grenade", 55) \
+	N(Binoculars, "binoculars", 56)
 
 #define UDT_WEAPON_ITEM(Enum, Desc, Bit) Enum = Bit,
 struct udtWeapon
@@ -325,7 +357,7 @@ struct udtPowerUpMask
 	N(Thaw, "thaw", 29) \
 	N(HeavyMachineGun, "heavy machine gun", 30) \
 	N(Knife, "knife", 31) \
-	N(Knife2, "knife 2", 32) \
+	N(Knife2, "knife", 32) \
 	N(KnifeStealth, "knife stealth", 33) \
 	N(Luger, "luger 9mm", 34) \
 	N(Colt, ".45ACP 1911", 35) \
@@ -350,7 +382,7 @@ struct udtPowerUpMask
 	N(Dynamite, "dynamite", 54) \
 	N(DynamiteSplash, "dynamite splash", 55) \
 	N(Silencer, "silencer", 56) \
-	N(Bar, "bar", 57) \
+	N(Bar, "BAR", 57) \
 	N(FG42, "FG42", 58) \
 	N(FG42Scope, "FG42 scope", 59) \
 	N(Airstrike, "support fire", 60) \
