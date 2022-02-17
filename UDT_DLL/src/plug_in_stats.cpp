@@ -3423,9 +3423,6 @@ void udtParserPlugInStats::AddCurrentStats()
 
 	// Clear the stats for the next match.
 	ClearStats();
-
-	// We just cloned its strings into our local _stringAllocator, so it's safe.
-	_analyzer.ClearStringAllocator();
 }
 
 void udtParserPlugInStats::ClearStats(bool newGameState)

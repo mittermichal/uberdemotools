@@ -18,7 +18,6 @@ public:
 	void ProcessGamestateMessage(const udtGamestateCallbackArg& arg, udtBaseParser& parser);
 	void ProcessCommandMessage(const udtCommandCallbackArg& arg, udtBaseParser& parser);
 
-	void ClearStringAllocator();
 	void SetIntermissionEndTime();
 	void ResetForNextMatch();
 	bool HasMatchJustStarted() const;
@@ -85,9 +84,9 @@ private:
 
 	// Functions with the "Once" suffix only need to be called from ProcessGamestateMessage.
 	void UpdateGameState(udtGameState::Id gameState);
-	void ProcessModNameAndVersionOnce();
-	void ProcessMapNameOnce();
-	void ProcessQ3ServerInfoConfigStringOnce(const char* configString);
+	void ProcessModNameAndVersion();
+	void ProcessMapName();
+	void ProcessQ3ServerInfoConfigString(const char* configString);
 	void ProcessCPMAGameInfoConfigString(const char* configString);
 	void ProcessCPMARoundInfoConfigString(const char* configString);
 	void ProcessQLServerInfoConfigString(const char* configString);

@@ -132,30 +132,29 @@ void udtGeneralAnalyzer::ProcessGamestateMessage(const udtGamestateCallbackArg& 
 
 	_processingGameState = true;
 
-	// First game state message?
-	if(_gameStateIndex == 0)
-	{
-		_game = udtGame::Q3;
-		if(_protocol >= udtProtocol::Dm73)
-		{
-			_game = udtGame::QL;
-		}
-		else if(_protocol == udtProtocol::Dm60)
-		{
-			_game = udtGame::RTCW;
-		}
-		else
-		{
-			ProcessQ3ServerInfoConfigStringOnce(parser._inConfigStrings[CS_SERVERINFO].GetPtr());
-			ProcessModNameAndVersionOnce();
-		}
-	}
-	else
+	_stringAllocator.Clear();
+
+	if(_gameStateIndex > 0)
 	{
 		ResetForNextGameState();
 	}
 
-	ProcessMapNameOnce();
+	_game = udtGame::Q3;
+	if(_protocol >= udtProtocol::Dm73)
+	{
+		_game = udtGame::QL;
+	}
+	else if(_protocol == udtProtocol::Dm60)
+	{
+		_game = udtGame::RTCW;
+	}
+	else
+	{
+		ProcessQ3ServerInfoConfigString(parser._inConfigStrings[CS_SERVERINFO].GetPtr());
+		ProcessModNameAndVersion();
+	}
+
+	ProcessMapName();
 	ProcessGameTypeFromServerInfo(parser._inConfigStrings[CS_SERVERINFO].GetPtr());
 
 	if(_protocol == udtProtocol::Dm60)
@@ -409,11 +408,6 @@ void udtGeneralAnalyzer::ProcessCommandMessage(const udtCommandCallbackArg& /*ar
 	}
 }
 
-void udtGeneralAnalyzer::ClearStringAllocator()
-{
-	_stringAllocator.Clear();
-}
-
 void udtGeneralAnalyzer::SetIntermissionEndTime()
 {
 	_intermissionEndTime = _parser->_inServerTime;
@@ -592,7 +586,7 @@ void udtGeneralAnalyzer::UpdateGameState(udtGameState::Id gameState)
 	}
 }
 
-void udtGeneralAnalyzer::ProcessQ3ServerInfoConfigStringOnce(const char* configString)
+void udtGeneralAnalyzer::ProcessQ3ServerInfoConfigString(const char* configString)
 {
 	if(configString == NULL)
 	{
@@ -1147,7 +1141,7 @@ udtTeam::Id udtGeneralAnalyzer::ParseWolfTeamFromConfigString(u32 csIndex, const
 	return udtTeam::Axis;
 }
 
-void udtGeneralAnalyzer::ProcessModNameAndVersionOnce()
+void udtGeneralAnalyzer::ProcessModNameAndVersion()
 {
 	udtVMScopedStackAllocator scopedTempAllocator(*_tempAllocator);
 	const char* const serverInfo = _parser->_inConfigStrings[CS_SERVERINFO].GetPtr();
@@ -1226,7 +1220,7 @@ void udtGeneralAnalyzer::ProcessModNameAndVersionOnce()
 	}
 }
 
-void udtGeneralAnalyzer::ProcessMapNameOnce()
+void udtGeneralAnalyzer::ProcessMapName()
 {
 	udtVMScopedStackAllocator scopedTempAllocator(*_tempAllocator);
 
