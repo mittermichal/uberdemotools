@@ -140,6 +140,10 @@ void udtGeneralAnalyzer::ProcessGamestateMessage(const udtGamestateCallbackArg& 
 		{
 			_game = udtGame::QL;
 		}
+		else if(_protocol == udtProtocol::Dm60)
+		{
+			_game = udtGame::RTCW;
+		}
 		else
 		{
 			ProcessQ3ServerInfoConfigStringOnce(parser._inConfigStrings[CS_SERVERINFO].GetPtr());

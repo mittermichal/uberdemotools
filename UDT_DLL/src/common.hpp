@@ -274,7 +274,8 @@ struct udtGame
 		Q3,
 		QL,
 		CPMA,
-		OSP
+		OSP,
+		RTCW
 	};
 };
 

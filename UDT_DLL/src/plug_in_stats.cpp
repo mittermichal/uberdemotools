@@ -2991,14 +2991,7 @@ void udtParserPlugInStats::AddCurrentStats()
 
 	const bool forfeited = _cpma150ValidDuelEndScores ? _cpma150Forfeit : _analyzer.Forfeited();
 
-	if(_protocol == udtProtocol::Dm60)
-	{
-		_stats.MatchDurationMs = (u32)(_analyzer.MatchEndTime() - _analyzer.MatchStartTime());
-	}
-	else
-	{
-		_stats.MatchDurationMs = (u32)(_analyzer.MatchEndTime() - _analyzer.MatchStartTime() - _analyzer.TotalTimeOutDuration());
-	}
+	_stats.MatchDurationMs = (u32)(_analyzer.MatchEndTime() - _analyzer.MatchStartTime() - _analyzer.TotalTimeOutDuration());
 
 	if(_stats.GameType == udtGameType::Invalid &&
 	   _analyzer.GameType() != udtGameType::Invalid)
