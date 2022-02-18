@@ -3603,6 +3603,19 @@ namespace Uber.DemoTools
                 return;
             }
 
+            if(fieldName == "Player class")
+            {
+                switch(fieldIntegerValue)
+                {
+                    case 0: fieldValue = "soldier"; break;
+                    case 1: fieldValue = "medic"; break;
+                    case 2: fieldValue = "engineer"; break;
+                    case 3: fieldValue = "lieutenant"; break;
+                    default: fieldValue = "unknown"; break;
+                }
+                return;
+            }
+
             switch(dataType)
             {
                 case udtMatchStatsDataType.Team:
