@@ -9,7 +9,7 @@ namespace Uber.DemoTools
     {
         public FrameworkElement RootControl { get; private set; }
         public List<DemoInfoListView> AllListViews { get { return GetAllListViews(); } }
-        public List<DemoInfoListView> InfoListViews { get { return GetInfoListViews(); } }
+        public List<DemoInfoListView> InfoListViews { get { return GetInfoListViews();} }
         public ComponentType Type { get { return ComponentType.Patterns; } }
         public bool MultiDemoMode { get { return true; } }
 

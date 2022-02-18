@@ -23,7 +23,7 @@ namespace Uber.DemoTools
 
         public void PopulateViews(DemoInfo demoInfo)
         {
-            RootControl.IsEnabled = !UDT_DLL.IsWolfensteinProtocol(demoInfo.ProtocolNumber);
+            // Nothing to do.
         }
 
         public void SaveToConfigObject(UdtConfig config)
