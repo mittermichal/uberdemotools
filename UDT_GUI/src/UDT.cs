@@ -899,6 +899,17 @@ namespace Uber.DemoTools
             Count
         }
 
+        private enum udtTeam : uint
+        {
+            Free,
+            Red,
+            Blue,
+            Spectators,
+            Axis,
+            Allies,
+            Count
+        }
+
         [Flags]
         public enum udtParseArgFlags : uint
         {
@@ -3188,6 +3199,33 @@ namespace Uber.DemoTools
             info.MatchStats.Add(stats);
         }
 
+        private static bool IsValidTeamIndex(int teamIndex, DemoInfo info)
+        {
+            if(UDT_DLL.IsWolfensteinProtocol(info.ProtocolNumber))
+            {
+                switch((udtTeam)teamIndex)
+                {
+                    case udtTeam.Axis:
+                    case udtTeam.Allies:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+            else
+            {
+                switch((udtTeam)teamIndex)
+                {
+                    case udtTeam.Free:
+                    case udtTeam.Red:
+                    case udtTeam.Blue:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        }
+
         private static void ExtractPlayerStats(StatsBuffers buffers, udtParseDataStats data, DemoInfo info, ref DemoStatsInfo stats)
         {
             var playerInfoIndex = (int)data.FirstPlayerStatsIndex;
@@ -3231,7 +3269,7 @@ namespace Uber.DemoTools
                 playerStats.TeamIndex = teamIndex;
 
                 // Get rid of spectators and players without a team.
-                if(teamIndex >= 0 && teamIndex < 3)
+                if(IsValidTeamIndex(teamIndex, info))
                 {
                     stats.PlayerStats.Add(playerStats);
                 }
