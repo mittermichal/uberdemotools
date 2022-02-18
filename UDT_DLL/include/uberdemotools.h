@@ -573,6 +573,9 @@ struct udtMatchStatsDataType
 	N(DamageGiven, "damage given", BiggerWins, Positive) \
 	N(DamageReceived, "damage received", SmallerWins, Positive) \
 	N(TeamDamage, "team damage", SmallerWins, Positive) \
+	N(Efficiency, "efficiency", BiggerWins, Positive) \
+	N(Headshots, "headshots", BiggerWins, Positive) \
+	N(Revives, "revives", BiggerWins, Positive) \
 	N(TeleFrags, "telefrags", BiggerWins, Positive) \
 	N(ArmorTaken, "armor taken", BiggerWins, Positive) \
 	N(HealthTaken, "health taken", BiggerWins, Positive) \
@@ -838,10 +841,7 @@ struct udtMatchStatsDataType
 	N(VenomDamage, "venom damage", BiggerWins, Positive) \
 	N(VenomDeaths, "venom deaths", SmallerWins, Positive) \
 	N(VenomHeadshots, "venom headshots", BiggerWins, Positive) \
-	N(VenomAccuracy, "venom accuracy", BiggerWins, Percentage) \
-	N(Efficiency, "efficiency", BiggerWins, Positive) \
-	N(Headshots, "headshots", BiggerWins, Positive) \
-	N(Revives, "revives", BiggerWins, Positive)
+	N(VenomAccuracy, "venom accuracy", BiggerWins, Percentage)
 
 #define UDT_PLAYER_STATS_ITEM(Enum, Desc, Comp, Type) Enum,
 struct udtPlayerStatsField
