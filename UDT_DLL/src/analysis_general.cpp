@@ -1108,6 +1108,11 @@ void udtGeneralAnalyzer::ProcessWolfServerInfoConfigString(const char* configStr
 
 void udtGeneralAnalyzer::ProcessWolfPausedConfigString(const char* configString)
 {
+	if(configString == NULL)
+	{
+		return;
+	}
+
 	s32 paused = 0;
 	StringParseInt(paused, configString);
 	const bool prevPaused = _serverPause;
