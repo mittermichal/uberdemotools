@@ -3253,7 +3253,7 @@ namespace Uber.DemoTools
                         var fieldName = "";
                         var fieldValue = "";
                         var fieldIntegerValue = buffers.PlayerFields[fieldIdx];
-                        FormatStatsField(out fieldName, out fieldValue, fieldIntegerValue, dataType, LibraryArrays.GetPlayerFieldName(j));
+                        FormatStatsField(out fieldName, out fieldValue, fieldIntegerValue, dataType, LibraryArrays.GetPlayerFieldName(j), info);
                         field.Key = fieldName;
                         field.Value = fieldValue;
                         field.IntegerValue = fieldIntegerValue;
@@ -3373,7 +3373,7 @@ namespace Uber.DemoTools
                         var fieldName = "";
                         var fieldValue = "";
                         var fieldIntegerValue = buffers.TeamFields[fieldIdx];
-                        FormatStatsField(out fieldName, out fieldValue, fieldIntegerValue, dataType, LibraryArrays.GetTeamFieldName(j));
+                        FormatStatsField(out fieldName, out fieldValue, fieldIntegerValue, dataType, LibraryArrays.GetTeamFieldName(j), info);
                         field.Key = fieldName;
                         field.Value = fieldValue;
                         field.IntegerValue = fieldIntegerValue;
@@ -3558,18 +3558,26 @@ namespace Uber.DemoTools
             return _teamNames[(int)teamIndex];
         }
 
-        private static bool IsStatsValueValid(udtMatchStatsDataType type, int value)
+        private static bool IsStatsValueValid(udtMatchStatsDataType type, int value, DemoInfo info)
         {
             switch(type)
             {
                 case udtMatchStatsDataType.Team:
-                    return value >= 0 && value <= 3;
+                    return IsValidTeamIndex(value, info);
 
                 case udtMatchStatsDataType.Weapon:
                     return true;
 
                 case udtMatchStatsDataType.Percentage:
-                    return value >= 0 && value <= 100;
+                    if(UDT_DLL.IsWolfensteinProtocol(info.ProtocolNumber))
+                    {
+                        // you can have > 100 if you get 2 kills with the panzerfaust
+                        return value >= 0;
+                    }
+                    else
+                    {
+                        return value >= 0 && value <= 100;
+                    }
 
                 case udtMatchStatsDataType.Minutes:
                 case udtMatchStatsDataType.Seconds:
@@ -3586,10 +3594,10 @@ namespace Uber.DemoTools
             }
         }
 
-        private static void FormatStatsField(out string fieldName, out string fieldValue, int fieldIntegerValue, udtMatchStatsDataType dataType, string inFieldName)
+        private static void FormatStatsField(out string fieldName, out string fieldValue, int fieldIntegerValue, udtMatchStatsDataType dataType, string inFieldName, DemoInfo info)
         {
             fieldName = dataType == udtMatchStatsDataType.Team ? "Team" : ProcessStatsFieldName(inFieldName);
-            if(!IsStatsValueValid(dataType, fieldIntegerValue))
+            if(!IsStatsValueValid(dataType, fieldIntegerValue, info))
             {
                 fieldValue = "<invalid>";
                 return;
