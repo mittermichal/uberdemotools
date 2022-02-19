@@ -194,6 +194,14 @@ static const char* PerfStatsFieldNames[]
 };
 #undef UDT_PERF_STATS_ITEM
 
+#define UDT_WOLF_CLASS_ITEM(Enum, Desc) Desc,
+static const char* WolfClassNames[]
+{
+	UDT_WOLF_CLASS_LIST(UDT_WOLF_CLASS_ITEM)
+	"after last wolf class"
+};
+#undef UDT_WOLF_CLASS_ITEM
+
 #define UDT_PLAYER_STATS_ITEM(Enum, Desc, Comp, Type) (u8)udtStatsCompMode::Comp,
 static const u8 PlayerStatsCompModesArray[]
 {
@@ -477,6 +485,11 @@ UDT_API(s32) udtGetStringArray(u32 arrayId, const char*** elements, u32* element
 		case udtStringArray::PerfStatsNames:
 			*elements = PerfStatsFieldNames;
 			*elementCount = (u32)(UDT_COUNT_OF(PerfStatsFieldNames) - 1);
+			break;
+
+		case udtStringArray::WolfClassNames:
+			*elements = WolfClassNames;
+			*elementCount = (u32)(UDT_COUNT_OF(WolfClassNames) - 1);
 			break;
 
 		default:

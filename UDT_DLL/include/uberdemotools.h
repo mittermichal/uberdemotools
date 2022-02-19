@@ -467,6 +467,25 @@ struct udtTeam
 };
 #undef UDT_TEAM_ITEM
 
+#define UDT_WOLF_CLASS_LIST(N) \
+	N(Soldier, "soldier") \
+	N(Medic, "medic") \
+	N(Engineer, "engineer") \
+	N(Lieutenant, "lieutenant") \
+	N(FieldOps, "field ops") \
+	N(CovertOps, "covert ops")
+
+#define UDT_WOLF_CLASS_ITEM(Enum, Desc) Enum,
+struct udtWolfClass
+{
+	enum Id
+	{
+		UDT_WOLF_CLASS_LIST(UDT_WOLF_CLASS_ITEM)
+		Count
+	};
+};
+#undef UDT_WOLF_CLASS_ITEM
+
 struct udtStringArray
 {
 	enum Id
@@ -487,6 +506,7 @@ struct udtStringArray
 		PlayerStatsNames,
 		PlugInNames,
 		PerfStatsNames,
+		WolfClassNames,
 		Count
 	};
 };
@@ -549,6 +569,7 @@ struct udtMatchStatsDataType
 		Ping,       /* The ping in milli-seconds. */
 		Positive,   /* The value must be positive or zero. */
 		Boolean,    /* The value must be 0 or 1. */
+		WolfClass,  /* The integer is of type udtWolfClass::Id. */
 		Count
 	};
 };
@@ -707,7 +728,7 @@ struct udtMatchStatsDataType
 	N(HeavyMachineGunDamage, "heavy machinegun damage", BiggerWins, Positive) \
 	N(HeavyMachineGunDrops, "heavy machinegun drops", SmallerWins, Positive) \
 	N(RespawnsLeft, "respawns left", NeitherWins, Generic) \
-	N(PlayerClass, "player class", NeitherWins, Generic) \
+	N(PlayerClass, "player class", NeitherWins, WolfClass) \
 	N(GibbedBodies, "gibbed bodies", BiggerWins, Positive) \
 	N(KnifeKills, "knife kills", BiggerWins, Positive) \
 	N(KnifeShots, "knife attacks", BiggerWins, Positive) \

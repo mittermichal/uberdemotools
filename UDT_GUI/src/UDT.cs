@@ -800,6 +800,7 @@ namespace Uber.DemoTools
             PlayerStatsNames,
             PlugInNames,
             PerfStatsNames,
+            WolfClassNames,
             Count
         }
 
@@ -845,6 +846,7 @@ namespace Uber.DemoTools
             Ping,
             Positive,
             Boolean,
+            WolfClass,
             Count
         }
 
@@ -3603,19 +3605,6 @@ namespace Uber.DemoTools
                 return;
             }
 
-            if(fieldName == "Player class")
-            {
-                switch(fieldIntegerValue)
-                {
-                    case 0: fieldValue = "soldier"; break;
-                    case 1: fieldValue = "medic"; break;
-                    case 2: fieldValue = "engineer"; break;
-                    case 3: fieldValue = "lieutenant"; break;
-                    default: fieldValue = "unknown"; break;
-                }
-                return;
-            }
-
             switch(dataType)
             {
                 case udtMatchStatsDataType.Team:
@@ -3644,6 +3633,10 @@ namespace Uber.DemoTools
 
                 case udtMatchStatsDataType.Boolean:
                     fieldValue = fieldIntegerValue == 0 ? "no" : "yes";
+                    break;
+
+                case udtMatchStatsDataType.WolfClass:
+                    fieldValue = GetUDTStringForValueOrNull(udtStringArray.WolfClassNames, (uint)fieldIntegerValue) ?? "N/A";
                     break;
 
                 case udtMatchStatsDataType.Generic:
