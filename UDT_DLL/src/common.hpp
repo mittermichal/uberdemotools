@@ -82,8 +82,7 @@ extern void Q_strncpyz(char* dest, const char* src, s32 destsize);
 #define	MAX_SOUNDS			256		// so they cannot be blindly increased
 
 
-
-#define	MAX_CONFIGSTRINGS	1024
+#define	MAX_CONFIGSTRINGS	2048    // Q3 1024, RtCW 2048
 
 // all CS_ values here are for config strings whose index never changes
 #define CS_SERVERINFO             0 // an info string with all the serverinfo cvars
