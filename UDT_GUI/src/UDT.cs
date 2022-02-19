@@ -847,6 +847,7 @@ namespace Uber.DemoTools
             Positive,
             Boolean,
             WolfClass,
+            WolfRespawnsLeft,
             Count
         }
 
@@ -3637,6 +3638,10 @@ namespace Uber.DemoTools
 
                 case udtMatchStatsDataType.WolfClass:
                     fieldValue = GetUDTStringForValueOrNull(udtStringArray.WolfClassNames, (uint)fieldIntegerValue) ?? "N/A";
+                    break;
+
+                case udtMatchStatsDataType.WolfRespawnsLeft:
+                    fieldValue = fieldIntegerValue == -1 ? "infinite" : Math.Max(fieldIntegerValue, 0).ToString();
                     break;
 
                 case udtMatchStatsDataType.Generic:

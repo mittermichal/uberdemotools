@@ -560,16 +560,17 @@ struct udtMatchStatsDataType
 {
 	enum Id
 	{
-		Generic,    /* Format as a normal signed integer. */
-		Team,       /* The integer is of type udtTeam::Id. */
-		Minutes,    /* Append minutes at the end. */
-		Seconds,    /* Duration in seconds, use the UDT format instead. */
-		Percentage, /* Append a percentage sign at the end. */
-		Weapon,     /* The integer is of type udtWeapon::Id. */
-		Ping,       /* The ping in milli-seconds. */
-		Positive,   /* The value must be positive or zero. */
-		Boolean,    /* The value must be 0 or 1. */
-		WolfClass,  /* The integer is of type udtWolfClass::Id. */
+		Generic,          /* Format as a normal signed integer. */
+		Team,             /* The integer is of type udtTeam::Id. */
+		Minutes,          /* Append minutes at the end. */
+		Seconds,          /* Duration in seconds, use the UDT format instead. */
+		Percentage,       /* Append a percentage sign at the end. */
+		Weapon,           /* The integer is of type udtWeapon::Id. */
+		Ping,             /* The ping in milli-seconds. */
+		Positive,         /* The value must be positive or zero. */
+		Boolean,          /* The value must be 0 or 1. */
+		WolfClass,        /* The integer is of type udtWolfClass::Id. */
+		WolfRespawnsLeft, /* -1 means infinite. -2 means 0 and already dead. */
 		Count
 	};
 };
@@ -621,6 +622,9 @@ struct udtMatchStatsDataType
 	N(HastePickups, "haste pickups", BiggerWins, Positive) \
 	N(InvisPickups, "invisibility pickups", BiggerWins, Positive) \
 	N(MedkitPickups, "medkit pickups", BiggerWins, Positive) \
+	N(RespawnsLeft, "respawns left", NeitherWins, WolfRespawnsLeft) \
+	N(PlayerClass, "player class", NeitherWins, WolfClass) \
+	N(GibbedBodies, "gibbed bodies", BiggerWins, Positive) \
 	N(GauntletKills, "gauntlet kills", BiggerWins, Positive) \
 	N(GauntletAccuracy, "gauntlet accuracy", BiggerWins, Percentage) \
 	N(GauntletShots, "gauntlet shots", BiggerWins, Positive) \
@@ -727,9 +731,6 @@ struct udtMatchStatsDataType
 	N(HeavyMachineGunHits, "heavy machinegun hits", BiggerWins, Positive) \
 	N(HeavyMachineGunDamage, "heavy machinegun damage", BiggerWins, Positive) \
 	N(HeavyMachineGunDrops, "heavy machinegun drops", SmallerWins, Positive) \
-	N(RespawnsLeft, "respawns left", NeitherWins, Generic) \
-	N(PlayerClass, "player class", NeitherWins, WolfClass) \
-	N(GibbedBodies, "gibbed bodies", BiggerWins, Positive) \
 	N(KnifeKills, "knife kills", BiggerWins, Positive) \
 	N(KnifeShots, "knife attacks", BiggerWins, Positive) \
 	N(KnifeHits, "knife hits", BiggerWins, Positive) \
