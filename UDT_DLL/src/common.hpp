@@ -161,7 +161,7 @@ struct idClientSnapshot48 : idClientSnapshotBase
 
 struct idClientSnapshot60 : idClientSnapshotBase
 {
-    idPlayerState60 ps; // complete information about the current player at this time
+	idPlayerState60 ps; // complete information about the current player at this time
 };
 
 struct idClientSnapshot66 : idClientSnapshotBase
@@ -212,7 +212,7 @@ inline idPlayerStateBase* GetPlayerState(idClientSnapshotBase* snap, udtProtocol
 	{
 		case udtProtocol::Dm3: return &((idClientSnapshot3*)snap)->ps;
 		case udtProtocol::Dm48: return &((idClientSnapshot48*)snap)->ps;
-        case udtProtocol::Dm60: return &((idClientSnapshot60*)snap)->ps;
+		case udtProtocol::Dm60: return &((idClientSnapshot60*)snap)->ps;
 		case udtProtocol::Dm66: return &((idClientSnapshot66*)snap)->ps;
 		case udtProtocol::Dm67: return &((idClientSnapshot67*)snap)->ps;
 		case udtProtocol::Dm68: return &((idClientSnapshot68*)snap)->ps;

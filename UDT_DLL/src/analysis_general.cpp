@@ -87,7 +87,7 @@ void udtGeneralAnalyzer::ResetForNextDemo()
 	_fragLimit = 0;
 	_captureLimit = 0;
 	_roundLimit = 0;
-    _roundIndex = 0;
+	_roundIndex = 0;
 	_game = udtGame::Q3;
 	_gameType = udtGameType::Invalid;
 	_gameState = udtGameState::WarmUp;
@@ -325,10 +325,10 @@ void udtGeneralAnalyzer::ProcessCommandMessage(const udtCommandCallbackArg& /*ar
 	{
 		ProcessWolfInfoConfigString(configString);
 	}
-    else if(_protocol == udtProtocol::Dm60 && csIndex == CS_SERVERINFO)
-    {
-        ProcessWolfServerInfoConfigString(configString);
-    }
+	else if(_protocol == udtProtocol::Dm60 && csIndex == CS_SERVERINFO)
+	{
+		ProcessWolfServerInfoConfigString(configString);
+	}
 	else if(_protocol == udtProtocol::Dm60 && csIndex == CS_WOLF_PAUSED)
 	{
 		ProcessWolfPausedConfigString(configString);
@@ -424,7 +424,7 @@ void udtGeneralAnalyzer::ResetForNextMatch()
 	_fragLimit = 0;
 	_captureLimit = 0;
 	_roundLimit = 0;
-    _roundIndex = 0;
+	_roundIndex = 0;
 	_overTimeType = udtOvertimeType::Timed;
 	_forfeited = false;
 	_timeOut = false;
@@ -1034,11 +1034,11 @@ void udtGeneralAnalyzer::ProcessWolfInfoConfigString(const char* configString)
 
 	udtVMScopedStackAllocator tempAllocScope(*_tempAllocator);
 
-    s32 roundIndex;
-    if(ParseConfigStringValueInt(roundIndex, *_tempAllocator, "g_currentRound", configString))
-    {
-        _roundIndex = (u32)roundIndex;
-    }
+	s32 roundIndex;
+	if(ParseConfigStringValueInt(roundIndex, *_tempAllocator, "g_currentRound", configString))
+	{
+		_roundIndex = (u32)roundIndex;
+	}
 
 	struct WolfGS
 	{
@@ -1085,13 +1085,13 @@ void udtGeneralAnalyzer::ProcessWolfServerInfoConfigString(const char* configStr
 		return;
 	}
 
-    udtVMScopedStackAllocator tempAllocScope(*_tempAllocator);
+	udtVMScopedStackAllocator tempAllocScope(*_tempAllocator);
 
-    s32 timeLimit;
-    if(ParseConfigStringValueInt(timeLimit, *_tempAllocator, "timelimit", configString))
-    {
-        _timeLimit = timeLimit;
-    }
+	s32 timeLimit;
+	if(ParseConfigStringValueInt(timeLimit, *_tempAllocator, "timelimit", configString))
+	{
+		_timeLimit = timeLimit;
+	}
 
 	_gamePlay = udtGamePlay::VRTCW;
 	udtString gameName;

@@ -2769,10 +2769,10 @@ void udtParserPlugInStats::ParseWolfSCHeader(const udtString& cleanMessage)
 					length = (u16)tokenizer->GetArgOffset(1);
 				}
 				else if(t == 1)
-                {
-                    startOffset = (u16)tokenizer->GetArgOffset(1);
+				{
+					startOffset = (u16)tokenizer->GetArgOffset(1);
 					length = (u16)tokenizer->GetArgLength(1);
-                }
+				}
 				else if(t + 1 < tokenCount)
 				{
 					const u16 endOffset = (u16)tokenizer->GetArgOffset(t) + (u16)tokenizer->GetArgLength(t);
