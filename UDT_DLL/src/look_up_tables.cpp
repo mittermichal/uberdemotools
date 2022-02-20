@@ -590,7 +590,7 @@ static const s16* EntityEventTables[] =
 {
 	TABLE_ENTRY(EntityEvents_3), // 3
 	TABLE_ENTRY(EntityEvents_48_68), // 48
-	TABLE_ENTRY(EntityEvents_60),
+	TABLE_ENTRY(EntityEvents_60), // 60
 	TABLE_ENTRY(EntityEvents_48_68), // 66
 	TABLE_ENTRY(EntityEvents_48_68), // 67
 	TABLE_ENTRY(EntityEvents_48_68), // 68
