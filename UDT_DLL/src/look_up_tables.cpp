@@ -1551,7 +1551,7 @@ static const s16* PMTypeTables[] =
 {
 	TABLE_ENTRY(PMTypes), // 3
 	TABLE_ENTRY(PMTypes), // 48
-	TABLE_ENTRY(PMTypes), // @TODO: RTCW
+	TABLE_ENTRY(PMTypes), // 60 - same in RtCW as in Q3
 	TABLE_ENTRY(PMTypes), // 66
 	TABLE_ENTRY(PMTypes), // 67
 	TABLE_ENTRY(PMTypes), // 68
