@@ -988,6 +988,7 @@ struct udtGameType
 	N(OSP, "OSP") \
 	N(Defrag, "DeFRaG") \
 	N(RTCWPro, "RtcwPro") \
+	N(RTCWOSP, "OSP") \
 	N(Unknown, "Unknown")
 
 #define UDT_MOD_NAME_ITEM(Enum, Name) Enum,
@@ -1011,7 +1012,8 @@ struct udtMod
 	N(PQL,   "PQL",   "Turbo Quake Live") \
 	N(DQL,   "QL",    "Default Quake Live") \
 	N(VRTCW, "VRTCW", "Vanilla Return to Castle Wolfenstein") \
-	N(RTCWPRO, "RtcwPro", "Return to Castle Wolfenstein RtcwPro")
+	N(RTCWPRO, "RtcwPro", "Return to Castle Wolfenstein RtcwPro") \
+	N(RTCWOSP, "RtCW OSP", "Return to Castle Wolfenstein OSP")
 
 #define UDT_GAMEPLAY_ITEM(Enum, ShortName, LongName) Enum,
 struct udtGamePlay

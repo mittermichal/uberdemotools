@@ -1104,6 +1104,22 @@ void udtGeneralAnalyzer::ProcessWolfServerInfoConfigString(const char* configStr
 			_gamePlay = udtGamePlay::RTCWPRO;
 		}
 	}
+	udtString gameVersion;
+	if(ParseConfigStringValueString(gameVersion, *_tempAllocator, "gameversion", configString))
+	{
+		if(udtString::StartsWithNoCase(gameVersion, "OSP v"))
+		{
+			_mod = udtMod::RTCWOSP;
+			_modVersion = udtString::NewSubstringClone(_stringAllocator, gameVersion, 5);
+			_gamePlay = udtGamePlay::RTCWOSP;
+		}
+		else if(udtString::StartsWithNoCase(gameVersion, "OSP "))
+		{
+			_mod = udtMod::RTCWOSP;
+			_modVersion = udtString::NewSubstringClone(_stringAllocator, gameVersion, 4);
+			_gamePlay = udtGamePlay::RTCWOSP;
+		}
+	}
 }
 
 void udtGeneralAnalyzer::ProcessWolfPausedConfigString(const char* configString)
