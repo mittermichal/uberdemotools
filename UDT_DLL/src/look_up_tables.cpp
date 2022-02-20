@@ -1518,11 +1518,30 @@ static const s16 Items_90p[] =
 };
 VALIDATE_TABLE_SIZES(Items_90p, udtItem::Count);
 
+static s16 Items_60_U2Q[udtItem::Count];
+static s16 Items_60_Q2U[udtItem::Count * 2];
+static const s16 Items_60[] =
+{
+	(s16)udtItem::AmmoCells, 53,
+	(s16)udtItem::AmmoGrenades, 50,
+	(s16)udtItem::AmmoRockets, 58,
+	(s16)udtItem::HoldableMedkit, 61,
+	(s16)udtItem::ItemArmorBody, 10,
+	(s16)udtItem::ItemHealth, 4,
+	(s16)udtItem::ItemHealthLarge, 5,
+	(s16)udtItem::ItemHealthSmall, 3,
+	(s16)udtItem::FlagBlue, 76,
+	(s16)udtItem::FlagRed, 75,
+	(s16)udtItem::WeaponGrenadeLauncher, 21,
+	TABLE_END
+};
+VALIDATE_TABLE_SIZES(Items_60, udtItem::Count);
+
 static const s16* ItemTables[] =
 {
 	TABLE_ENTRY(Items_3_68), // 3
 	TABLE_ENTRY(Items_3_68), // 48
-	TABLE_ENTRY(Items_3_68), // @TODO: RTCW
+	TABLE_ENTRY(Items_60), // 60
 	TABLE_ENTRY(Items_3_68), // 66
 	TABLE_ENTRY(Items_3_68), // 67
 	TABLE_ENTRY(Items_3_68), // 68
