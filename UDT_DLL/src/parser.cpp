@@ -612,6 +612,7 @@ bool udtBaseParser::ParseGamestate()
 	_analyzer->ResetForNextDemo();
 	_analyzer->ProcessGamestateMessage(udtGamestateCallbackArg(), *this);
 	_inMod = _analyzer->Mod();
+	_inModVersion = _analyzer->ModVersion();
 
 	return true;
 }
@@ -1238,6 +1239,13 @@ const udtString udtBaseParser::GetConfigString(s32 csIndex) const
 	}
 
 	return _inConfigStrings[csIndex];
+}
+
+const udtGameInfo udtBaseParser::GetGameInfo() const
+{
+	const udtGameInfo gameInfo = { _inModVersion, _inProtocol, _inMod };
+
+	return gameInfo;
 }
 
 void udtBaseParser::AddPlugIn(udtBaseParserPlugIn* plugIn)
