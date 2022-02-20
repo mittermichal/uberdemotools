@@ -561,180 +561,11 @@ static const s16 EntityEvents_84[] =
 VALIDATE_TABLE_SIZES(EntityEvents_84, udtEntityEvent::Count);
 #endif
 
-// @TODO: process this for correct obituaries in OSP
-enum RTCW_OSP_entity_event_t
-{
-	EV_NONE,
-	EV_FOOTSTEP,
-	EV_FOOTSTEP_METAL,
-	EV_FOOTSTEP_WOOD,
-	EV_FOOTSTEP_GRASS,
-	EV_FOOTSTEP_GRAVEL,
-	EV_FOOTSTEP_ROOF,
-	EV_FOOTSTEP_SNOW,
-	EV_FOOTSTEP_CARPET,
-	EV_FOOTSPLASH,
-	EV_FOOTWADE,
-	EV_SWIM,
-	EV_STEP_4,
-	EV_STEP_8,
-	EV_STEP_12,
-	EV_STEP_16,
-	EV_FALL_SHORT,
-	EV_FALL_MEDIUM,
-	EV_FALL_FAR,
-	EV_FALL_NDIE,
-	EV_FALL_DMG_10,
-	EV_FALL_DMG_15,
-	EV_FALL_DMG_25,
-	EV_FALL_DMG_50,
-	EV_JUMP_PAD,            // boing sound at origin, jump sound on player
-	EV_JUMP,
-	EV_WATER_TOUCH, // foot touches
-	EV_WATER_LEAVE, // foot leaves
-	EV_WATER_UNDER, // head touches
-	EV_WATER_CLEAR, // head leaves
-	EV_ITEM_PICKUP,         // normal item pickups are predictable
-	EV_ITEM_PICKUP_QUIET,   // (SA) same, but don't play the default pickup sound as it was specified in the ent
-	EV_GLOBAL_ITEM_PICKUP,  // powerup / team sounds are broadcast to everyone
-	EV_NOITEM,
-	EV_NOAMMO,
-	EV_EMPTYCLIP,
-	EV_FILL_CLIP,
-	EV_MG42_FIXED, // JPW NERVE
-	EV_WEAP_OVERHEAT,
-	EV_CHANGE_WEAPON,
-	EV_FIRE_WEAPON,
-	EV_FIRE_WEAPONB,
-	EV_FIRE_WEAPON_LASTSHOT,
-	EV_FIRE_QUICKGREN,  // "Quickgrenade"
-	EV_NOFIRE_UNDERWATER,
-	EV_FIRE_WEAPON_MG42,
-	EV_USE_ITEM0,
-	EV_USE_ITEM1,
-	EV_USE_ITEM2,
-	EV_USE_ITEM3,
-	EV_USE_ITEM4,
-	EV_USE_ITEM5,
-	EV_USE_ITEM6,
-	EV_USE_ITEM7,
-	EV_USE_ITEM8,
-	EV_USE_ITEM9,
-	EV_USE_ITEM10,
-	EV_USE_ITEM11,
-	EV_USE_ITEM12,
-	EV_USE_ITEM13,
-	EV_USE_ITEM14,
-	EV_USE_ITEM15,
-	EV_ITEM_RESPAWN,
-	EV_ITEM_POP,
-	EV_PLAYER_TELEPORT_IN,
-	EV_PLAYER_TELEPORT_OUT,
-	EV_GRENADE_BOUNCE,      // eventParm will be the soundindex
-	EV_GENERAL_SOUND,
-	EV_GLOBAL_SOUND,        // no attenuation
-	EV_GLOBAL_CLIENT_SOUND, // DHM - Nerve :: no attenuation, only plays for specified client
-	EV_BULLET_HIT_FLESH,
-	EV_BULLET_HIT_WALL,
-	EV_MISSILE_HIT,
-	EV_MISSILE_MISS,
-	EV_RAILTRAIL,
-	EV_VENOM,
-	EV_VENOMFULL,
-	EV_BULLET,              // otherEntity is the shooter
-	EV_LOSE_HAT,            //----(SA)
-	EV_GIB_HEAD,            // only blow off the head
-	EV_PAIN,
-	EV_CROUCH_PAIN,
-	EV_DEATH1,
-	EV_DEATH2,
-	EV_DEATH3,
-	EV_OBITUARY,
-	EV_STOPSTREAMINGSOUND, // JPW NERVE swiped from sherman
-	EV_POWERUP_QUAD,
-	EV_POWERUP_BATTLESUIT,
-	EV_POWERUP_REGEN,
-	EV_GIB_PLAYER,          // gib a previously living player
-	EV_DEBUG_LINE,
-	EV_STOPLOOPINGSOUND,
-	EV_TAUNT,
-	EV_SMOKE,
-	EV_SPARKS,
-	EV_SPARKS_ELECTRIC,
-	EV_BATS,
-	EV_BATS_UPDATEPOSITION,
-	EV_BATS_DEATH,
-	EV_EXPLODE,     // func_explosive
-	EV_EFFECT,      // target_effect
-	EV_MORTAREFX,   // mortar firing
-	// JPW NERVE
-	EV_SPINUP,  // JPW NERVE panzerfaust preamble
-	EV_TESTID1, // new particle test
-	EV_TESTID2,
-	EV_ENDTEST,
-	// jpw
-	EV_SNOW_ON,
-	EV_SNOW_OFF,
-	EV_MISSILE_MISS_SMALL,
-	EV_MISSILE_MISS_LARGE,
-	EV_WOLFKICK_HIT_FLESH,
-	EV_WOLFKICK_HIT_WALL,
-	EV_WOLFKICK_MISS,
-	EV_SPIT_HIT,
-	EV_SPIT_MISS,
-	EV_SHARD,
-	EV_JUNK,
-	EV_EMITTER, //----(SA)	added // generic particle emitter that uses client-side particle scripts
-	EV_OILPARTICLES,
-	EV_OILSLICK,
-	EV_OILSLICKREMOVE,
-	EV_MG42EFX,
-	EV_FLAMEBARREL_BOUNCE,
-	EV_FLAKGUN1,
-	EV_FLAKGUN2,
-	EV_FLAKGUN3,
-	EV_FLAKGUN4,
-	EV_EXERT1,
-	EV_EXERT2,
-	EV_EXERT3,
-	EV_SNOWFLURRY,
-	EV_CONCUSSIVE,
-	EV_DUST,
-	EV_RUMBLE_EFX,
-	EV_GUNSPARKS,
-	EV_FLAMETHROWER_EFFECT,
-	EV_SNIPER_SOUND,
-	EV_POPUP,
-	EV_POPUPBOOK,
-	EV_GIVEPAGE,    //----(SA)	added
-	EV_MG42BULLET_HIT_FLESH,    // Arnout: these two send the seed as well
-	EV_MG42BULLET_HIT_WALL,
-	EV_MAX_EVENTS   // just added as an 'endcap'
-};
-
-// !!! EV_OBITUARY 85
-//EV_FIRE_WEAPON 40
-//EV_ITEM_PICKUP 30
-//EV_GLOBAL_ITEM_PICKUP 32
-//EV_GLOBAL_SOUND 68
-//EV_ITEM_RESPAWN 62
-//EV_ITEM_POP 63
-//EV_PLAYER_TELEPORT_IN 64
-//EV_PLAYER_TELEPORT_OUT 65
-// !!! EV_BULLET_HIT_FLESH 70
-// !!! EV_BULLET_HIT_WALL 71
-// !!! EV_MISSILE_HIT 72
-// !!! EV_MISSILE_MISS 73
-// !!! EV_RAILTRAIL 74
-// !!! EV_POWERUP_QUAD 87
-// !!! EV_POWERUP_BATTLESUIT 88
-// !!! EV_POWERUP_REGEN 89
-
 static s16 EntityEvents_60_U2Q[udtEntityEvent::Count];
 static s16 EntityEvents_60_Q2U[udtEntityEvent::Count * 2];
 static const s16 EntityEvents_60[] =
 {
-	(s16)udtEntityEvent::Obituary, 86,
+	(s16)udtEntityEvent::Obituary, 85,
 	(s16)udtEntityEvent::WeaponFired, 40,
 	(s16)udtEntityEvent::ItemPickup, 30,
 	(s16)udtEntityEvent::GlobalItemPickup, 32,
@@ -743,14 +574,14 @@ static const s16 EntityEvents_60[] =
 	(s16)udtEntityEvent::ItemPop, 63,
 	(s16)udtEntityEvent::PlayerTeleportIn, 64,
 	(s16)udtEntityEvent::PlayerTeleportOut, 65,
-	(s16)udtEntityEvent::BulletHitFlesh, 71,
-	(s16)udtEntityEvent::BulletHitWall, 72,
-	(s16)udtEntityEvent::MissileHit, 73,
-	(s16)udtEntityEvent::MissileMiss, 74,
-	(s16)udtEntityEvent::RailTrail, 75,
-	(s16)udtEntityEvent::PowerUpQuad, 88,
-	(s16)udtEntityEvent::PowerUpBattleSuit, 89,
-	(s16)udtEntityEvent::PowerUpRegen, 90,
+	(s16)udtEntityEvent::BulletHitFlesh, 70,
+	(s16)udtEntityEvent::BulletHitWall, 71,
+	(s16)udtEntityEvent::MissileHit, 72,
+	(s16)udtEntityEvent::MissileMiss, 73,
+	(s16)udtEntityEvent::RailTrail, 74,
+	(s16)udtEntityEvent::PowerUpQuad, 87,
+	(s16)udtEntityEvent::PowerUpBattleSuit, 88,
+	(s16)udtEntityEvent::PowerUpRegen, 89,
 	TABLE_END
 };
 VALIDATE_TABLE_SIZES(EntityEvents_3, udtEntityEvent::Count);
@@ -1673,6 +1504,49 @@ void BuildLookUpTables()
 	}
 }
 
+#define ID_ENTITY_EVENT_60_RTCW_PRO_LIST(N) \
+	N(Obituary, 86) \
+	N(WeaponFired, 40) \
+	N(ItemPickup, 30) \
+	N(GlobalItemPickup, 32) \
+	N(GlobalSound, 68) \
+	N(ItemRespawn, 62) \
+	N(ItemPop, 63) \
+	N(PlayerTeleportIn, 64) \
+	N(PlayerTeleportOut, 65) \
+	N(BulletHitFlesh, 71) \
+	N(BulletHitWall, 72) \
+	N(MissileHit, 73) \
+	N(MissileMiss, 74) \
+	N(RailTrail, 75) \
+	N(PowerUpQuad, 88) \
+	N(PowerUpBattleSuit, 89) \
+	N(PowerUpRegen, 90)
+
+static s32 GetUDTEntityEventRtcwPro(s32 et)
+{
+#define ITEM(UDTEnum, IdValue) case IdValue: return (s32)udtEntityEvent::UDTEnum;
+	switch(et)
+	{
+		ID_ENTITY_EVENT_60_RTCW_PRO_LIST(ITEM)
+		default: return UDT_S32_MIN;
+	}
+#undef ITEM
+}
+
+static s32 GetIdEntityEventRtcwPro(s32 et)
+{
+#define ITEM(UDTEnum, IdValue) case udtEntityEvent::UDTEnum: return IdValue;
+	switch((udtEntityEvent::Id)et)
+	{
+		ID_ENTITY_EVENT_60_RTCW_PRO_LIST(ITEM)
+		default: return UDT_S32_MIN;
+	}
+#undef ITEM
+}
+
+#undef ID_ENTITY_EVENT_60_RTCW_PRO_LIST
+
 struct idGameType68_CPMA
 {
 	enum Id
@@ -1687,8 +1561,7 @@ struct idGameType68_CPMA
 		FT = 6,
 		CTFS = 7,
 		NTF = 8,
-		TwoVsTwo = 9,
-		Count
+		TwoVsTwo = 9
 	};
 };
 
@@ -1770,6 +1643,16 @@ bool GetIdNumber(s32& idNumber, udtMagicNumberType::Id numberType, u32 udtNumber
 		return false;
 	}
 
+	if(numberType == udtMagicNumberType::EntityEvent &&
+	   protocol <= udtProtocol::Dm60 &&
+	   mod == udtMod::RTCWPro)
+	{
+		const s32 result = GetIdEntityEventRtcwPro((s32)udtNumber);
+		const bool success = result != UDT_S32_MIN;
+		if(success) idNumber = result;
+		return success;
+	}
+
 	if(numberType == udtMagicNumberType::GameType &&
 	   protocol <= udtProtocol::Dm68 &&
 	   mod == udtMod::CPMA)
@@ -1829,6 +1712,16 @@ bool GetUDTNumber(u32& udtNumber, udtMagicNumberType::Id numberType, s32 idNumbe
 	   (u32)protocol >= (u32)udtProtocol::Count)
 	{
 		return false;
+	}
+
+	if(numberType == udtMagicNumberType::EntityEvent &&
+	   protocol == udtProtocol::Dm60 &&
+	   mod == udtMod::RTCWPro)
+	{
+		const s32 result = GetUDTEntityEventRtcwPro(idNumber);
+		const bool success = result != UDT_S32_MIN;
+		if(success) udtNumber = (u32)result;
+		return success;
 	}
 
 	if(numberType == udtMagicNumberType::GameType && 

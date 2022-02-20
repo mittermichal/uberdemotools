@@ -319,7 +319,8 @@ void udtMidAirPatternAnalyzer::ProcessSnapshotMessage(const udtSnapshotCallbackA
 		}
 
 		udtObituaryEvent obituary;
-		if(!IsObituaryEvent(obituary, *arg.ChangedEntities[i].Entity, parser._inProtocol))
+		// @TODO: feed it the correct mod!
+		if(!IsObituaryEvent(obituary, *arg.ChangedEntities[i].Entity, parser._inProtocol, udtMod::None))
 		{
 			continue;
 		}

@@ -40,7 +40,8 @@ void udtMultiRailPatternAnalyzer::ProcessSnapshotMessage(const udtSnapshotCallba
 		}
 
 		udtObituaryEvent eventInfo;
-		if(!IsObituaryEvent(eventInfo, *arg.ChangedEntities[i].Entity, parser._inProtocol))
+		// @TODO: feed it the correct mod!
+		if(!IsObituaryEvent(eventInfo, *arg.ChangedEntities[i].Entity, parser._inProtocol, udtMod::None))
 		{
 			continue;
 		}

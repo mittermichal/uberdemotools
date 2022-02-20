@@ -447,10 +447,10 @@ void LogLinearAllocatorDebugStats(udtContext& context, udtVMLinearAllocator& tem
 	context.LogInfo("Thread reserved byte count: %s", reservedMemory.GetPtr());
 }
 
-bool IsObituaryEvent(udtObituaryEvent& info, const idEntityStateBase& entity, udtProtocol::Id protocol)
+bool IsObituaryEvent(udtObituaryEvent& info, const idEntityStateBase& entity, udtProtocol::Id protocol, udtMod::Id mod)
 {
-	const s32 obituaryEvtId = GetIdNumber(udtMagicNumberType::EntityEvent, udtEntityEvent::Obituary, protocol);
-	const s32 eventTypeId = GetIdNumber(udtMagicNumberType::EntityType, udtEntityType::Event, protocol);
+	const s32 obituaryEvtId = GetIdNumber(udtMagicNumberType::EntityEvent, udtEntityEvent::Obituary, protocol, mod);
+	const s32 eventTypeId = GetIdNumber(udtMagicNumberType::EntityType, udtEntityType::Event, protocol, mod);
 	const s32 eventType = entity.eType & (~ID_ES_EVENT_BITS);
 	if(eventType != eventTypeId + obituaryEvtId)
 	{

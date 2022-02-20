@@ -77,7 +77,7 @@ extern s32         GetErrorCode(bool success, const s32* cancel);
 extern bool        RunParser(udtBaseParser& parser, udtStream& file, const s32* cancelOperation);
 extern void        LogLinearAllocatorDebugStats(udtContext& context, udtVMLinearAllocator& allocator);
 extern bool        StringMatchesCutByChatRule(const udtString& string, const udtChatPatternRule& rule, udtVMLinearAllocator& allocator, udtProtocol::Id procotol);
-extern bool        IsObituaryEvent(udtObituaryEvent& info, const idEntityStateBase& entity, udtProtocol::Id protocol);
+extern bool        IsObituaryEvent(udtObituaryEvent& info, const idEntityStateBase& entity, udtProtocol::Id protocol, udtMod::Id mod);
 extern const char* GetUDTModName(s32 mod); // Where mod is of type udtMeanOfDeath::Id. Never returns a NULL pointer.
 extern bool        GetClanAndPlayerName(udtString& clan, udtString& player, bool& hasClan, udtVMLinearAllocator& allocator, udtProtocol::Id protocol, const char* configString);
 extern bool        IsTeamMode(udtGameType::Id gameType);
