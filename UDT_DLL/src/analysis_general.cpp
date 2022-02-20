@@ -1095,9 +1095,9 @@ void udtGeneralAnalyzer::ProcessWolfServerInfoConfigString(const char* configStr
 
 	_gamePlay = udtGamePlay::VRTCW;
 	udtString gameName;
-	if (ParseConfigStringValueString(gameName, *_tempAllocator, "gamename", configString))
+	if(ParseConfigStringValueString(gameName, *_tempAllocator, "gamename", configString))
 	{
-		if (udtString::StartsWithNoCase(gameName, "RtcwPro "))
+		if(udtString::StartsWithNoCase(gameName, "RtcwPro "))
 		{
 			_mod = udtMod::RTCWPro;
 			_modVersion = udtString::NewSubstringClone(_stringAllocator, gameName, 8);

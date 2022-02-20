@@ -2105,32 +2105,42 @@ bool udtMessage::RealReadDeltaPlayer(const idPlayerStateBase* from, idPlayerStat
 	if(_protocol == udtProtocol::Dm60)
 	{
 		idPlayerState60* to60 = (idPlayerState60*)to;
-		//TODO: reformat
+
 		// read the arrays
-		if(ReadBit()) {
+		if(ReadBit())
+		{
 			// parse stats
-			if (ReadBit()) {
+			if(ReadBit())
+			{
 				bits = ReadBits(ID_MAX_PS_STATS);
-				for (i = 0; i < ID_MAX_PS_STATS; i++) {
-					if (bits & (1 << i)) {
+				for(i = 0; i < ID_MAX_PS_STATS; i++)
+				{
+					if(bits & (1 << i))
+					{
 						to->stats[i] = ReadShort();
 					}
 				}
 			}
 			// parse persistant stats
-			if (ReadBit()) {
+			if(ReadBit())
+			{
 				bits = ReadBits(ID_MAX_PS_PERSISTANT);
-				for (i = 0; i < ID_MAX_PS_PERSISTANT; i++) {
-					if (bits & (1 << i)) {
+				for(i = 0; i < ID_MAX_PS_PERSISTANT; i++)
+				{
+					if(bits & (1 << i))
+					{
 						to->persistant[i] = ReadShort();
 					}
 				}
 			}
 			// parse holdable
-			if (ReadBit()) {
+			if(ReadBit())
+			{
 				bits = ReadBits(16);
-				for (i = 0; i < 16; i++) {
-					if (bits & (1 << i)) {
+				for(i = 0; i < 16; i++)
+				{
+					if(bits & (1 << i))
+					{
 						to60->holdable[i] = ReadShort();
 					}
 				}
@@ -2139,9 +2149,9 @@ bool udtMessage::RealReadDeltaPlayer(const idPlayerStateBase* from, idPlayerStat
 			if(ReadBit())
 			{
 				bits = ReadBits(ID_MAX_PS_POWERUPS);
-				for(i=0 ; i<ID_MAX_PS_POWERUPS ; i++)
+				for(i = 0; i < ID_MAX_PS_POWERUPS; i++)
 				{
-					if(bits & (1<<i))
+					if(bits & (1 << i))
 					{
 						to->powerups[i] = ReadLong();
 					}
@@ -2150,25 +2160,34 @@ bool udtMessage::RealReadDeltaPlayer(const idPlayerStateBase* from, idPlayerStat
 		}
 
 		// ammo stored
-		if(ReadBit()) {     // check for any ammo change (0-63)
-			for ( int j = 0; j < 4; j++ ) {
-				if(ReadBit()) {
+		if(ReadBit())
+		{     // check for any ammo change (0-63)
+			for(int j = 0; j < 4; j++)
+			{
+				if(ReadBit())
+				{
 					bits = ReadShort();
-					for (int i = 0 ; i < 16 ; i++ ) {
-						if ( bits & ( 1 << i ) ) {
-							to->ammo[i + ( j * 16 )] = ReadShort();
+					for(int i = 0; i < 16; i++)
+					{
+						if(bits & (1 << i))
+						{
+							to->ammo[i + (j * 16)] = ReadShort();
 						}
 					}
 				}
 			}
 		}
 		// ammo in clip
-		for ( int j = 0; j < 4; j++ ) {
-			if(ReadBit()) {
+		for(int j = 0; j < 4; j++)
+		{
+			if(ReadBit())
+			{
 				bits = ReadShort();
-				for (int i = 0 ; i < 16 ; i++ ) {
-					if ( bits & ( 1 << i ) ) {
-						to60->ammoclip[i + ( j * 16 )] = ReadShort();
+				for(int i = 0; i < 16; i++)
+				{
+					if(bits & (1 << i))
+					{
+						to60->ammoclip[i + (j * 16)] = ReadShort();
 					}
 				}
 			}
@@ -2183,9 +2202,9 @@ bool udtMessage::RealReadDeltaPlayer(const idPlayerStateBase* from, idPlayerStat
 			if(ReadBit())
 			{
 				bits = ReadBits(ID_MAX_PS_STATS);
-				for(i=0 ; i<ID_MAX_PS_STATS ; i++)
+				for(i = 0; i < ID_MAX_PS_STATS; i++)
 				{
-					if(bits & (1<<i))
+					if(bits & (1 << i))
 					{
 						to->stats[i] = ReadSignedShort();
 					}
@@ -2196,9 +2215,9 @@ bool udtMessage::RealReadDeltaPlayer(const idPlayerStateBase* from, idPlayerStat
 			if(ReadBit())
 			{
 				bits = ReadBits(ID_MAX_PS_PERSISTANT);
-				for(i=0 ; i<ID_MAX_PS_PERSISTANT ; i++)
+				for(i = 0; i < ID_MAX_PS_PERSISTANT; i++)
 				{
-					if(bits & (1<<i))
+					if(bits & (1 << i))
 					{
 						to->persistant[i] = ReadShort();
 					}
@@ -2209,9 +2228,9 @@ bool udtMessage::RealReadDeltaPlayer(const idPlayerStateBase* from, idPlayerStat
 			if(ReadBit())
 			{
 				bits = ReadBits(16);
-				for(i=0 ; i<16 ; i++)
+				for(i = 0; i < 16; i++)
 				{
-					if(bits & (1<<i))
+					if(bits & (1 << i))
 					{
 						to->ammo[i] = ReadShort();
 					}
@@ -2222,9 +2241,9 @@ bool udtMessage::RealReadDeltaPlayer(const idPlayerStateBase* from, idPlayerStat
 			if(ReadBit())
 			{
 				bits = ReadBits(ID_MAX_PS_POWERUPS);
-				for(i=0 ; i<ID_MAX_PS_POWERUPS ; i++)
+				for(i = 0; i < ID_MAX_PS_POWERUPS; i++)
 				{
-					if(bits & (1<<i))
+					if(bits & (1 << i))
 					{
 						to->powerups[i] = ReadLong();
 					}
