@@ -35,8 +35,7 @@ void udtObituariesAnalyzer::ProcessSnapshotMessage(const udtSnapshotCallbackArg&
 		}
 
 		udtObituaryEvent eventInfo;
-		// @TODO: feed it the correct mod!
-		if(!IsObituaryEvent(eventInfo, *arg.ChangedEntities[i].Entity, parser._inProtocol, udtMod::None))
+		if(!IsObituaryEvent(eventInfo, *arg.ChangedEntities[i].Entity, parser._inProtocol, parser._inMod))
 		{
 			continue;
 		}

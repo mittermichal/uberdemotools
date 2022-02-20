@@ -41,7 +41,6 @@ public:
 
 	bool	Init(udtContext* context, udtProtocol::Id protocol, udtProtocol::Id outProtocol, s32 gameStateIndex = 0, bool enablePlugIns = true); // Once for each demo.
 	void	SetFilePath(const char* filePath); // Once for each demo. After Init.
-	void	Destroy();
 
 	bool	ParseNextMessage(const udtMessage& inMsg, s32 inServerMessageSequence, u32 fileOffset); // Returns true if should continue parsing.
 	void	FinishParsing(bool success);
@@ -99,6 +98,7 @@ public:
 	s32 _inProtocolSizeOfClientSnapshot;
 	udtProtocol::Id _outProtocol;
 	udtProtocolConverter* _protocolConverter;
+	struct udtGeneralAnalyzer* _analyzer;
 
 	// Callbacks. Useful for doing additional analysis/processing in the same demo reading pass.
 	void* UserData; // Put whatever you want in there. Useful for callbacks.
@@ -131,6 +131,7 @@ public:
 	udtVMArray<s32> _inRemovedEntities { "Parser::RemovedEntitiesArray" }; // The entities that were removed in the last call to ParsePacketEntities.
 	udtVMArray<idEntityStateBase*> _inEntities { "Parser::EntitiesArray" }; // All entities that were read in the last call to ParsePacketEntities.
 	udtVMArray<u8> _inEntityFlags { "Parser::EntityFlagsArray" };
+	udtMod::Id _inMod;
 
 	// Output.
 	udtFileStream _outFile;

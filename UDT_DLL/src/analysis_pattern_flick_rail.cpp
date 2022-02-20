@@ -91,8 +91,7 @@ void udtFlickRailPatternAnalyzer::ProcessSnapshotMessage(const udtSnapshotCallba
 			continue;
 		}
 
-		// @TODO: feed it the correct mod!
-		if(!IsObituaryEvent(obituary, *arg.ChangedEntities[i].Entity, parser._inProtocol, udtMod::None))
+		if(!IsObituaryEvent(obituary, *arg.ChangedEntities[i].Entity, parser._inProtocol, parser._inMod))
 		{
 			continue;
 		}

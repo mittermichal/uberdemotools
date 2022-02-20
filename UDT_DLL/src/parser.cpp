@@ -2,14 +2,17 @@
 #include "utils.hpp"
 #include "scoped_stack_allocator.hpp"
 #include "path.hpp"
+#include "analysis_general.hpp"
 
 
-udtBaseParser::udtBaseParser() 
+udtBaseParser::udtBaseParser()
 {
 	_context = NULL;
 	_inProtocol = udtProtocol::Invalid;
 	_outProtocol = udtProtocol::Invalid;
 	_protocolConverter = NULL;
+	_analyzer = new udtGeneralAnalyzer;
+	_analyzer->InitAllocators(_tempAllocator, 1);
 
 	UserData = NULL;
 	EnablePlugIns = true;
@@ -37,7 +40,7 @@ udtBaseParser::udtBaseParser()
 
 udtBaseParser::~udtBaseParser()
 {
-	Destroy();
+	delete _analyzer;
 }
 
 bool udtBaseParser::Init(udtContext* context, udtProtocol::Id inProtocol, udtProtocol::Id outProtocol, s32 gameStateIndex, bool enablePlugIns)
@@ -125,10 +128,6 @@ void udtBaseParser::SetFilePath(const char* filePath)
 {
 	_inFilePath = udtString::NewClone(_persistentAllocator, filePath);
 	udtPath::GetFileName(_inFileName, _persistentAllocator, _inFilePath);
-}
-
-void udtBaseParser::Destroy()
-{
 }
 
 bool udtBaseParser::ParseNextMessage(const udtMessage& inMsg, s32 inServerMessageSequence, u32 fileOffset)
@@ -609,6 +608,10 @@ bool udtBaseParser::ParseGamestate()
 
 	++_inGameStateIndex;
 	_inGameStateFileOffsets.Add(_inFileOffset);
+
+	_analyzer->ResetForNextDemo();
+	_analyzer->ProcessGamestateMessage(udtGamestateCallbackArg(), *this);
+	_inMod = _analyzer->Mod();
 
 	return true;
 }
