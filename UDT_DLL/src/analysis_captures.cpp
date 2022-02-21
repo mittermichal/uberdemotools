@@ -110,13 +110,13 @@ void udtCapturesAnalyzer::ProcessGamestateMessage(const udtGamestateCallbackArg&
 	udtVMScopedStackAllocator allocScope(*_tempAllocator);
 
 	const udtProtocol::Id protocol = parser._inProtocol;
-	if(protocol == udtProtocol::Dm60)
+	if(AreAllProtocolFlagSets(protocol, udtProtocolFlags::RTCW))
 	{
 		_processGamestate = &udtCapturesAnalyzer::ProcessGamestateMessageDummy;
 		_processCommand = &udtCapturesAnalyzer::ProcessCommandMessageDummy;
 		_processSnapshot = &udtCapturesAnalyzer::ProcessSnapshotMessageDummy;
 	}
-	else if(protocol >= udtProtocol::Dm73 && protocol <= udtProtocol::Dm91)
+	else if(AreAllProtocolFlagSets(protocol, udtProtocolFlags::QuakeLive))
 	{
 		_processGamestate = &udtCapturesAnalyzer::ProcessGamestateMessageQLorOSP;
 		_processCommand = &udtCapturesAnalyzer::ProcessCommandMessageQLorOSP;

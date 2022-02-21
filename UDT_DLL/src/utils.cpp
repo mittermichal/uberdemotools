@@ -19,6 +19,14 @@ static const char* MeansOfDeathNames[udtMeanOfDeath::Count + 1]
 };
 #undef ITEM
 
+#define ITEM(Enum, Ext, Flags) Flags,
+static const u32 ProtocolFlags[udtProtocol::Count + 1] =
+{
+	UDT_PROTOCOL_LIST(ITEM)
+	0
+};
+#undef ITEM
+
 
 udtString CallbackCutDemoFileNameCreation(const udtDemoStreamCreatorArg& arg)
 {
@@ -697,30 +705,22 @@ void ParseConfigStringInt(s32& value, udtBaseParser& parser, s32 csIndex)
 	StringParseInt(value, cs);
 }
 
-bool IsProtocolRTCW(udtProtocol::Id protocol)
+bool AreAllProtocolFlagSets(udtProtocol::Id protocol, udtProtocolFlags::Mask flags)
 {
-	switch(protocol)
+	if((u32)protocol >= (u32)udtProtocol::Count)
 	{
-		case udtProtocol::Dm57:
-		case udtProtocol::Dm58:
-		case udtProtocol::Dm59:
-		case udtProtocol::Dm60:
-			return true;
-
-		default:
-			return false;
+		return false;
 	}
+
+	return (ProtocolFlags[protocol] & (u32)flags) == (u32)flags;
 }
 
-bool IsProtocolHuffmanCompressed(udtProtocol::Id protocol)
+bool AreAnyProtocolFlagSets(udtProtocol::Id protocol, udtProtocolFlags::Mask flags)
 {
-	switch(protocol)
+	if((u32)protocol >= (u32)udtProtocol::Count)
 	{
-		case udtProtocol::Dm3:
-		case udtProtocol::Dm48:
-			return false;
-
-		default:
-			return true;
+		return false;
 	}
+
+	return (ProtocolFlags[protocol] & (u32)flags) != 0;
 }
