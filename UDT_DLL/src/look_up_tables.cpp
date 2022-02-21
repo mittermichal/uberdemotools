@@ -577,9 +577,27 @@ static const s16 EntityEvents_84[] =
 VALIDATE_TABLE_SIZES(EntityEvents_84, udtEntityEvent::Count);
 #endif
 
-static s16 EntityEvents_57_60_U2Q[udtEntityEvent::Count];
-static s16 EntityEvents_57_60_Q2U[udtEntityEvent::Count * 2];
-static const s16 EntityEvents_57_60[] =
+static s16 EntityEvents_57_58_U2Q[udtEntityEvent::Count];
+static s16 EntityEvents_57_58_Q2U[udtEntityEvent::Count * 2];
+static const s16 EntityEvents_57_58[] =
+{
+	(s16)udtEntityEvent::Obituary, 81
+	TABLE_END
+};
+VALIDATE_TABLE_SIZES(EntityEvents_57_58, udtEntityEvent::Count);
+
+static s16 EntityEvents_59_U2Q[udtEntityEvent::Count];
+static s16 EntityEvents_59_Q2U[udtEntityEvent::Count * 2];
+static const s16 EntityEvents_59[] =
+{
+	(s16)udtEntityEvent::Obituary, 83
+	TABLE_END
+};
+VALIDATE_TABLE_SIZES(EntityEvents_59, udtEntityEvent::Count);
+
+static s16 EntityEvents_60_U2Q[udtEntityEvent::Count];
+static s16 EntityEvents_60_Q2U[udtEntityEvent::Count * 2];
+static const s16 EntityEvents_60[] =
 {
 	(s16)udtEntityEvent::Obituary, 85,
 	(s16)udtEntityEvent::WeaponFired, 40,
@@ -600,16 +618,16 @@ static const s16 EntityEvents_57_60[] =
 	(s16)udtEntityEvent::PowerUpRegen, 89,
 	TABLE_END
 };
-VALIDATE_TABLE_SIZES(EntityEvents_57_60, udtEntityEvent::Count);
+VALIDATE_TABLE_SIZES(EntityEvents_60, udtEntityEvent::Count);
 
 static const s16* EntityEventTables[] =
 {
 	TABLE_ENTRY(EntityEvents_3), // 3
 	TABLE_ENTRY(EntityEvents_48_68), // 48
-	TABLE_ENTRY(EntityEvents_57_60), // 57
-	TABLE_ENTRY(EntityEvents_57_60), // 58
-	TABLE_ENTRY(EntityEvents_57_60), // 59
-	TABLE_ENTRY(EntityEvents_57_60), // 60
+	TABLE_ENTRY(EntityEvents_57_58), // 57
+	TABLE_ENTRY(EntityEvents_57_58), // 58
+	TABLE_ENTRY(EntityEvents_59), // 59
+	TABLE_ENTRY(EntityEvents_60), // 60
 	TABLE_ENTRY(EntityEvents_48_68), // 66
 	TABLE_ENTRY(EntityEvents_48_68), // 67
 	TABLE_ENTRY(EntityEvents_48_68), // 68
