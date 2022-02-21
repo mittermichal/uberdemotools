@@ -2065,6 +2065,16 @@ namespace Uber.DemoTools
             return (UDT_DLL.ProtocolFlags[(int)protocol] & flags) == flags;
         }
 
+        private static bool AreAnyProtocolBitsSet(UDT_DLL.udtProtocol protocol, UDT_DLL.udtProtocolFlags flags)
+        {
+            if((uint)protocol >= (uint)UDT_DLL.udtProtocol.Count)
+            {
+                return false;
+            }
+
+            return (UDT_DLL.ProtocolFlags[(int)protocol] & flags) != 0;
+        }
+
         public static bool IsProtocolWritable(UDT_DLL.udtProtocol protocol)
         {
             return AreAllProtocolBitsSet(protocol, UDT_DLL.udtProtocolFlags.Writable);
@@ -2072,7 +2082,7 @@ namespace Uber.DemoTools
 
         public static bool IsProtocolWolfenstein(udtProtocol protocol)
         {
-            return AreAllProtocolBitsSet(protocol, UDT_DLL.udtProtocolFlags.Wolfenstein);
+            return AreAnyProtocolBitsSet(protocol, UDT_DLL.udtProtocolFlags.Wolfenstein);
         }
 
         public static bool SplitDemo(udtParserContextRef context, ref udtParseArg parseArg, string filePath)
