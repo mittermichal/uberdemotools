@@ -216,6 +216,11 @@ udtString udtString::NewNull()
 	return string;
 }
 
+static bool IsUppercase(char letter)
+{
+	return letter >= 'A' && letter <= 'Z';
+}
+
 udtString udtString::NewCamelCaseClone(udtVMLinearAllocator& allocator, const udtString& name)
 {
 	if(udtString::IsNullOrEmpty(name))
@@ -227,7 +232,15 @@ udtString udtString::NewCamelCaseClone(udtVMLinearAllocator& allocator, const ud
 	char* const start = fixed.GetWritePtr();
 	char* dest = start;
 	const char* src = start;
-	*dest++ = (char)::tolower((int)*src++);
+	if(IsUppercase(src[0]) && IsUppercase(src[1]))
+	{
+		*dest++ = *src++;
+	}
+	else
+	{
+		*dest++ = (char)::tolower((int)*src++);
+	}
+	
 	while(*src)
 	{
 		if(src[0] != ' ')

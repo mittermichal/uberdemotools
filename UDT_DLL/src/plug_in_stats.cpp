@@ -515,7 +515,7 @@ void udtParserPlugInStats::ProcessPlayerConfigString(const char* configString, s
 
 void udtParserPlugInStats::ParseScores()
 {
-	if(_protocol >= udtProtocol::Dm73)
+	if(AreAllProtocolFlagSets(_protocol, udtProtocolFlags::QuakeLive))
 	{
 		ParseQLScoresOld();
 	}
