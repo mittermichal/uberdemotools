@@ -190,64 +190,6 @@ namespace Uber.DemoTools
         private const uint MinimumDllVersionRevision = 1;
         private readonly string DllVersion = UDT_DLL.GetVersion();
 
-        private static readonly List<string> DemoExtensions = new List<string>
-        {
-            ".dm3",
-            ".dm_48",
-            ".dm_60",
-            ".dm_66",
-            ".dm_67",
-            ".dm_68",
-            ".dm_73",
-            ".dm_90",
-            ".dm_91"
-        };
-
-        private static readonly List<string> DemoExtensionsQ3 = new List<string>
-        {
-            ".dm3",
-            ".dm_48",
-            ".dm_66",
-            ".dm_67",
-            ".dm_68"
-        };
-
-        private static readonly List<string> DemoExtensionsQL = new List<string>
-        {
-            ".dm_73",
-            ".dm_90",
-            ".dm_91"
-        };
-
-        private static readonly List<string> DemoExtensionsRTCW = new List<string>
-        {
-            ".dm_60"
-        };
-
-        private static readonly Dictionary<string, UDT_DLL.udtProtocol> ProtocolFileExtDic = new Dictionary<string, UDT_DLL.udtProtocol>
-        {
-            { ".dm3",   UDT_DLL.udtProtocol.Dm3  },
-            { ".dm_48", UDT_DLL.udtProtocol.Dm48 },
-            { ".dm_60", UDT_DLL.udtProtocol.Dm60 },
-            { ".dm_66", UDT_DLL.udtProtocol.Dm66 },
-            { ".dm_67", UDT_DLL.udtProtocol.Dm67 },
-            { ".dm_68", UDT_DLL.udtProtocol.Dm68 },
-            { ".dm_73", UDT_DLL.udtProtocol.Dm73 },
-            { ".dm_90", UDT_DLL.udtProtocol.Dm90 },
-            { ".dm_91", UDT_DLL.udtProtocol.Dm91 }
-        };
-
-        private static readonly List<UDT_DLL.udtProtocol> ValidWriteProtocols = new List<UDT_DLL.udtProtocol>
-        {
-            { UDT_DLL.udtProtocol.Dm60 },
-            { UDT_DLL.udtProtocol.Dm66 },
-            { UDT_DLL.udtProtocol.Dm67 },
-            { UDT_DLL.udtProtocol.Dm68 },
-            { UDT_DLL.udtProtocol.Dm73 },
-            { UDT_DLL.udtProtocol.Dm90 },
-            { UDT_DLL.udtProtocol.Dm91 }
-        };
-
         private class ConfigStringDisplayInfo
         {
             public ConfigStringDisplayInfo(string description, string value)
@@ -1030,7 +972,7 @@ namespace Uber.DemoTools
 
                 foreach(var folderPath in folderPaths)
                 {
-                    foreach(var demoExtension in DemoExtensions)
+                    foreach(var demoExtension in UDT_DLL.ProtocolExtensions)
                     {
                         var searchPattern = "*" + demoExtension;
                         var demoPaths = Directory.GetFiles(folderPath, searchPattern, searchOption);
@@ -1284,12 +1226,23 @@ namespace Uber.DemoTools
             return component.RootControl == tab.Content;
         }
 
-        private static string CreateDialogExtensionListString(List<string> extensionList)
+        private static string CreateDialogExtensionListString(UDT_DLL.udtProtocolFlags flag)
         {
-            var extensions = "*" + extensionList[0];
-            for(var i = 1; i < extensionList.Count; ++i)
+            var extensions = "";
+            var written = 0;
+            for(var i = 0; i < UDT_DLL.ProtocolExtensions.Count; ++i)
             {
-                extensions += ";*" + extensionList[i];
+                if((UDT_DLL.ProtocolFlags[i] & flag) == 0)
+                {
+                    continue;
+                }
+
+                if(written > 0)
+                {
+                    extensions += ";";
+                }
+                extensions += "*" + UDT_DLL.ProtocolExtensions[i];
+                ++written;
             }
 
             return extensions;
@@ -1299,10 +1252,10 @@ namespace Uber.DemoTools
         {
             using(var openFileDialog = new System.Windows.Forms.OpenFileDialog())
             {
-                var extensionsAll = CreateDialogExtensionListString(DemoExtensions);
-                var extensionsQ3 = CreateDialogExtensionListString(DemoExtensionsQ3);
-                var extensionsQL = CreateDialogExtensionListString(DemoExtensionsQL);
-                var extensionsRTCW = CreateDialogExtensionListString(DemoExtensionsRTCW);
+                var extensionsAll = CreateDialogExtensionListString(0);
+                var extensionsQ3 = CreateDialogExtensionListString(UDT_DLL.udtProtocolFlags.Quake3);
+                var extensionsQL = CreateDialogExtensionListString(UDT_DLL.udtProtocolFlags.QuakeLive);
+                var extensionsRTCW = CreateDialogExtensionListString(UDT_DLL.udtProtocolFlags.RTCW);
 
                 var folderPath = GetDefaultBrowsingFolder();
                 openFileDialog.CheckPathExists = true;
@@ -1856,7 +1809,7 @@ namespace Uber.DemoTools
         {
             var extension = Path.GetExtension(path).ToLower();
 
-            return DemoExtensions.Contains(extension);
+            return UDT_DLL.ProtocolExtensions.Contains(extension);
         }
 
         private void OnDemoListBoxDragDrop(object sender, DragEventArgs e)
@@ -2893,27 +2846,23 @@ namespace Uber.DemoTools
         public static UDT_DLL.udtProtocol GetProtocolFromFilePath(string filePath)
         {
             var extension = Path.GetExtension(filePath).ToLower();
-            if(!ProtocolFileExtDic.ContainsKey(extension))
+            var index = UDT_DLL.ProtocolExtensions.FindIndex((ext) => ext == extension);
+            if((uint)index >= (uint)UDT_DLL.ProtocolExtensions.Count)
             {
                 return UDT_DLL.udtProtocol.Invalid;
             }
 
-            var prot = ProtocolFileExtDic[extension];
-
-            return ProtocolFileExtDic[extension];
+            return (UDT_DLL.udtProtocol)index;
         }
 
         public static bool IsValidWriteProtocol(UDT_DLL.udtProtocol protocol)
         {
-            foreach(var writeProtocol in ValidWriteProtocols)
+            if((uint)protocol >= (uint)UDT_DLL.udtProtocol.Count)
             {
-                if(writeProtocol == protocol)
-                {
-                    return true;
-                }
+                return false;
             }
 
-            return false;
+            return (UDT_DLL.ProtocolFlags[(int)protocol] & UDT_DLL.udtProtocolFlags.Writable) != 0;
         }
 
         private static void ScrollListBoxAllTheWayDown(ListBox listBox, object lastItem)

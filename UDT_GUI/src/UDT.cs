@@ -73,6 +73,36 @@ namespace Uber.DemoTools
 
             return array;
         }
+
+        public static List<string> PtrToAnsiStringList(IntPtr native, int stringCount)
+        {
+            int elementSize = Marshal.SizeOf(typeof(IntPtr));
+
+            var list = new List<string>();
+            for(int i = 0; i < stringCount; ++i)
+            {
+                var address = Marshal.ReadIntPtr(native, i * elementSize);
+                var element = Marshal.PtrToStringAnsi(address);
+                list.Add(element ?? "N/A");
+            }
+
+            return list;
+        }
+
+        public static List<T> PtrToUintEnumerationList<T>(IntPtr native, int count)
+        {
+            var list = new List<T>();
+            if(native != IntPtr.Zero)
+            {
+                for(int i = 0; i < count; ++i)
+                {
+                    var address = new IntPtr(native.ToInt64() + i * 4);
+                    list.Add((T)(object)(uint)Marshal.ReadInt32(address)); // eek...
+                }
+            }
+
+            return list;
+        }
     }
 
     // @TODO: Move this...
@@ -715,6 +745,9 @@ namespace Uber.DemoTools
         {
             Dm3,
             Dm48,
+            Dm57,
+            Dm58,
+            Dm59,
             Dm60,
             Dm66,
             Dm67,
@@ -725,6 +758,19 @@ namespace Uber.DemoTools
             Count,
             Invalid
         }
+
+        [Flags]
+        public enum udtProtocolFlags : uint
+        {
+            Huffman = 1 << 0,
+            Writable = 1 << 1,
+            Quake3 = 1 << 2,
+            QuakeLive = 1 << 3,
+            RTCW = 1 << 4,
+            ET = 1 << 5,
+            Quake = Quake3 | QuakeLive,
+            Wolfenstein = RTCW | ET
+        };
 
         public enum udtErrorCode : int
         {
@@ -764,6 +810,7 @@ namespace Uber.DemoTools
             Count
         }
 
+        [Flags]
         public enum udtWeaponMask : uint
         {
             Gauntlet = 1 << 0,
@@ -851,6 +898,7 @@ namespace Uber.DemoTools
             Count
         }
 
+        [Flags]
         enum udtGameTypeFlags : byte
         {
             None = 0,
@@ -1486,6 +1534,15 @@ namespace Uber.DemoTools
             public Int32 Reserved1;
         }
 
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        struct udtProtocolList
+        {
+            public IntPtr Extensions; // const char**
+            public IntPtr Flags; // const u32*
+            public UInt32 Count;
+		    public UInt32 Reserved1;
+        }
+
         [DllImport(_dllPath, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
         extern static private IntPtr udtGetVersionString();
 
@@ -1506,6 +1563,9 @@ namespace Uber.DemoTools
 
 	    [DllImport(_dllPath, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 	    extern static private udtProtocol udtGetProtocolByFilePath(IntPtr filePath);
+
+        [DllImport(_dllPath, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+        extern static private udtErrorCode udtGetProtocolList(ref udtProtocolList protocolList);
 
         [DllImport(_dllPath, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
         extern static private udtErrorCode udtCrash(udtCrashType crashType);
@@ -1817,9 +1877,36 @@ namespace Uber.DemoTools
             return udtCrash(crashType) == udtErrorCode.None;
         }
 
+        public static List<udtProtocolFlags> ProtocolFlags;
+        public static List<string> ProtocolExtensions;
+
         public static void InitLibrary()
         {
             udtInitLibrary();
+
+            var protocolList = new udtProtocolList();
+            var errorCode = udtGetProtocolList(ref protocolList);
+            if(errorCode != udtErrorCode.None)
+            {
+                throw new Exception("udtGetProtocolList failed: " + errorCode.ToString());
+            }
+
+            if(protocolList.Count != (uint)udtProtocol.Count)
+            {
+                var msg = string.Format(
+                    "UDT_GUI and UDT_DLL don't agree on protocol counts ({0} vs {1})",
+                    protocolList.Count, udtProtocol.Count);
+                throw new Exception(msg);
+            }
+
+            ProtocolFlags = MarshalHelper.PtrToUintEnumerationList<udtProtocolFlags>(protocolList.Flags, (int)protocolList.Count);
+            ProtocolExtensions = MarshalHelper.PtrToAnsiStringList(protocolList.Extensions, (int)protocolList.Count);
+
+            if(ProtocolFlags.Count != (int)protocolList.Count ||
+                ProtocolExtensions.Count != (int)protocolList.Count)
+            {
+                throw new Exception("Invalid udtGetProtocolList output");
+            }
         }
 
         public static void ShutDownLibrary()
@@ -1953,6 +2040,9 @@ namespace Uber.DemoTools
             {
                 case udtProtocol.Dm3:  return "3 (Quake 3 1.11-1.17)";
                 case udtProtocol.Dm48: return "48 (Quake 3 1.27)";
+                case udtProtocol.Dm57: return "57 (RtCW)";
+                case udtProtocol.Dm58: return "58 (RtCW)";
+                case udtProtocol.Dm59: return "59 (RtCW)";
                 case udtProtocol.Dm60: return "60 (RtCW)";
                 case udtProtocol.Dm66: return "66 (Quake 3 1.29-1.30)";
                 case udtProtocol.Dm67: return "67 (Quake 3 1.31)";
@@ -1960,7 +2050,7 @@ namespace Uber.DemoTools
                 case udtProtocol.Dm73: return "73 (Quake Live)";
                 case udtProtocol.Dm90: return "90 (Quake Live)";
                 case udtProtocol.Dm91: return "91 (Quake Live)";
-                default: return "?";
+                default: Debugger.Break(); return "?";
             }
         }
 
