@@ -123,14 +123,20 @@ private:
 
 	void SetPlayerField(s32 clientNumber, udtPlayerStatsField::Id fieldId, s32 value)
 	{
-		const udtStatsFieldValue field = { (s32)fieldId, value };
-		SetFields(GetPlayerFlags(clientNumber), GetPlayerFields(clientNumber), &field, 1);
+		if(value != UDT_S32_MIN)
+		{
+			const udtStatsFieldValue field = { (s32)fieldId, value };
+			SetFields(GetPlayerFlags(clientNumber), GetPlayerFields(clientNumber), &field, 1);
+		}
 	}
 
 	void SetTeamField(s32 teamIndex, udtTeamStatsField::Id fieldId, s32 value)
 	{
-		const udtStatsFieldValue field = { (s32)fieldId, value };
-		SetFields(GetTeamFlags(teamIndex), GetTeamFields(teamIndex), &field, 1);
+		if(value != UDT_S32_MIN)
+		{
+			const udtStatsFieldValue field = { (s32)fieldId, value };
+			SetFields(GetTeamFlags(teamIndex), GetTeamFields(teamIndex), &field, 1);
+		}
 	}
 
 	bool GetPlayerField(s32& fieldValue, s32 clientNumber, udtPlayerStatsField::Id fieldId)
