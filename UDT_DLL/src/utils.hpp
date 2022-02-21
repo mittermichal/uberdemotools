@@ -89,6 +89,8 @@ extern void        WriteStringToApiStruct(u32& offset, const udtString& string);
 extern void        WriteNullStringToApiStruct(u32& offset);
 extern void        PlayerStateToEntityState(idEntityStateBase& es, s32& lastEventSequence, const idPlayerStateBase& ps, bool extrapolate, s32 serverTimeMs, udtProtocol::Id protocol);
 extern void        ParseConfigStringInt(s32& value, udtBaseParser& parser, s32 csIndex);
+extern bool        IsProtocolRTCW(udtProtocol::Id protocol);
+extern bool        IsProtocolHuffmanCompressed(udtProtocol::Id protocol);
 
 // Gets the integer value of a config string variable.
 // The variable name matching is case sensitive.

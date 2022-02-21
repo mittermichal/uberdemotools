@@ -696,3 +696,31 @@ void ParseConfigStringInt(s32& value, udtBaseParser& parser, s32 csIndex)
 
 	StringParseInt(value, cs);
 }
+
+bool IsProtocolRTCW(udtProtocol::Id protocol)
+{
+	switch(protocol)
+	{
+		case udtProtocol::Dm57:
+		case udtProtocol::Dm58:
+		case udtProtocol::Dm59:
+		case udtProtocol::Dm60:
+			return true;
+
+		default:
+			return false;
+	}
+}
+
+bool IsProtocolHuffmanCompressed(udtProtocol::Id protocol)
+{
+	switch(protocol)
+	{
+		case udtProtocol::Dm3:
+		case udtProtocol::Dm48:
+			return false;
+
+		default:
+			return true;
+	}
+}

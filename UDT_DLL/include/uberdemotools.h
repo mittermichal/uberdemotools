@@ -138,6 +138,9 @@ struct udtErrorCode
 #define UDT_PROTOCOL_LIST(N) \
 	N(Dm3 , ".dm3"  ) \
 	N(Dm48, ".dm_48") \
+	N(Dm57, ".dm_57") \
+	N(Dm58, ".dm_58") \
+	N(Dm59, ".dm_59") \
 	N(Dm60, ".dm_60") \
 	N(Dm66, ".dm_66") \
 	N(Dm67, ".dm_67") \
@@ -155,7 +158,7 @@ struct udtProtocol
 		Count,
 		Invalid,
 		FirstProtocol = Dm3,
-		FirstCuttableProtocol = Dm60
+		FirstCuttableProtocol = Dm57
 	};
 };
 #undef UDT_PROTOCOL_ITEM

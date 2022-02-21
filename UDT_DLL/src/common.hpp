@@ -211,6 +211,9 @@ inline idPlayerStateBase* GetPlayerState(idClientSnapshotBase* snap, udtProtocol
 	{
 		case udtProtocol::Dm3: return &((idClientSnapshot3*)snap)->ps;
 		case udtProtocol::Dm48: return &((idClientSnapshot48*)snap)->ps;
+		case udtProtocol::Dm57:
+		case udtProtocol::Dm58:
+		case udtProtocol::Dm59:
 		case udtProtocol::Dm60: return &((idClientSnapshot60*)snap)->ps;
 		case udtProtocol::Dm66: return &((idClientSnapshot66*)snap)->ps;
 		case udtProtocol::Dm67: return &((idClientSnapshot67*)snap)->ps;
