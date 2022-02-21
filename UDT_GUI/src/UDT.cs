@@ -2055,9 +2055,24 @@ namespace Uber.DemoTools
             }
         }
 
-        public static bool IsWolfensteinProtocol(udtProtocol protocol)
+        private static bool AreAllProtocolBitsSet(UDT_DLL.udtProtocol protocol, UDT_DLL.udtProtocolFlags flags)
         {
-            return protocol == UDT_DLL.udtProtocol.Dm60;
+            if((uint)protocol >= (uint)UDT_DLL.udtProtocol.Count)
+            {
+                return false;
+            }
+
+            return (UDT_DLL.ProtocolFlags[(int)protocol] & flags) == flags;
+        }
+
+        public static bool IsProtocolWritable(UDT_DLL.udtProtocol protocol)
+        {
+            return AreAllProtocolBitsSet(protocol, UDT_DLL.udtProtocolFlags.Writable);
+        }
+
+        public static bool IsProtocolWolfenstein(udtProtocol protocol)
+        {
+            return AreAllProtocolBitsSet(protocol, UDT_DLL.udtProtocolFlags.Wolfenstein);
         }
 
         public static bool SplitDemo(udtParserContextRef context, ref udtParseArg parseArg, string filePath)
@@ -3295,7 +3310,7 @@ namespace Uber.DemoTools
 
         private static bool IsValidTeamIndex(int teamIndex, DemoInfo info)
         {
-            if(UDT_DLL.IsWolfensteinProtocol(info.ProtocolNumber))
+            if(IsProtocolWolfenstein(info.ProtocolNumber))
             {
                 switch((udtTeam)teamIndex)
                 {
@@ -3663,7 +3678,7 @@ namespace Uber.DemoTools
                     return true;
 
                 case udtMatchStatsDataType.Percentage:
-                    if(UDT_DLL.IsWolfensteinProtocol(info.ProtocolNumber))
+                    if(IsProtocolWolfenstein(info.ProtocolNumber))
                     {
                         // you can have > 100 if you get 2 kills with the panzerfaust
                         return value >= 0;

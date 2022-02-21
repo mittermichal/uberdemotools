@@ -150,7 +150,7 @@ namespace Uber.DemoTools
             ShowMatchSelector(demoInfo.MatchStats.Count > 1);
             PopulateViews(demoInfo.MatchStats[0]);
 
-            var isWolf = UDT_DLL.IsWolfensteinProtocol(demoInfo.ProtocolNumber);
+            var isWolf = UDT_DLL.IsProtocolWolfenstein(demoInfo.ProtocolNumber);
             _headerRed.Content = isWolf ? "Axis" : "Red";
             _headerBlue.Content = isWolf ? "Allies" : "Blue";
         }

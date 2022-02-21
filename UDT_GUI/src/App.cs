@@ -327,7 +327,7 @@ namespace Uber.DemoTools
                 return null;
             }
 
-            demos = demos.FindAll(d => IsValidWriteProtocol(d.ProtocolNumber));
+            demos = demos.FindAll(d => UDT_DLL.IsProtocolWritable(d.ProtocolNumber));
             if(demos.Count == 0)
             {
                 if(!silent) LogError("No selected demo had a protocol version compatible with the requested operation");
@@ -2529,7 +2529,7 @@ namespace Uber.DemoTools
                 return;
             }
 
-            if(!IsValidWriteProtocol(demo.ProtocolNumber))
+            if(!UDT_DLL.IsProtocolWritable(demo.ProtocolNumber))
             {
                 LogError("The selected demo is using a protocol that UDT can't write.");
                 return;
@@ -2853,16 +2853,6 @@ namespace Uber.DemoTools
             }
 
             return (UDT_DLL.udtProtocol)index;
-        }
-
-        public static bool IsValidWriteProtocol(UDT_DLL.udtProtocol protocol)
-        {
-            if((uint)protocol >= (uint)UDT_DLL.udtProtocol.Count)
-            {
-                return false;
-            }
-
-            return (UDT_DLL.ProtocolFlags[(int)protocol] & UDT_DLL.udtProtocolFlags.Writable) != 0;
         }
 
         private static void ScrollListBoxAllTheWayDown(ListBox listBox, object lastItem)

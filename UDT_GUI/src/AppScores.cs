@@ -98,7 +98,7 @@ namespace Uber.DemoTools
             var scores = new ObservableCollection<ListViewItem>();
             if(demoInfo.TeamGameType)
             {
-                var isWolf = UDT_DLL.IsWolfensteinProtocol(demoInfo.ProtocolNumber);
+                var isWolf = UDT_DLL.IsProtocolWolfenstein(demoInfo.ProtocolNumber);
                 _headerScore1.Content = isWolf ? "Axis Team" : "RED Team";
                 _headerScore2.Content = isWolf ? "Allies Team" : "BLUE Team";
 
