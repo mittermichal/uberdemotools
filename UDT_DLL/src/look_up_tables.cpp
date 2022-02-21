@@ -581,7 +581,7 @@ static s16 EntityEvents_57_58_U2Q[udtEntityEvent::Count];
 static s16 EntityEvents_57_58_Q2U[udtEntityEvent::Count * 2];
 static const s16 EntityEvents_57_58[] =
 {
-	(s16)udtEntityEvent::Obituary, 81
+	(s16)udtEntityEvent::Obituary, 81,
 	TABLE_END
 };
 VALIDATE_TABLE_SIZES(EntityEvents_57_58, udtEntityEvent::Count);
@@ -590,7 +590,7 @@ static s16 EntityEvents_59_U2Q[udtEntityEvent::Count];
 static s16 EntityEvents_59_Q2U[udtEntityEvent::Count * 2];
 static const s16 EntityEvents_59[] =
 {
-	(s16)udtEntityEvent::Obituary, 83
+	(s16)udtEntityEvent::Obituary, 83,
 	TABLE_END
 };
 VALIDATE_TABLE_SIZES(EntityEvents_59, udtEntityEvent::Count);
