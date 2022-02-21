@@ -140,11 +140,11 @@ void udtGeneralAnalyzer::ProcessGamestateMessage(const udtGamestateCallbackArg& 
 	}
 
 	_game = udtGame::Q3;
-	if(_protocol >= udtProtocol::Dm73)
+	if(AreAllProtocolFlagSets(_protocol, udtProtocolFlags::QuakeLive))
 	{
 		_game = udtGame::QL;
 	}
-	else if(_protocol == udtProtocol::Dm60)
+	else if(AreAllProtocolFlagSets(_protocol, udtProtocolFlags::RTCW))
 	{
 		_game = udtGame::RTCW;
 	}
@@ -157,7 +157,7 @@ void udtGeneralAnalyzer::ProcessGamestateMessage(const udtGamestateCallbackArg& 
 	ProcessMapName();
 	ProcessGameTypeFromServerInfo(parser._inConfigStrings[CS_SERVERINFO].GetPtr());
 
-	if(_protocol == udtProtocol::Dm60)
+	if(_game == udtGame::RTCW)
 	{
 		ProcessWolfInfoConfigString(parser._inConfigStrings[CS_WOLF_INFO].GetPtr());
 		ProcessWolfServerInfoConfigString(parser._inConfigStrings[CS_SERVERINFO].GetPtr());
@@ -285,7 +285,7 @@ void udtGeneralAnalyzer::ProcessCommandMessage(const udtCommandCallbackArg& /*ar
 	}
 	
 	if(_game != udtGame::CPMA &&
-	   _protocol != udtProtocol::Dm60 &&
+	   _game != udtGame::RTCW &&
 	   tokenizer.GetArgCount() == 1 &&
 	   udtString::Equals(command, "map_restart"))
 	{
@@ -321,23 +321,23 @@ void udtGeneralAnalyzer::ProcessCommandMessage(const udtCommandCallbackArg& /*ar
 		ProcessQLServerInfoConfigString(configString);
 	}
 
-	if(_protocol == udtProtocol::Dm60 && csIndex == CS_WOLF_INFO)
+	if(_game == udtGame::RTCW && csIndex == CS_WOLF_INFO)
 	{
 		ProcessWolfInfoConfigString(configString);
 	}
-	else if(_protocol == udtProtocol::Dm60 && csIndex == CS_SERVERINFO)
+	else if(_game == udtGame::RTCW && csIndex == CS_SERVERINFO)
 	{
 		ProcessWolfServerInfoConfigString(configString);
 	}
-	else if(_protocol == udtProtocol::Dm60 && csIndex == CS_WOLF_PAUSED)
+	else if(_game == udtGame::RTCW && csIndex == CS_WOLF_PAUSED)
 	{
 		ProcessWolfPausedConfigString(configString);
 	}
-	else if(_protocol == udtProtocol::Dm60 && csIndex == CS_WOLF_MULTI_INFO)
+	else if(_game == udtGame::RTCW && csIndex == CS_WOLF_MULTI_INFO)
 	{
 		_rtcwDefendingTeam = ParseWolfTeamFromConfigString(csIndex, "defender");
 	}
-	else if(_protocol == udtProtocol::Dm60 && csIndex == CS_WOLF_MULTI_MAPWINNER)
+	else if(_game == udtGame::RTCW && csIndex == CS_WOLF_MULTI_MAPWINNER)
 	{
 		if(_gameState == udtGameState::InProgress)
 		{
@@ -382,7 +382,7 @@ void udtGeneralAnalyzer::ProcessCommandMessage(const udtCommandCallbackArg& /*ar
 			_totalTimeOutDuration = shiftedStartTime - _matchStartTime;
 		}
 	}
-	else if(_game != udtGame::CPMA && _protocol != udtProtocol::Dm60 && csIndex == GetIdNumber(udtMagicNumberType::ConfigStringIndex, udtConfigStringIndex::Intermission, _protocol))
+	else if(_game != udtGame::CPMA && _game != udtGame::RTCW && csIndex == GetIdNumber(udtMagicNumberType::ConfigStringIndex, udtConfigStringIndex::Intermission, _protocol))
 	{	
 		ProcessIntermissionConfigString(tokenizer.GetArg(2));
 	}
@@ -576,7 +576,7 @@ void udtGeneralAnalyzer::UpdateGameState(udtGameState::Id gameState)
 		// from in-progress to intermission. We therefore wait for the follow-up
 		// state transition to safely override the current value we've been given
 		// during the last intermission.
-		if(_protocol == udtProtocol::Dm60 &&
+		if(_game == udtGame::RTCW &&
 		   (_lastGameState == udtGameState::WarmUp || _lastGameState == udtGameState::CountDown) &&
 		   _gameState == udtGameState::InProgress &&
 		   (_rtcwWinningTeamInter == udtTeam::Axis || _rtcwWinningTeamInter == udtTeam::Allies))

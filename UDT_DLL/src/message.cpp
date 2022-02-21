@@ -1,4 +1,5 @@
 #include "message.hpp"
+#include "utils.hpp"
 
 
 static const u16 HuffmanDecoderTable[2048] =
@@ -1232,6 +1233,9 @@ void udtMessage::InitProtocol(udtProtocol::Id protocol)
 			_playerStateFieldCount = PlayerStateFieldCount48;
 			break;
 
+		case udtProtocol::Dm57:
+		case udtProtocol::Dm58:
+		case udtProtocol::Dm59:
 		case udtProtocol::Dm60:
 			_protocolSizeOfEntityState = sizeof(idEntityState60);
 			_protocolSizeOfPlayerState = sizeof(idPlayerState60);
@@ -1260,13 +1264,16 @@ void udtMessage::InitProtocol(udtProtocol::Id protocol)
 			break;
 
 		case udtProtocol::Dm68:
-		default:
 			_protocolSizeOfEntityState = sizeof(idEntityState68);
 			_protocolSizeOfPlayerState = sizeof(idPlayerState68);
 			_entityStateFields = EntityStateFields68;
 			_entityStateFieldCount = EntityStateFieldCount68;
 			_playerStateFields = PlayerStateFields68;
 			_playerStateFieldCount = PlayerStateFieldCount68;
+			break;
+
+		default:
+			assert(0);
 			break;
 	}
 }
@@ -1722,7 +1729,7 @@ bool udtMessage::RealWriteDeltaPlayer(const idPlayerStateBase* from, idPlayerSta
 	// send the arrays
 	//
 
-	if(_protocol == udtProtocol::Dm60)
+	if(AreAllProtocolFlagSets(_protocol, udtProtocolFlags::RTCW))
 	{
 		idPlayerState60* to60 = (idPlayerState60*) to;
 		idPlayerState60* from60 = (idPlayerState60*) from;
@@ -2102,7 +2109,7 @@ bool udtMessage::RealReadDeltaPlayer(const idPlayerStateBase* from, idPlayerStat
 		*toF = *fromF;
 	}
 
-	if(_protocol == udtProtocol::Dm60)
+	if(AreAllProtocolFlagSets(_protocol, udtProtocolFlags::RTCW))
 	{
 		idPlayerState60* to60 = (idPlayerState60*)to;
 

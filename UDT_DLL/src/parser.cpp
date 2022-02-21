@@ -144,8 +144,8 @@ bool udtBaseParser::ParseServerMessage()
 {
 	_outMsg.Init(_outMsgData, sizeof(_outMsgData));
 
-	_outMsg.SetHuffman(_outProtocol >= udtProtocol::Dm60);
-	_inMsg.SetHuffman(_inProtocol >= udtProtocol::Dm60);
+	_outMsg.SetHuffman(AreAllProtocolFlagSets(_outProtocol, udtProtocolFlags::Huffman));
+	_inMsg.SetHuffman(AreAllProtocolFlagSets(_inProtocol, udtProtocolFlags::Huffman));
 
 	//
 	// Using the message sequence number as acknowledge number will help avoid 
@@ -153,10 +153,10 @@ bool udtBaseParser::ParseServerMessage()
 	// For reference in the Q3 source code: "Client command overflow".
 	//
 	s32 reliableSequenceAcknowledge = _inServerMessageSequence;
-	if(_inProtocol > udtProtocol::Dm3)
+	if(_inProtocol > udtProtocol::Dm3) // @TODO:
 	{
 		const s32 sequAck = _inMsg.ReadLong(); // Reliable sequence acknowledge.
-		if(_inProtocol >= udtProtocol::Dm60)
+		if(_inProtocol >= udtProtocol::Dm57) // @TODO:
 		{
 			reliableSequenceAcknowledge = sequAck;
 		}
@@ -369,7 +369,7 @@ void udtBaseParser::AddCut(s32 gsIndex, s32 startTimeMs, s32 endTimeMs, const ch
 
 bool udtBaseParser::ShouldWriteMessage() const
 {
-	return _outWriteMessage && (_outProtocol >= udtProtocol::Dm60);
+	return _outWriteMessage && AreAllProtocolFlagSets(_outProtocol, udtProtocolFlags::Writable);
 }
 
 void udtBaseParser::WriteFirstMessage()
@@ -582,7 +582,7 @@ bool udtBaseParser::ParseGamestate()
 		}
 	}
 
-	if(_inProtocol >= udtProtocol::Dm60)
+	if(_inProtocol >= udtProtocol::Dm57) // @TODO:
 	{
 		_inClientNum = _inMsg.ReadLong();
 		_inChecksumFeed = _inMsg.ReadLong();

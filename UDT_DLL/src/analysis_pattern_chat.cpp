@@ -35,7 +35,7 @@ static bool GetMessageAndType(udtString& message, bool& isTeamMessage, const idT
 		return false;
 	}
 
-	if(parser._inProtocol == udtProtocol::Dm60)
+	if(AreAllProtocolFlagSets(parser._inProtocol, udtProtocolFlags::RTCW))
 	{
 		if(tokenizer.GetArgCount() >= 2)
 		{

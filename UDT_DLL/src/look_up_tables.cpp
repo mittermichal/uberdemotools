@@ -1,5 +1,6 @@
 #include "look_up_tables.hpp"
 #include "timer.hpp"
+#include "utils.hpp"
 
 #include <stdlib.h>
 #include <string.h>
@@ -1686,7 +1687,7 @@ bool GetIdNumber(s32& idNumber, udtMagicNumberType::Id numberType, u32 udtNumber
 	}
 
 	if(numberType == udtMagicNumberType::EntityEvent &&
-	   protocol <= udtProtocol::Dm60 &&
+	   AreAllProtocolFlagSets(protocol, udtProtocolFlags::RTCW) &&
 	   mod == udtMod::RTCWPro)
 	{
 		const s32 result = GetIdEntityEventRtcwPro((s32)udtNumber);
@@ -1757,7 +1758,7 @@ bool GetUDTNumber(u32& udtNumber, udtMagicNumberType::Id numberType, s32 idNumbe
 	}
 
 	if(numberType == udtMagicNumberType::EntityEvent &&
-	   protocol == udtProtocol::Dm60 &&
+	   AreAllProtocolFlagSets(protocol, udtProtocolFlags::RTCW) &&
 	   mod == udtMod::RTCWPro)
 	{
 		const s32 result = GetUDTEntityEventRtcwPro(idNumber);
