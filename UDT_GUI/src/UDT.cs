@@ -2040,10 +2040,10 @@ namespace Uber.DemoTools
             {
                 case udtProtocol.Dm3:  return "3 (Quake 3 1.11-1.17)";
                 case udtProtocol.Dm48: return "48 (Quake 3 1.27)";
-                case udtProtocol.Dm57: return "57 (RtCW)";
-                case udtProtocol.Dm58: return "58 (RtCW)";
-                case udtProtocol.Dm59: return "59 (RtCW)";
-                case udtProtocol.Dm60: return "60 (RtCW)";
+                case udtProtocol.Dm57: return "57 (RtCW 1.00-1.10)";
+                case udtProtocol.Dm58: return "58 (RtCW 1.30-1.31)";
+                case udtProtocol.Dm59: return "59 (RtCW 1.32-1.33)";
+                case udtProtocol.Dm60: return "60 (RtCW 1.40-1.41)";
                 case udtProtocol.Dm66: return "66 (Quake 3 1.29-1.30)";
                 case udtProtocol.Dm67: return "67 (Quake 3 1.31)";
                 case udtProtocol.Dm68: return "68 (Quake 3 1.32)";
