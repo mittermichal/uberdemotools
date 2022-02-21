@@ -136,32 +136,45 @@ struct udtErrorCode
 #undef UDT_ERROR_ITEM
 
 #define UDT_PROTOCOL_LIST(N) \
-	N(Dm3 , ".dm3"  ) \
-	N(Dm48, ".dm_48") \
-	N(Dm57, ".dm_57") \
-	N(Dm58, ".dm_58") \
-	N(Dm59, ".dm_59") \
-	N(Dm60, ".dm_60") \
-	N(Dm66, ".dm_66") \
-	N(Dm67, ".dm_67") \
-	N(Dm68, ".dm_68") \
-	N(Dm73, ".dm_73") \
-	N(Dm90, ".dm_90") \
-	N(Dm91, ".dm_91")
+	N(Dm3 , ".dm3"  , udtProtocolFlags::Quake3) \
+	N(Dm48, ".dm_48", udtProtocolFlags::Quake3) \
+	N(Dm57, ".dm_57", udtProtocolFlags::RTCW | udtProtocolFlags::Huffman | udtProtocolFlags::Writable) \
+	N(Dm58, ".dm_58", udtProtocolFlags::RTCW | udtProtocolFlags::Huffman | udtProtocolFlags::Writable) \
+	N(Dm59, ".dm_59", udtProtocolFlags::RTCW | udtProtocolFlags::Huffman | udtProtocolFlags::Writable) \
+	N(Dm60, ".dm_60", udtProtocolFlags::RTCW | udtProtocolFlags::Huffman | udtProtocolFlags::Writable) \
+	N(Dm66, ".dm_66", udtProtocolFlags::Quake3 | udtProtocolFlags::Huffman | udtProtocolFlags::Writable) \
+	N(Dm67, ".dm_67", udtProtocolFlags::Quake3 | udtProtocolFlags::Huffman | udtProtocolFlags::Writable) \
+	N(Dm68, ".dm_68", udtProtocolFlags::Quake3 | udtProtocolFlags::Huffman | udtProtocolFlags::Writable) \
+	N(Dm73, ".dm_73", udtProtocolFlags::QuakeLive | udtProtocolFlags::Huffman | udtProtocolFlags::Writable) \
+	N(Dm90, ".dm_90", udtProtocolFlags::QuakeLive | udtProtocolFlags::Huffman | udtProtocolFlags::Writable) \
+	N(Dm91, ".dm_91", udtProtocolFlags::QuakeLive | udtProtocolFlags::Huffman | udtProtocolFlags::Writable)
 
-#define UDT_PROTOCOL_ITEM(Enum, Ext) Enum,
+#define UDT_PROTOCOL_ITEM(Enum, Ext, Flags) Enum,
 struct udtProtocol
 {
 	enum Id
 	{
 		UDT_PROTOCOL_LIST(UDT_PROTOCOL_ITEM)
 		Count,
-		Invalid,
-		FirstProtocol = Dm3,
-		FirstCuttableProtocol = Dm57
+		Invalid
 	};
 };
 #undef UDT_PROTOCOL_ITEM
+
+struct udtProtocolFlags
+{
+	enum Mask
+	{
+		Huffman = UDT_BIT(0),
+		Writable = UDT_BIT(1),
+		Quake3 = UDT_BIT(2),
+		QuakeLive = UDT_BIT(3),
+		RTCW = UDT_BIT(4),
+		ET = UDT_BIT(5),
+		Quake = Quake3 | QuakeLive,
+		Wolfenstein = RTCW | ET
+	};
+};
 
 struct udtChatOperator
 {
@@ -2439,6 +2452,23 @@ extern "C"
 	udtJSONArg;
 	UDT_ENFORCE_API_STRUCT_SIZE(udtJSONArg)
 
+	typedef struct udtProtocolList_s
+	{
+		/* With the leading '.' character. */
+		const char** Extensions;
+
+		/* Use udtProtocolFlags for the numbers. */
+		const u32* Flags;
+
+		/* Check against udtProtocol::Count to ensure no header/DLL desync. */
+		u32 Count;
+
+		/* Ignore this. */
+		u32 Reserved1;
+	}
+	udtProtocolList;
+	UDT_ENFORCE_API_STRUCT_SIZE(udtProtocolList)
+
 #pragma pack(pop)
 
 	/*
@@ -2493,6 +2523,9 @@ extern "C"
 
 	/* The return value is of type udtProtocol::Id. */
 	UDT_API(u32) udtGetProtocolByFilePath(const char* filePath);
+
+	/* Can only fail with udtErrorCode::InvalidArgument. */
+	UDT_API(s32) udtGetProtocolList(udtProtocolList* protocolList);
 	
 	/* Raises the type of error asked for. */
 	/* The crashType argument is of type udtCrashType::Id. */

@@ -58,11 +58,19 @@ static const char* ErrorCodeStrings[udtErrorCode::AfterLastError + 1] =
 };
 #undef UDT_ERROR_ITEM
 
-#define UDT_PROTOCOL_ITEM(Enum, Ext) Ext,
+#define UDT_PROTOCOL_ITEM(Enum, Ext, Flags) Ext,
 static const char* DemoFileExtensions[udtProtocol::Count + 1] =
 {
 	UDT_PROTOCOL_LIST(UDT_PROTOCOL_ITEM)
 	".after_last"
+};
+#undef UDT_PROTOCOL_ITEM
+
+#define UDT_PROTOCOL_ITEM(Enum, Ext, Flags) Flags,
+static const u32 ProtocolFlags[udtProtocol::Count + 1] =
+{
+	UDT_PROTOCOL_LIST(UDT_PROTOCOL_ITEM)
+	0
 };
 #undef UDT_PROTOCOL_ITEM
 
@@ -379,6 +387,20 @@ UDT_API(u32) udtGetProtocolByFilePath(const char* filePath)
 	return (u32)udtProtocol::Invalid;
 }
 
+UDT_API(s32) udtGetProtocolList(udtProtocolList* protocolList)
+{
+	if(protocolList == NULL)
+	{
+		return (s32)udtErrorCode::InvalidArgument;
+	}
+
+	protocolList->Count = udtProtocol::Count;
+	protocolList->Extensions = DemoFileExtensions;
+	protocolList->Flags = ProtocolFlags;
+
+	return (s32)udtErrorCode::None;
+}
+
 UDT_API(s32) udtCrash(u32 crashType)
 {
 	if(crashType >= (u32)udtCrashType::Count)
@@ -397,7 +419,10 @@ UDT_API(s32) udtCrash(u32 crashType)
 			break;
 
 		case udtCrashType::WriteAccess:
-			*(int*)0 = 1337;
+			{
+				volatile int* x = NULL;
+				*x = 1337;
+			}
 			break;
 
 		default:
