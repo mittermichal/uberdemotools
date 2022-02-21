@@ -769,7 +769,8 @@ namespace Uber.DemoTools
             RTCW = 1 << 4,
             ET = 1 << 5,
             Quake = Quake3 | QuakeLive,
-            Wolfenstein = RTCW | ET
+            Wolfenstein = RTCW | ET,
+            AllGames = Quake | Wolfenstein
         };
 
         public enum udtErrorCode : int

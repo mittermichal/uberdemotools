@@ -1252,7 +1252,7 @@ namespace Uber.DemoTools
         {
             using(var openFileDialog = new System.Windows.Forms.OpenFileDialog())
             {
-                var extensionsAll = CreateDialogExtensionListString(0);
+                var extensionsAll = CreateDialogExtensionListString(UDT_DLL.udtProtocolFlags.AllGames);
                 var extensionsQ3 = CreateDialogExtensionListString(UDT_DLL.udtProtocolFlags.Quake3);
                 var extensionsQL = CreateDialogExtensionListString(UDT_DLL.udtProtocolFlags.QuakeLive);
                 var extensionsRTCW = CreateDialogExtensionListString(UDT_DLL.udtProtocolFlags.RTCW);
