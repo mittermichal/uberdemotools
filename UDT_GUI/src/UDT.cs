@@ -1726,15 +1726,15 @@ namespace Uber.DemoTools
 
                 _teamFieldNames = GetStringArray(udtStringArray.TeamStatsNames);
 
-                IntPtr teamFieldCompModes = IntPtr.Zero;
-                UInt32 teamFieldCompModeCount = 0;
-                udtGetByteArray(udtByteArray.TeamStatsCompModes, ref teamFieldCompModes, ref teamFieldCompModeCount);
-                _teamCompModes = MarshalHelper.PtrToByteArray(playerCompModes, (int)playerCompModeCount);
+                IntPtr teamCompModes = IntPtr.Zero;
+                UInt32 teamCompModeCount = 0;
+                udtGetByteArray(udtByteArray.TeamStatsCompModes, ref teamCompModes, ref teamCompModeCount);
+                _teamCompModes = MarshalHelper.PtrToByteArray(teamCompModes, (int)teamCompModeCount);
 
-                IntPtr teamFieldDataTypes = IntPtr.Zero;
-                UInt32 teamFieldDataTypeCount = 0;
-                udtGetByteArray(udtByteArray.TeamStatsDataTypes, ref teamFieldDataTypes, ref teamFieldDataTypeCount);
-                _teamDataTypes = MarshalHelper.PtrToByteArray(teamFieldDataTypes, (int)teamFieldDataTypeCount);
+                IntPtr teamDataTypes = IntPtr.Zero;
+                UInt32 teamDataTypeCount = 0;
+                udtGetByteArray(udtByteArray.TeamStatsDataTypes, ref teamDataTypes, ref teamDataTypeCount);
+                _teamDataTypes = MarshalHelper.PtrToByteArray(teamDataTypes, (int)teamDataTypeCount);
 
                 IntPtr gameTypeFlags = IntPtr.Zero;
                 UInt32 gameTypeCount = 0;
