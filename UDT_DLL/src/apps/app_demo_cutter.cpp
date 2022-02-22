@@ -458,7 +458,7 @@ static bool HasCuttableDemoFileExtension(const udtString& filePath)
 
 	for(u32 i = 0; i < (u32)udtProtocol::Count; ++i)
 	{
-		if((list.Flags[i] & udtProtocolFlags::Writable) != 0 &&
+		if((list.Flags[i] & udtProtocolFlags::ReadOnly) == 0 &&
 		   udtString::EndsWithNoCase(filePath, list.Extensions[i]))
 		{
 			return true;

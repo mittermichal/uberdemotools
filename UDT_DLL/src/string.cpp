@@ -1,4 +1,5 @@
 #include "string.hpp"
+#include "utils.hpp"
 
 #include <string.h>
 #include <ctype.h>
