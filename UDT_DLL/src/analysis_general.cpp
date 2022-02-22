@@ -140,11 +140,11 @@ void udtGeneralAnalyzer::ProcessGamestateMessage(const udtGamestateCallbackArg& 
 	}
 
 	_game = udtGame::Q3;
-	if(AreAllProtocolFlagSets(_protocol, udtProtocolFlags::QuakeLive))
+	if(AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::QuakeLive))
 	{
 		_game = udtGame::QL;
 	}
-	else if(AreAllProtocolFlagSets(_protocol, udtProtocolFlags::RTCW))
+	else if(AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::RTCW))
 	{
 		_game = udtGame::RTCW;
 	}

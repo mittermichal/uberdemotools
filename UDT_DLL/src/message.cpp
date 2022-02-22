@@ -1729,7 +1729,7 @@ bool udtMessage::RealWriteDeltaPlayer(const idPlayerStateBase* from, idPlayerSta
 	// send the arrays
 	//
 
-	if(AreAllProtocolFlagSets(_protocol, udtProtocolFlags::RTCW))
+	if(AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::RTCW))
 	{
 		idPlayerState60* to60 = (idPlayerState60*) to;
 		idPlayerState60* from60 = (idPlayerState60*) from;
@@ -2109,7 +2109,7 @@ bool udtMessage::RealReadDeltaPlayer(const idPlayerStateBase* from, idPlayerStat
 		*toF = *fromF;
 	}
 
-	if(AreAllProtocolFlagSets(_protocol, udtProtocolFlags::RTCW))
+	if(AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::RTCW))
 	{
 		idPlayerState60* to60 = (idPlayerState60*)to;
 

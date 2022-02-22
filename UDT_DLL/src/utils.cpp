@@ -705,7 +705,7 @@ void ParseConfigStringInt(s32& value, udtBaseParser& parser, s32 csIndex)
 	StringParseInt(value, cs);
 }
 
-bool AreAllProtocolFlagSets(udtProtocol::Id protocol, udtProtocolFlags::Mask flags)
+bool AreAllProtocolFlagsSet(udtProtocol::Id protocol, udtProtocolFlags::Mask flags)
 {
 	if((u32)protocol >= (u32)udtProtocol::Count)
 	{
@@ -715,7 +715,7 @@ bool AreAllProtocolFlagSets(udtProtocol::Id protocol, udtProtocolFlags::Mask fla
 	return (ProtocolFlags[protocol] & (u32)flags) == (u32)flags;
 }
 
-bool AreAnyProtocolFlagSets(udtProtocol::Id protocol, udtProtocolFlags::Mask flags)
+bool AreAnyProtocolFlagsSet(udtProtocol::Id protocol, udtProtocolFlags::Mask flags)
 {
 	if((u32)protocol >= (u32)udtProtocol::Count)
 	{

@@ -23,7 +23,7 @@ void udtdEntityTimeShifterPlugIn::ResetForNextDemo(const udtTimeShiftArg& timeSh
 void udtdEntityTimeShifterPlugIn::InitPlugIn(udtProtocol::Id protocol)
 {
 	_protocol = protocol;
-	if(AreAllProtocolFlagSets(protocol, udtProtocolFlags::QuakeLive))
+	if(AreAllProtocolFlagsSet(protocol, udtProtocolFlags::QuakeLive))
 	{
 		_snapshotDuration = 1000 / 40; // Quake Live runs at 40 Hz.
 	}
@@ -51,7 +51,7 @@ void udtdEntityTimeShifterPlugIn::ModifySnapshot(udtdSnapshotData& curSnap, udtd
 
 void udtdEntityTimeShifterPlugIn::AnalyzeConfigString(s32 index, const char* configString, u32 /*stringLength*/)
 {
-	if(AreAllProtocolFlagSets(_protocol, udtProtocolFlags::QuakeLive))
+	if(AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::QuakeLive))
 	{
 		return;
 	}

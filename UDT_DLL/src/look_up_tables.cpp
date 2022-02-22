@@ -1705,7 +1705,7 @@ bool GetIdNumber(s32& idNumber, udtMagicNumberType::Id numberType, u32 udtNumber
 	}
 
 	if(numberType == udtMagicNumberType::EntityEvent &&
-	   AreAllProtocolFlagSets(protocol, udtProtocolFlags::RTCW) &&
+	   AreAllProtocolFlagsSet(protocol, udtProtocolFlags::RTCW) &&
 	   mod == udtMod::RTCWPro)
 	{
 		const s32 result = GetIdEntityEventRtcwPro((s32)udtNumber);
@@ -1715,7 +1715,7 @@ bool GetIdNumber(s32& idNumber, udtMagicNumberType::Id numberType, u32 udtNumber
 	}
 
 	if(numberType == udtMagicNumberType::GameType &&
-	   AreAllProtocolFlagSets(protocol, udtProtocolFlags::Quake3) &&
+	   AreAllProtocolFlagsSet(protocol, udtProtocolFlags::Quake3) &&
 	   mod == udtMod::CPMA)
 	{
 		const s32 result = GetIdGameTypeCPMA((s32)udtNumber);
@@ -1725,7 +1725,7 @@ bool GetIdNumber(s32& idNumber, udtMagicNumberType::Id numberType, u32 udtNumber
 	}
 
 	if(numberType == udtMagicNumberType::Item &&
-	   AreAllProtocolFlagSets(protocol, udtProtocolFlags::Quake3) &&
+	   AreAllProtocolFlagsSet(protocol, udtProtocolFlags::Quake3) &&
 	   mod == udtMod::CPMA)
 	{
 		const s32 result = GetIdExtraItemCPMA((s32)udtNumber);
@@ -1776,7 +1776,7 @@ bool GetUDTNumber(u32& udtNumber, udtMagicNumberType::Id numberType, s32 idNumbe
 	}
 
 	if(numberType == udtMagicNumberType::EntityEvent &&
-	   AreAllProtocolFlagSets(protocol, udtProtocolFlags::RTCW) &&
+	   AreAllProtocolFlagsSet(protocol, udtProtocolFlags::RTCW) &&
 	   mod == udtMod::RTCWPro)
 	{
 		const s32 result = GetUDTEntityEventRtcwPro(idNumber);
@@ -1786,7 +1786,7 @@ bool GetUDTNumber(u32& udtNumber, udtMagicNumberType::Id numberType, s32 idNumbe
 	}
 
 	if(numberType == udtMagicNumberType::GameType && 
-	   AreAllProtocolFlagSets(protocol, udtProtocolFlags::Quake3) &&
+	   AreAllProtocolFlagsSet(protocol, udtProtocolFlags::Quake3) &&
 	   mod == udtMod::CPMA)
 	{
 		const s32 result = GetUDTGameTypeCPMA(idNumber);
@@ -1796,7 +1796,7 @@ bool GetUDTNumber(u32& udtNumber, udtMagicNumberType::Id numberType, s32 idNumbe
 	}
 
 	if(numberType == udtMagicNumberType::Item && 
-	   AreAllProtocolFlagSets(protocol, udtProtocolFlags::Quake3) &&
+	   AreAllProtocolFlagsSet(protocol, udtProtocolFlags::Quake3) &&
 	   mod == udtMod::CPMA)
 	{
 		const s32 result = GetUDTExtraItemCPMA(idNumber);

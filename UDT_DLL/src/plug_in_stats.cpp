@@ -515,7 +515,7 @@ void udtParserPlugInStats::ProcessPlayerConfigString(const char* configString, s
 
 void udtParserPlugInStats::ParseScores()
 {
-	if(AreAllProtocolFlagSets(_protocol, udtProtocolFlags::QuakeLive))
+	if(AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::QuakeLive))
 	{
 		ParseQLScoresOld();
 	}
@@ -523,7 +523,7 @@ void udtParserPlugInStats::ParseScores()
 	{
 		ParseQ3ScoresDM3();
 	}
-	else if(AreAllProtocolFlagSets(_protocol, udtProtocolFlags::RTCW))
+	else if(AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::RTCW))
 	{
 		ParseWolfScores();
 	}
@@ -3195,7 +3195,7 @@ void udtParserPlugInStats::AddCurrentStats()
 	{
 		s32 redScore = 0;
 		s32 blueScore = 0;
-		if(AreAllProtocolFlagSets(_protocol, udtProtocolFlags::RTCW))
+		if(AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::RTCW))
 		{
 			const udtTeam::Id winningTeam = _analyzer.WolfWinningTeam();
 			const char* winner = winningTeam == udtTeam::Allies ? "allies" : "axis";
@@ -3215,7 +3215,7 @@ void udtParserPlugInStats::AddCurrentStats()
 			const char* defender = defendingTeam == udtTeam::Allies ? "allies" : "axis";
 			WriteStringToApiStruct(_stats.DefenderName, udtString::NewClone(_stringAllocator, defender));
 		}
-		else if(forfeited && AreAllProtocolFlagSets(_protocol, udtProtocolFlags::QuakeLive))
+		else if(forfeited && AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::QuakeLive))
 		{
 			// Short-circuit the scores commands in case of a forfeit so we don't get the -999 scores.
 			redScore = _firstPlaceScore;

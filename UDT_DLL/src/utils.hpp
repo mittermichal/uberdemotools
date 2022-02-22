@@ -89,8 +89,8 @@ extern void        WriteStringToApiStruct(u32& offset, const udtString& string);
 extern void        WriteNullStringToApiStruct(u32& offset);
 extern void        PlayerStateToEntityState(idEntityStateBase& es, s32& lastEventSequence, const idPlayerStateBase& ps, bool extrapolate, s32 serverTimeMs, udtProtocol::Id protocol);
 extern void        ParseConfigStringInt(s32& value, udtBaseParser& parser, s32 csIndex);
-extern bool        AreAllProtocolFlagSets(udtProtocol::Id protocol, udtProtocolFlags::Mask flags);
-extern bool        AreAnyProtocolFlagSets(udtProtocol::Id protocol, udtProtocolFlags::Mask flags);
+extern bool        AreAllProtocolFlagsSet(udtProtocol::Id protocol, udtProtocolFlags::Mask flags);
+extern bool        AreAnyProtocolFlagsSet(udtProtocol::Id protocol, udtProtocolFlags::Mask flags);
 
 // Gets the integer value of a config string variable.
 // The variable name matching is case sensitive.
