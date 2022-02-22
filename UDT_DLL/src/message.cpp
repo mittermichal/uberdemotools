@@ -1623,6 +1623,7 @@ s32 udtMessage::RealReadFloat()
 
 char* udtMessage::RealReadString(s32& length, s32 bufferLength, char* buffer)
 {
+	const bool allowUTF8 = AreAllProtocolFlagsSet(_protocol, udtProtocolFlagsEx::QL_Unicode);
 	s32 stringLength = 0;
 	do
 	{
@@ -1640,7 +1641,7 @@ char* udtMessage::RealReadString(s32& length, s32 bufferLength, char* buffer)
 		}
 
 		// don't allow higher ascii values
-		if(_protocol <= udtProtocol::Dm90 && c > 127)
+		if(c > 127 && !allowUTF8)
 		{
 			c = '.';
 		}

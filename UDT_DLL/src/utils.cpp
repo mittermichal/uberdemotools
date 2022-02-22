@@ -552,7 +552,8 @@ bool GetClanAndPlayerName(udtString& clan, udtString& player, bool& hasClan, udt
 	}
 
 	// "xcn" was for the full clan name, "c" for the country.
-	if(protocol <= udtProtocol::Dm90 &&
+	const bool hasClanName = AreAllProtocolFlagsSet(protocol, udtProtocolFlagsEx::QL_ClanName);
+	if(hasClanName &&
 	   ParseConfigStringValueString(clan, allocator, "cn", configString))
 	{
 		hasClan = true;
@@ -563,7 +564,7 @@ bool GetClanAndPlayerName(udtString& clan, udtString& player, bool& hasClan, udt
 	// Some QuakeCon 2015 demos have a '.' between the clan tag and player name.
 	// Some of them have no separator at all and I don't see how the ambiguity can be resolved. :-(
 	u32 firstSeparatorIdx = 0;
-	if(protocol <= udtProtocol::Dm90 ||
+	if(hasClanName ||
 	   !udtString::FindFirstCharacterListMatch(firstSeparatorIdx, clanAndPlayer, udtString::NewConstRef(" .")))
 	{
 		player = clanAndPlayer;
