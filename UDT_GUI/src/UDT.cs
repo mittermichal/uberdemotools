@@ -2048,7 +2048,18 @@ namespace Uber.DemoTools
 
             var extension = ProtocolExtensions[(int)protocol];
             var versionString = extension;
-            var firstDigitIndex = extension.IndexOfAny(new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' });
+            // No, I do not want to use String.IndexOfAny or some LINQ shit for this instead of a for loop.
+            // Please get off my lawn now.
+            int firstDigitIndex = -1;
+            for(int i = 0; i < extension.Length; ++i)
+            {
+                if(extension[i] >= '0' && extension[i] <= '9')
+                {
+                    firstDigitIndex = i;
+                    break;
+                }
+            }
+
             if(firstDigitIndex >= 0)
             {
                 int versionValue;
