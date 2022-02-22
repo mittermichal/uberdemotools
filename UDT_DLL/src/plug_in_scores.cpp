@@ -108,7 +108,7 @@ void udtParserPlugInScores::ProcessGamestateMessage(const udtGamestateCallbackAr
 	_parser = &parser;
 	++_gameStateIndex;
 	_protocol = parser._inProtocol;
-	if(_protocol <= udtProtocol::Dm68)
+	if(!AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::QuakeLive))
 	{
 		DetectMod();
 	}
@@ -121,17 +121,17 @@ void udtParserPlugInScores::ProcessGamestateMessage(const udtGamestateCallbackAr
 	{
 		ProcessCPMAScores(CS_CPMA_GAME_INFO);
 	}
-	else if(_protocol <= udtProtocol::Dm68)
-	{
-		ParseConfigStringInt(_score1, parser, CS_SCORE_1);
-		ParseConfigStringInt(_score2, parser, CS_SCORE_2);
-	}
-	else
+	else if(AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::QuakeLive))
 	{
 		ParseConfigStringInt(_score1, parser, CS_SCORE_1);
 		ParseConfigStringInt(_score2, parser, CS_SCORE_2);
 		CloneConfigString(_name1, _tempAllocator, parser, CS_QL_SCORE_NAME_1);
 		CloneConfigString(_name2, _tempAllocator, parser, CS_QL_SCORE_NAME_2);
+	}
+	else
+	{
+		ParseConfigStringInt(_score1, parser, CS_SCORE_1);
+		ParseConfigStringInt(_score2, parser, CS_SCORE_2);
 	}
 	AddScore();
 	_scoreChanged = false;
@@ -204,7 +204,7 @@ void udtParserPlugInScores::ProcessCommandMessage(const udtCommandCallbackArg& a
 			_scoreChanged = true;
 		}
 
-		if(_protocol >= udtProtocol::Dm73)
+		if(AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::QuakeLive))
 		{
 			if(arg.ConfigStringIndex == CS_QL_SCORE_NAME_1)
 			{
@@ -357,13 +357,13 @@ void udtParserPlugInScores::AddScore()
 		{
 			GetScoresCPMA(scores);
 		}
-		else if(_protocol <= udtProtocol::Dm68)
+		else if(AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::QuakeLive))
 		{
-			GetScoresQ3(scores);
+			GetScoresQL(scores);
 		}
 		else
 		{
-			GetScoresQL(scores);
+			GetScoresQ3(scores);
 		}
 	}
 	// @NOTE: We use udtString::NewCleanCloneFromRef because it checks for the case where
