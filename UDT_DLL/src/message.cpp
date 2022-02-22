@@ -1579,7 +1579,7 @@ void udtMessage::RealWriteString(const char* s, s32 length, s32 bufferLength, ch
 		return;
 	}
 
-	if(_protocol >= udtProtocol::Dm91)
+	if(AreAllProtocolFlagsSet(_protocol, udtProtocolFlagsEx::QL_Unicode))
 	{
 		WriteData(s, length + 1);
 		return;

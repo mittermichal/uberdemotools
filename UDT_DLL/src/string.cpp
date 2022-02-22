@@ -741,6 +741,7 @@ static bool IsLongOSPColorString(const udtString& string)
 
 u32 CleanUpString(char* string, udtProtocol::Id protocol)
 {
+	const bool allowUTF8 = AreAllProtocolFlagsSet(protocol, udtProtocolFlagsEx::QL_Unicode);
 	u32 newLength = 0;
 	char* const start = string;
 	char* dest = start;
@@ -756,10 +757,9 @@ u32 CleanUpString(char* string, udtProtocol::Id protocol)
 		{
 			source++;
 		}
-		// Protocols up to 90 : only keep printable codes.
-		// Protocols 91 and up: keep everything.
-		else if(protocol >= udtProtocol::Dm91 ||
-				(c >= 0x20 && c <= 0x7E))
+		// QL protocols up to 90 : only keep printable codes.
+		// QL protocols 91 and up: keep everything.
+		else if(allowUTF8 || (c >= 0x20 && c <= 0x7E))
 		{
 			*dest++ = c;
 			newLength++;

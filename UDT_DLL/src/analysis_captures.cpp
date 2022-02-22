@@ -823,7 +823,7 @@ bool udtCapturesAnalyzer::ExtractPlayerIndexFromCaptureMessageQLorOSP(s32& playe
 	// dm_90: sprintf(name, "%s %s", cn, n) OR sprintf(name, "%s^7 %s", cn, n)
 	// dm_91: sprintf(name, "%s", n)
 
-	if(protocol == udtProtocol::Dm91)
+	if(!AreAllProtocolFlagsSet(protocol, udtProtocolFlagsEx::QL_ClanName))
 	{
 		for(s32 i = 0; i < 64; ++i)
 		{
