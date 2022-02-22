@@ -110,20 +110,15 @@ void udtCapturesAnalyzer::ProcessGamestateMessage(const udtGamestateCallbackArg&
 	udtVMScopedStackAllocator allocScope(*_tempAllocator);
 
 	const udtProtocol::Id protocol = parser._inProtocol;
-	if(AreAllProtocolFlagsSet(protocol, udtProtocolFlags::RTCW))
-	{
-		_processGamestate = &udtCapturesAnalyzer::ProcessGamestateMessageDummy;
-		_processCommand = &udtCapturesAnalyzer::ProcessCommandMessageDummy;
-		_processSnapshot = &udtCapturesAnalyzer::ProcessSnapshotMessageDummy;
-	}
-	else if(AreAllProtocolFlagsSet(protocol, udtProtocolFlags::QuakeLive))
+	if(AreAllProtocolFlagsSet(protocol, udtProtocolFlags::QuakeLive))
 	{
 		_processGamestate = &udtCapturesAnalyzer::ProcessGamestateMessageQLorOSP;
 		_processCommand = &udtCapturesAnalyzer::ProcessCommandMessageQLorOSP;
 		_processSnapshot = &udtCapturesAnalyzer::ProcessSnapshotMessageQLorOSP;
 	}
 	// @NOTE: EF_AWARD_CAP doesn't exist in dm3.
-	else if(protocol >= udtProtocol::Dm48 && protocol <= udtProtocol::Dm68)
+	else if(AreAllProtocolFlagsSet(protocol, udtProtocolFlags::Quake3) &&
+			protocol != udtProtocol::Dm3)
 	{
 		udtString gameName;
 		if(ParseConfigStringValueString(gameName, *_tempAllocator, "gamename", parser.GetConfigString(CS_SERVERINFO).GetPtr()))
@@ -141,6 +136,12 @@ void udtCapturesAnalyzer::ProcessGamestateMessage(const udtGamestateCallbackArg&
 				_processSnapshot = &udtCapturesAnalyzer::ProcessSnapshotMessageQLorOSP;
 			}
 		}
+	}
+	else
+	{
+		_processGamestate = &udtCapturesAnalyzer::ProcessGamestateMessageDummy;
+		_processCommand = &udtCapturesAnalyzer::ProcessCommandMessageDummy;
+		_processSnapshot = &udtCapturesAnalyzer::ProcessSnapshotMessageDummy;
 	}
 
 	udtString mapName;
