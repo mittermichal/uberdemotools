@@ -762,12 +762,12 @@ namespace Uber.DemoTools
         [Flags]
         public enum udtProtocolFlags : uint
         {
-            Huffman = 1 << 0,
-            Writable = 1 << 1,
-            Quake3 = 1 << 2,
-            QuakeLive = 1 << 3,
-            RTCW = 1 << 4,
-            ET = 1 << 5,
+            ReadOnly = 1 << 0,
+            Quake3 = 1 << 1,
+            QuakeLive = 1 << 2,
+            RTCW = 1 << 3,
+            ET = 1 << 4,
+            Last = ET,
             Quake = Quake3 | QuakeLive,
             Wolfenstein = RTCW | ET,
             AllGames = Quake | Wolfenstein
@@ -2077,7 +2077,7 @@ namespace Uber.DemoTools
 
         public static bool IsProtocolWritable(UDT_DLL.udtProtocol protocol)
         {
-            return AreAllProtocolBitsSet(protocol, UDT_DLL.udtProtocolFlags.Writable);
+            return !AreAllProtocolBitsSet(protocol, UDT_DLL.udtProtocolFlags.ReadOnly);
         }
 
         public static bool IsProtocolWolfenstein(udtProtocol protocol)
