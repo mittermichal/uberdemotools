@@ -429,7 +429,7 @@ void Demo::Load(const char* filePath, bool keepOnlyFirstMatch, bool removeTimeOu
 
 	const u32 previousMod = _mod;
 	if(!AnalyzeDemo(filePath, keepOnlyFirstMatch) && 
-	   protocol <= udtProtocol::Dm68)
+	   AreAllProtocolFlagSets(protocol, udtProtocolFlags::Quake3))
 	{
 		ParseDemo(filePath, &Demo::ProcessMessage_Mod);
 	}
