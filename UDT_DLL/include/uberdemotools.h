@@ -137,20 +137,20 @@ struct udtErrorCode
 
 // @TODO: bring in engine/game versions in here too
 #define UDT_PROTOCOL_LIST(N) \
-	N(Dm3 , ".dm3"  , udtProtocolFlags::Quake3 | udtProtocolFlags::ReadOnly) \
-	N(Dm48, ".dm_48", udtProtocolFlags::Quake3 | udtProtocolFlags::ReadOnly) \
-	N(Dm57, ".dm_57", udtProtocolFlags::RTCW) \
-	N(Dm58, ".dm_58", udtProtocolFlags::RTCW) \
-	N(Dm59, ".dm_59", udtProtocolFlags::RTCW) \
-	N(Dm60, ".dm_60", udtProtocolFlags::RTCW) \
-	N(Dm66, ".dm_66", udtProtocolFlags::Quake3) \
-	N(Dm67, ".dm_67", udtProtocolFlags::Quake3) \
-	N(Dm68, ".dm_68", udtProtocolFlags::Quake3) \
-	N(Dm73, ".dm_73", udtProtocolFlags::QuakeLive) \
-	N(Dm90, ".dm_90", udtProtocolFlags::QuakeLive) \
-	N(Dm91, ".dm_91", udtProtocolFlags::QuakeLive)
+	N(Dm3 , ".dm3"  , "Quake 3 1.11-1.17", udtProtocolFlags::Quake3 | udtProtocolFlags::ReadOnly) \
+	N(Dm48, ".dm_48", "Quake 3 1.27",      udtProtocolFlags::Quake3 | udtProtocolFlags::ReadOnly) \
+	N(Dm57, ".dm_57", "RtCW 1.00-1.10",    udtProtocolFlags::RTCW) \
+	N(Dm58, ".dm_58", "RtCW 1.30-1.31",    udtProtocolFlags::RTCW) \
+	N(Dm59, ".dm_59", "RtCW 1.32-1.33",    udtProtocolFlags::RTCW) \
+	N(Dm60, ".dm_60", "RtCW 1.40-1.41",    udtProtocolFlags::RTCW) \
+	N(Dm66, ".dm_66", "Quake 3 1.29-1.30", udtProtocolFlags::Quake3) \
+	N(Dm67, ".dm_67", "Quake 3 1.31",      udtProtocolFlags::Quake3) \
+	N(Dm68, ".dm_68", "Quake 3 1.32",      udtProtocolFlags::Quake3) \
+	N(Dm73, ".dm_73", "Quake Live",        udtProtocolFlags::QuakeLive) \
+	N(Dm90, ".dm_90", "Quake Live",        udtProtocolFlags::QuakeLive) \
+	N(Dm91, ".dm_91", "Quake Live",        udtProtocolFlags::QuakeLive)
 
-#define UDT_PROTOCOL_ITEM(Enum, Ext, Flags) Enum,
+#define UDT_PROTOCOL_ITEM(Enum, Ext, Desc, Flags) Enum,
 struct udtProtocol
 {
 	enum Id
@@ -2458,14 +2458,20 @@ extern "C"
 		/* With the leading '.' character. */
 		const char** Extensions;
 
+		/* Contains the game's name and the engine versions. */
+		const char** Descriptions;
+
 		/* Use udtProtocolFlags for the numbers. */
 		const u32* Flags;
+
+		/* Ignore this. */
+		void* Reserved1;
 
 		/* Check against udtProtocol::Count to ensure no header/DLL desync. */
 		u32 Count;
 
 		/* Ignore this. */
-		u32 Reserved1;
+		u32 Reserved2;
 	}
 	udtProtocolList;
 	UDT_ENFORCE_API_STRUCT_SIZE(udtProtocolList)

@@ -58,7 +58,7 @@ static const char* ErrorCodeStrings[udtErrorCode::AfterLastError + 1] =
 };
 #undef UDT_ERROR_ITEM
 
-#define UDT_PROTOCOL_ITEM(Enum, Ext, Flags) Ext,
+#define UDT_PROTOCOL_ITEM(Enum, Ext, Desc, Flags) Ext,
 static const char* DemoFileExtensions[udtProtocol::Count + 1] =
 {
 	UDT_PROTOCOL_LIST(UDT_PROTOCOL_ITEM)
@@ -66,7 +66,15 @@ static const char* DemoFileExtensions[udtProtocol::Count + 1] =
 };
 #undef UDT_PROTOCOL_ITEM
 
-#define UDT_PROTOCOL_ITEM(Enum, Ext, Flags) Flags,
+#define UDT_PROTOCOL_ITEM(Enum, Ext, Desc, Flags) Desc,
+static const char* ProtocolDescriptions[udtProtocol::Count + 1] =
+{
+	UDT_PROTOCOL_LIST(UDT_PROTOCOL_ITEM)
+	"invalid protocol"
+};
+#undef UDT_PROTOCOL_ITEM
+
+#define UDT_PROTOCOL_ITEM(Enum, Ext, Desc, Flags) Flags,
 static const u32 ProtocolFlags[udtProtocol::Count + 1] =
 {
 	UDT_PROTOCOL_LIST(UDT_PROTOCOL_ITEM)
@@ -391,6 +399,7 @@ UDT_API(s32) udtGetProtocolList(udtProtocolList* protocolList)
 
 	protocolList->Count = udtProtocol::Count;
 	protocolList->Extensions = DemoFileExtensions;
+	protocolList->Descriptions = ProtocolDescriptions;
 	protocolList->Flags = ProtocolFlags;
 
 	return (s32)udtErrorCode::None;

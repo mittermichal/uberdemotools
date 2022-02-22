@@ -19,7 +19,7 @@ static const char* MeansOfDeathNames[udtMeanOfDeath::Count + 1]
 };
 #undef ITEM
 
-#define ITEM(Enum, Ext, Flags) Flags,
+#define ITEM(Enum, Ext, Desc, Flags) Flags,
 static const u32 ProtocolFlags[udtProtocol::Count + 1] =
 {
 	UDT_PROTOCOL_LIST(ITEM)

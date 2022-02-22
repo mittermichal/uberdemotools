@@ -1539,9 +1539,11 @@ namespace Uber.DemoTools
         struct udtProtocolList
         {
             public IntPtr Extensions; // const char**
+            public IntPtr Descriptions; // const char**
             public IntPtr Flags; // const u32*
+            public IntPtr Reserved1;
             public UInt32 Count;
-		    public UInt32 Reserved1;
+            public UInt32 Reserved2;
         }
 
         [DllImport(_dllPath, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
@@ -1880,6 +1882,7 @@ namespace Uber.DemoTools
 
         public static List<udtProtocolFlags> ProtocolFlags;
         public static List<string> ProtocolExtensions;
+        public static List<string> ProtocolDescriptions;
 
         public static void InitLibrary()
         {
@@ -1902,6 +1905,7 @@ namespace Uber.DemoTools
 
             ProtocolFlags = MarshalHelper.PtrToUintEnumerationList<udtProtocolFlags>(protocolList.Flags, (int)protocolList.Count);
             ProtocolExtensions = MarshalHelper.PtrToAnsiStringList(protocolList.Extensions, (int)protocolList.Count);
+            ProtocolDescriptions = MarshalHelper.PtrToAnsiStringList(protocolList.Descriptions, (int)protocolList.Count);
 
             if(ProtocolFlags.Count != (int)protocolList.Count ||
                 ProtocolExtensions.Count != (int)protocolList.Count)
@@ -2037,22 +2041,24 @@ namespace Uber.DemoTools
 
         public static string GetProtocolAsString(udtProtocol protocol)
         {
-            switch(protocol)
+            if((uint)protocol >= (uint)UDT_DLL.udtProtocol.Count)
             {
-                case udtProtocol.Dm3:  return "3 (Quake 3 1.11-1.17)";
-                case udtProtocol.Dm48: return "48 (Quake 3 1.27)";
-                case udtProtocol.Dm57: return "57 (RtCW 1.00-1.10)";
-                case udtProtocol.Dm58: return "58 (RtCW 1.30-1.31)";
-                case udtProtocol.Dm59: return "59 (RtCW 1.32-1.33)";
-                case udtProtocol.Dm60: return "60 (RtCW 1.40-1.41)";
-                case udtProtocol.Dm66: return "66 (Quake 3 1.29-1.30)";
-                case udtProtocol.Dm67: return "67 (Quake 3 1.31)";
-                case udtProtocol.Dm68: return "68 (Quake 3 1.32)";
-                case udtProtocol.Dm73: return "73 (Quake Live)";
-                case udtProtocol.Dm90: return "90 (Quake Live)";
-                case udtProtocol.Dm91: return "91 (Quake Live)";
-                default: Debugger.Break(); return "?";
+                return "?";
             }
+
+            var extension = ProtocolExtensions[(int)protocol];
+            var versionString = extension;
+            var firstDigitIndex = extension.IndexOfAny(new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' });
+            if(firstDigitIndex >= 0)
+            {
+                int versionValue;
+                if(int.TryParse(extension.Substring(firstDigitIndex), out versionValue))
+                {
+                    versionString = versionValue.ToString();
+                }
+            }
+
+            return string.Format("{0} ({1})", versionString, ProtocolDescriptions[(int)protocol]);
         }
 
         private static bool AreAllProtocolBitsSet(UDT_DLL.udtProtocol protocol, UDT_DLL.udtProtocolFlags flags)
