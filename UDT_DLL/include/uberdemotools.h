@@ -135,7 +135,6 @@ struct udtErrorCode
 };
 #undef UDT_ERROR_ITEM
 
-// @TODO: bring in engine/game versions in here too
 #define UDT_PROTOCOL_LIST(N) \
 	N(Dm3 , ".dm3"  , "Quake 3 1.11-1.17", udtProtocolFlags::Quake3 | udtProtocolFlags::ReadOnly) \
 	N(Dm48, ".dm_48", "Quake 3 1.27",      udtProtocolFlags::Quake3 | udtProtocolFlags::ReadOnly) \
