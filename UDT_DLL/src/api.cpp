@@ -295,7 +295,7 @@ UDT_API(s32) udtIsValidProtocol(u32 protocol)
 
 UDT_API(s32) udtIsProtocolWriteSupported(u32 protocol)
 {
-	return AreAllProtocolFlagsSet((udtProtocol::Id)protocol, udtProtocolFlags::Writable) ? 1 : 0;
+	return AreAllProtocolFlagsSet((udtProtocol::Id)protocol, udtProtocolFlags::ReadOnly) ? 0 : 1;
 }
 
 UDT_API(u32) udtGetSizeOfIdEntityState(u32 protocol)

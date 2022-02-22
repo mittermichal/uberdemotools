@@ -135,19 +135,20 @@ struct udtErrorCode
 };
 #undef UDT_ERROR_ITEM
 
+// @TODO: bring in engine/game versions in here too
 #define UDT_PROTOCOL_LIST(N) \
-	N(Dm3 , ".dm3"  , udtProtocolFlags::Quake3) \
-	N(Dm48, ".dm_48", udtProtocolFlags::Quake3) \
-	N(Dm57, ".dm_57", udtProtocolFlags::RTCW | udtProtocolFlags::Huffman | udtProtocolFlags::Writable) \
-	N(Dm58, ".dm_58", udtProtocolFlags::RTCW | udtProtocolFlags::Huffman | udtProtocolFlags::Writable) \
-	N(Dm59, ".dm_59", udtProtocolFlags::RTCW | udtProtocolFlags::Huffman | udtProtocolFlags::Writable) \
-	N(Dm60, ".dm_60", udtProtocolFlags::RTCW | udtProtocolFlags::Huffman | udtProtocolFlags::Writable) \
-	N(Dm66, ".dm_66", udtProtocolFlags::Quake3 | udtProtocolFlags::Huffman | udtProtocolFlags::Writable) \
-	N(Dm67, ".dm_67", udtProtocolFlags::Quake3 | udtProtocolFlags::Huffman | udtProtocolFlags::Writable) \
-	N(Dm68, ".dm_68", udtProtocolFlags::Quake3 | udtProtocolFlags::Huffman | udtProtocolFlags::Writable) \
-	N(Dm73, ".dm_73", udtProtocolFlags::QuakeLive | udtProtocolFlags::Huffman | udtProtocolFlags::Writable) \
-	N(Dm90, ".dm_90", udtProtocolFlags::QuakeLive | udtProtocolFlags::Huffman | udtProtocolFlags::Writable) \
-	N(Dm91, ".dm_91", udtProtocolFlags::QuakeLive | udtProtocolFlags::Huffman | udtProtocolFlags::Writable)
+	N(Dm3 , ".dm3"  , udtProtocolFlags::Quake3 | udtProtocolFlags::ReadOnly) \
+	N(Dm48, ".dm_48", udtProtocolFlags::Quake3 | udtProtocolFlags::ReadOnly) \
+	N(Dm57, ".dm_57", udtProtocolFlags::RTCW) \
+	N(Dm58, ".dm_58", udtProtocolFlags::RTCW) \
+	N(Dm59, ".dm_59", udtProtocolFlags::RTCW) \
+	N(Dm60, ".dm_60", udtProtocolFlags::RTCW) \
+	N(Dm66, ".dm_66", udtProtocolFlags::Quake3) \
+	N(Dm67, ".dm_67", udtProtocolFlags::Quake3) \
+	N(Dm68, ".dm_68", udtProtocolFlags::Quake3) \
+	N(Dm73, ".dm_73", udtProtocolFlags::QuakeLive) \
+	N(Dm90, ".dm_90", udtProtocolFlags::QuakeLive) \
+	N(Dm91, ".dm_91", udtProtocolFlags::QuakeLive)
 
 #define UDT_PROTOCOL_ITEM(Enum, Ext, Flags) Enum,
 struct udtProtocol
@@ -165,12 +166,12 @@ struct udtProtocolFlags
 {
 	enum Mask
 	{
-		Huffman = UDT_BIT(0),
-		Writable = UDT_BIT(1),
-		Quake3 = UDT_BIT(2),
-		QuakeLive = UDT_BIT(3),
-		RTCW = UDT_BIT(4),
-		ET = UDT_BIT(5),
+		ReadOnly = UDT_BIT(0),
+		Quake3 = UDT_BIT(1),
+		QuakeLive = UDT_BIT(2),
+		RTCW = UDT_BIT(3),
+		ET = UDT_BIT(4),
+		Last = ET,
 		Quake = Quake3 | QuakeLive,
 		Wolfenstein = RTCW | ET
 	};

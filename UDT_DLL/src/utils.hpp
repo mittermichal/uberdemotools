@@ -65,6 +65,16 @@ struct CallbackCutDemoFileStreamCreationInfo
 	const char* OutputFolderPath;
 };
 
+struct udtProtocolFlagsEx
+{
+	enum Mask
+	{
+		NoHuffman = udtProtocolFlags::Last << 1,
+		QL_ClanName = NoHuffman << 1,
+		QL_Unicode = QL_ClanName << 1
+	};
+};
+
 extern udtString   CallbackCutDemoFileNameCreation(const udtDemoStreamCreatorArg& arg);
 extern udtString   CallbackConvertedDemoFileNameCreation(const udtDemoStreamCreatorArg& arg);
 extern bool        StringParseInt(s32& output, const char* string);
@@ -91,6 +101,8 @@ extern void        PlayerStateToEntityState(idEntityStateBase& es, s32& lastEven
 extern void        ParseConfigStringInt(s32& value, udtBaseParser& parser, s32 csIndex);
 extern bool        AreAllProtocolFlagsSet(udtProtocol::Id protocol, udtProtocolFlags::Mask flags);
 extern bool        AreAnyProtocolFlagsSet(udtProtocol::Id protocol, udtProtocolFlags::Mask flags);
+extern bool        AreAllProtocolFlagsSet(udtProtocol::Id protocol, udtProtocolFlagsEx::Mask flags);
+extern bool        AreAnyProtocolFlagsSet(udtProtocol::Id protocol, udtProtocolFlagsEx::Mask flags);
 
 // Gets the integer value of a config string variable.
 // The variable name matching is case sensitive.

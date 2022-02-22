@@ -144,8 +144,8 @@ bool udtBaseParser::ParseServerMessage()
 {
 	_outMsg.Init(_outMsgData, sizeof(_outMsgData));
 
-	_outMsg.SetHuffman(AreAllProtocolFlagsSet(_outProtocol, udtProtocolFlags::Huffman));
-	_inMsg.SetHuffman(AreAllProtocolFlagsSet(_inProtocol, udtProtocolFlags::Huffman));
+	_outMsg.SetHuffman(!AreAllProtocolFlagsSet(_outProtocol, udtProtocolFlagsEx::NoHuffman));
+	_inMsg.SetHuffman(!AreAllProtocolFlagsSet(_inProtocol, udtProtocolFlagsEx::NoHuffman));
 
 	//
 	// Using the message sequence number as acknowledge number will help avoid 
@@ -369,7 +369,7 @@ void udtBaseParser::AddCut(s32 gsIndex, s32 startTimeMs, s32 endTimeMs, const ch
 
 bool udtBaseParser::ShouldWriteMessage() const
 {
-	return _outWriteMessage && AreAllProtocolFlagsSet(_outProtocol, udtProtocolFlags::Writable);
+	return _outWriteMessage && !AreAllProtocolFlagsSet(_outProtocol, udtProtocolFlags::ReadOnly);
 }
 
 void udtBaseParser::WriteFirstMessage()

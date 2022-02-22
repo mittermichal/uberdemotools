@@ -27,6 +27,40 @@ static const u32 ProtocolFlags[udtProtocol::Count + 1] =
 };
 #undef ITEM
 
+#define UDT_PROTOCOL_LIST_EX(N) \
+	N(Dm3 , udtProtocolFlagsEx::NoHuffman) \
+	N(Dm48, udtProtocolFlagsEx::NoHuffman) \
+	N(Dm57, 0) \
+	N(Dm58, 0) \
+	N(Dm59, 0) \
+	N(Dm60, 0) \
+	N(Dm66, 0) \
+	N(Dm67, 0) \
+	N(Dm68, 0) \
+	N(Dm73, udtProtocolFlagsEx::QL_ClanName) \
+	N(Dm90, udtProtocolFlagsEx::QL_ClanName) \
+	N(Dm91, udtProtocolFlagsEx::QL_Unicode)
+
+#define ITEM(Enum, FlagsEx) Enum,
+struct udtProtocolEx
+{
+	enum Id
+	{
+		UDT_PROTOCOL_LIST_EX(ITEM)
+		Count
+	};
+};
+#undef ITEM
+static_assert(udtProtocolEx::Count == udtProtocol::Count, "UDT_PROTOCOL_LIST_EX is invalid");
+
+#define ITEM(Enum, FlagsEx) FlagsEx,
+static const u32 ProtocolFlagsEx[udtProtocol::Count + 1] =
+{
+	UDT_PROTOCOL_LIST_EX(ITEM)
+	0
+};
+#undef ITEM
+
 
 udtString CallbackCutDemoFileNameCreation(const udtDemoStreamCreatorArg& arg)
 {
@@ -723,4 +757,24 @@ bool AreAnyProtocolFlagsSet(udtProtocol::Id protocol, udtProtocolFlags::Mask fla
 	}
 
 	return (ProtocolFlags[protocol] & (u32)flags) != 0;
+}
+
+bool AreAllProtocolFlagsSet(udtProtocol::Id protocol, udtProtocolFlagsEx::Mask flags)
+{
+	if((u32)protocol >= (u32)udtProtocol::Count)
+	{
+		return false;
+	}
+
+	return (ProtocolFlagsEx[protocol] & (u32)flags) == (u32)flags;
+}
+
+bool AreAnyProtocolFlagsSet(udtProtocol::Id protocol, udtProtocolFlagsEx::Mask flags)
+{
+	if((u32)protocol >= (u32)udtProtocol::Count)
+	{
+		return false;
+	}
+
+	return (ProtocolFlagsEx[protocol] & (u32)flags) != 0;
 }
