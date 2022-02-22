@@ -192,8 +192,7 @@ void udtParserPlugInChat::ProcessChatCommand(udtBaseParser& parser)
 	udtString::RemoveEmCharacter(argument1[0]);
 	udtString::RemoveEmCharacter(argument1[1]);
 
-	const bool qlFormat = parser._inProtocol >= udtProtocol::Dm73;
-	if(qlFormat)
+	if(AreAllProtocolFlagsSet(parser._inProtocol, udtProtocolFlags::QuakeLive))
 	{
 		ExtractPlayerIndexRelatedData(chatEvent, argument1[1], parser);
 
@@ -238,8 +237,7 @@ void udtParserPlugInChat::ProcessTeamChatCommand(udtBaseParser& parser)
 	udtString::RemoveEmCharacter(argument1[0]);
 	udtString::RemoveEmCharacter(argument1[1]);
 
-	const bool qlFormat = parser._inProtocol >= udtProtocol::Dm73;
-	if(qlFormat)
+	if(AreAllProtocolFlagsSet(parser._inProtocol, udtProtocolFlags::QuakeLive))
 	{
 		ExtractPlayerIndexRelatedData(chatEvent, argument1[1], parser);
 

@@ -23,11 +23,6 @@ static void CloneConfigString(udtString& string, udtVMLinearAllocator& alloc, ud
 	string = udtString::NewCloneFromRef(alloc, cs);
 }
 
-static bool HasClanName(udtProtocol::Id protocol)
-{
-	return protocol >= udtProtocol::Dm73 && protocol <= udtProtocol::Dm90;
-}
-
 
 udtParserPlugInScores::udtParserPlugInScores()
 {
@@ -247,7 +242,7 @@ void udtParserPlugInScores::ProcessPlayerConfigString(u32 index, const char* cs)
 		_players[index].Name = udtString::NewCloneFromRef(_stringAllocator, name);
 	}
 
-	if(HasClanName(_protocol))
+	if(AreAllProtocolFlagsSet(_protocol, udtProtocolFlagsEx::QL_ClanName))
 	{
 		udtString clan;
 		if(ParseConfigStringValueString(clan, *TempAllocator, "cn", cs) &&

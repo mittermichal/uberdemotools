@@ -679,7 +679,7 @@ void udtCapturesAnalyzer::ProcessPlayerConfigStringQLorOSP(const char* configStr
 		_playerNames[playerIndex] = udtString::NewNull();
 	}
 
-	if(parser._inProtocol >= udtProtocol::Dm73 && parser._inProtocol <= udtProtocol::Dm90)
+	if(AreAllProtocolFlagsSet(parser._inProtocol, udtProtocolFlagsEx::QL_ClanName))
 	{
 		udtString clan;
 		if(ParseConfigStringValueString(clan, *_tempAllocator, "cn", configString))
