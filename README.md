@@ -208,6 +208,7 @@ In alphabetical order:
 * gaiia
 * JackBender
 * Kimi|AHK
+* Maverick
 * Naper
 * oranjemetal
 * pakao
