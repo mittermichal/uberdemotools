@@ -21,10 +21,10 @@ Permanent links to the latest builds
 
 | OS      | GUI | Command-Line Tools | 2D Viewer |
 |:--------|:---:|:------------------:|:---------:|
-| Windows | [x64](http://giant.pourri.ch/UDT/redirections/windows_gui_x64.html) - [x86](http://giant.pourri.ch/UDT/redirections/windows_gui_x86.html) | [x64](http://giant.pourri.ch/UDT/redirections/windows_console_x64.html) - [x86](http://giant.pourri.ch/UDT/redirections/windows_console_x86.html) | [x64](http://giant.pourri.ch/UDT/redirections/windows_viewer_x64.html) - [x86](http://giant.pourri.ch/UDT/redirections/windows_viewer_x86.html) |
-| Linux   | Not Available    | [x64](url=http://giant.pourri.ch/UDT/redirections/linux_console_x64.html) - [x86](url=http://giant.pourri.ch/UDT/redirections/linux_console_x86.html) | [x64](http://giant.pourri.ch/UDT/redirections/linux_viewer_x64.html) - [x86](http://giant.pourri.ch/UDT/redirections/linux_viewer_x86.html) |
+| Windows | [x64](https://udt.playmorepromode.com/redirections/windows_gui_x64.html) - [x86](https://udt.playmorepromode.com/redirections/windows_gui_x86.html) | [x64](https://udt.playmorepromode.com/redirections/windows_console_x64.html) - [x86](https://udt.playmorepromode.com/redirections/windows_console_x86.html) | [x64](https://udt.playmorepromode.com/redirections/windows_viewer_x64.html) - [x86](https://udt.playmorepromode.com/redirections/windows_viewer_x86.html) |
+| Linux   | Not Available    | [x64](url=https://udt.playmorepromode.com/redirections/linux_console_x64.html) - [x86](url=https://udt.playmorepromode.com/redirections/linux_console_x86.html) | [x64](https://udt.playmorepromode.com/redirections/linux_viewer_x64.html) - [x86](https://udt.playmorepromode.com/redirections/linux_viewer_x86.html) |
 
-Alternatively, you can browse [this folder](http://giant.pourri.ch/snif.php?path=UDT/) where you can also find older releases.  
+Alternatively, you can browse [this folder](https://udt.playmorepromode.com) where you can also find older releases.  
 The zip files are Windows releases.  
 The tar.bz2 files are Linux releases.
 
@@ -192,7 +192,7 @@ Contact
 GitHub user: [mightycow](https://github.com/mightycow)  
 GitHub project page: [uberdemotools](https://github.com/mightycow/uberdemotools)
 
-myT @ [Discord](https://discord.me/CPMA)  
+myT#2680 @ [Discord](https://discord.me/CPMA)  
 myT @ [ESR](http://esreality.com/?a=users&user_id=37287)
 
 Official ESR forum thread: UDT @ [ESR](http://www.esreality.com/post/2691563/uberdemotools/)  
