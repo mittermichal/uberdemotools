@@ -14,15 +14,13 @@
 #include <time.h>
 
 
-static udtProtocol::Id protocol = udtProtocol::Invalid;
-
-
 struct udtJSONExporter
 {
 public:
-	udtJSONExporter(udtJSONWriter& writer, udtVMLinearAllocator& tempAllocator)
+	udtJSONExporter(udtJSONWriter& writer, udtVMLinearAllocator& tempAllocator, udtProtocol::Id protocol)
 		: Writer(writer)
 		, TempAllocator(tempAllocator)
+		, Protocol(protocol)
 		, StringBuffer(NULL)
 		, StringBufferSize(0)
 	{
@@ -114,6 +112,9 @@ public:
 
 private:
 	UDT_NO_COPY_SEMANTICS(udtJSONExporter);
+
+public:
+	udtProtocol::Id Protocol;
 
 private:
 	udtString GetFixedName(const char* name)
@@ -417,7 +418,7 @@ static void WriteStats(udtJSONExporter& writer, const udtParseDataStatsBuffers& 
 			{
 				s32 idTeamIndex = 1 + i;
 				u32 udtTeamIndex;
-				GetUDTNumber(udtTeamIndex, udtMagicNumberType::Team, idTeamIndex, protocol);
+				GetUDTNumber(udtTeamIndex, udtMagicNumberType::Team, idTeamIndex, writer.Protocol);
 				if((stats.ValidTeams & ((u64)1 << (u64)i)) != 0)
 				{
 					s32 fieldsRead;
@@ -761,8 +762,7 @@ bool ExportPlugInsDataToJSON(udtParserContext* context, u32 demoIndex, const cha
 	context->JSONWriterContext.ResetForNextDemo();
 	udtJSONWriter& writer = context->JSONWriterContext.Writer;
 	udtVMLinearAllocator& tempAllocator = context->Parser._tempAllocator;
-	udtJSONExporter jsonWriter(writer, tempAllocator);
-	protocol = context->Parser._inProtocol;
+	udtJSONExporter jsonWriter(writer, tempAllocator, context->Parser._inProtocol);
 
 	writer.StartFile();
 
