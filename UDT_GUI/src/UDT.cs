@@ -756,8 +756,10 @@ namespace Uber.DemoTools
             Dm67,
             Dm68,
             Dm73,
+            Dm84,
             Dm90,
             Dm91,
+            Dm284,
             Count,
             Invalid
         }

@@ -1260,6 +1260,7 @@ namespace Uber.DemoTools
                 var extensionsQ3 = CreateDialogExtensionListString(UDT_DLL.udtProtocolFlags.Quake3);
                 var extensionsQL = CreateDialogExtensionListString(UDT_DLL.udtProtocolFlags.QuakeLive);
                 var extensionsRTCW = CreateDialogExtensionListString(UDT_DLL.udtProtocolFlags.RTCW);
+                var extensionsET = CreateDialogExtensionListString(UDT_DLL.udtProtocolFlags.ET);
 
                 var folderPath = GetDefaultBrowsingFolder();
                 openFileDialog.CheckPathExists = true;
@@ -1267,8 +1268,9 @@ namespace Uber.DemoTools
                 openFileDialog.InitialDirectory = folderPath ?? Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 openFileDialog.Filter = string.Format(
                     "All demos ({0})|{0}|Quake 3 demos ({1})|{1}" +
-                    "|Quake Live demos ({2})|{2}|Return to Castle Wolfenstein demos ({3})|{3}",
-                    extensionsAll, extensionsQ3, extensionsQL, extensionsRTCW);
+                    "|Quake Live demos ({2})|{2}|Return to Castle Wolfenstein demos ({3})|{3}" +
+                    "|Wolfenstein Enemy Territory demos ({4})|{4}",
+                    extensionsAll, extensionsQ3, extensionsQL, extensionsRTCW, extensionsET);
                 if(openFileDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
                 {
                     return;

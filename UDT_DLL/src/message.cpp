@@ -552,6 +552,91 @@ const idNetField EntityStateFields73[] =
 const s32 EntityStateFieldCount73 = sizeof(EntityStateFields73) / sizeof(EntityStateFields73[0]);
 
 //
+// 84 ET
+//
+
+#define ESF(field, bits) { (s16)OFFSET_OF(idEntityState84, field), bits }
+
+const idNetField EntityStateFields84[] =
+{
+	ESF(eType, 8),
+	ESF(eFlags, 24),
+	ESF(pos.trType, 8),
+	ESF(pos.trTime, 32),
+	ESF(pos.trDuration, 32),
+	ESF(pos.trBase[0], 0),
+	ESF(pos.trBase[1], 0),
+	ESF(pos.trBase[2], 0),
+	ESF(pos.trDelta[0], 0),
+	ESF(pos.trDelta[1], 0),
+	ESF(pos.trDelta[2], 0),
+	ESF(apos.trType, 8),
+	ESF(apos.trTime, 32),
+	ESF(apos.trDuration, 32),
+	ESF(apos.trBase[0], 0),
+	ESF(apos.trBase[1], 0),
+	ESF(apos.trBase[2], 0),
+	ESF(apos.trDelta[0], 0),
+	ESF(apos.trDelta[1], 0),
+	ESF(apos.trDelta[2], 0),
+	ESF(time, 32),
+	ESF(time2, 32),
+	ESF(origin[0], 0),
+	ESF(origin[1], 0),
+	ESF(origin[2], 0),
+	ESF(origin2[0], 0),
+	ESF(origin2[1], 0),
+	ESF(origin2[2], 0),
+	ESF(angles[0], 0),
+	ESF(angles[1], 0),
+	ESF(angles[2], 0),
+	ESF(angles2[0], 0),
+	ESF(angles2[1], 0),
+	ESF(angles2[2], 0),
+	ESF(otherEntityNum, GENTITYNUM_BITS),
+	ESF(otherEntityNum2, GENTITYNUM_BITS),
+	ESF(groundEntityNum, GENTITYNUM_BITS),
+	ESF(loopSound, 8),
+	ESF(constantLight, 32),
+	ESF(dl_intensity, 32),
+	ESF(modelindex, 9),
+	ESF(modelindex2, 9),
+	ESF(frame, 16),
+	ESF(clientNum, 8),
+	ESF(solid, 24),
+	ESF(event, 10),
+	ESF(eventParm, 8),
+	ESF(eventSequence, 8),
+	ESF(events[0], 8),
+	ESF(events[1], 8),
+	ESF(events[2], 8),
+	ESF(events[3], 8),
+	ESF(eventParms[0], 8),
+	ESF(eventParms[1], 8),
+	ESF(eventParms[2], 8),
+	ESF(eventParms[3], 8),
+	ESF(powerups, 16),
+	ESF(weapon, 8),
+	ESF(legsAnim, 10),
+	ESF(torsoAnim, 10),
+	ESF(density, 10),
+	ESF(dmgFlags, 32),
+	ESF(onFireStart, 32),
+	ESF(onFireEnd, 32),
+	ESF(nextWeapon, 8),
+	ESF(teamNum, 8),
+	ESF(effect1Time, 32),
+	ESF(effect2Time, 32),
+	ESF(effect3Time, 32),
+	ESF(animMovetype, 4),
+	ESF(aiState, 2)
+};
+
+#undef ESF
+
+const s32 EntityStateFieldCount84 = sizeof(EntityStateFields84) / sizeof(EntityStateFields84[0]);
+
+//
 // 90
 //
 
@@ -1029,6 +1114,97 @@ static const idNetField PlayerStateFields73[] =
 static const s32 PlayerStateFieldCount73 = sizeof(PlayerStateFields73) / sizeof(PlayerStateFields73[0]);
 
 //
+// 84 ET
+//
+
+#define PSF(field, bits) { (s16)OFFSET_OF(idPlayerState84, field), bits }
+
+static const idNetField PlayerStateFields84[] =
+{
+	PSF(commandTime, 32),
+	PSF(pm_type, 8),
+	PSF(bobCycle, 8),
+	PSF(pm_flags, 16),
+	PSF(pm_time, -16),
+	PSF(origin[0], 0),
+	PSF(origin[1], 0),
+	PSF(origin[2], 0),
+	PSF(velocity[0], 0),
+	PSF(velocity[1], 0),
+	PSF(velocity[2], 0),
+	PSF(weaponTime, -16),
+	PSF(weaponDelay, -16),
+	PSF(grenadeTimeLeft, -16),
+	PSF(gravity, 16),
+	PSF(leanf, 0),
+	PSF(speed, 16),
+	PSF(delta_angles[0], 16),
+	PSF(delta_angles[1], 16),
+	PSF(delta_angles[2], 16),
+	PSF(groundEntityNum, GENTITYNUM_BITS),
+	PSF(legsTimer, 16),
+	PSF(torsoTimer, 16),
+	PSF(legsAnim, 10),
+	PSF(torsoAnim, 10),
+	PSF(movementDir, 8),
+	PSF(eFlags, 24),
+	PSF(eventSequence, 8),
+	PSF(events[0], 8),
+	PSF(events[1], 8),
+	PSF(events[2], 8),
+	PSF(events[3], 8),
+	PSF(eventParms[0], 8),
+	PSF(eventParms[1], 8),
+	PSF(eventParms[2], 8),
+	PSF(eventParms[3], 8),
+	PSF(clientNum, 8),
+	PSF(weapons[0], 32),
+	PSF(weapons[1], 32),
+	PSF(weapon, 7),
+	PSF(weaponstate, 4),
+	PSF(weapAnim, 10),
+	PSF(viewangles[0], 0),
+	PSF(viewangles[1], 0),
+	PSF(viewangles[2], 0),
+	PSF(viewheight, -8),
+	PSF(damageEvent, 8),
+	PSF(damageYaw, 8),
+	PSF(damagePitch, 8),
+	PSF(damageCount, 8),
+	PSF(mins[0], 0),
+	PSF(mins[1], 0),
+	PSF(mins[2], 0),
+	PSF(maxs[0], 0),
+	PSF(maxs[1], 0),
+	PSF(maxs[2], 0),
+	PSF(crouchMaxZ, 0),
+	PSF(crouchViewHeight, 0),
+	PSF(standViewHeight, 0),
+	PSF(deadViewHeight, 0),
+	PSF(runSpeedScale, 0),
+	PSF(sprintSpeedScale, 0),
+	PSF(crouchSpeedScale, 0),
+	PSF(friction, 0),
+	PSF(viewlocked, 8),
+	PSF(viewlocked_entNum, 16),
+	PSF(nextWeapon, 8),
+	PSF(teamNum, 8),
+	PSF(onFireStart, 32),
+	PSF(curWeapHeat, 8),
+	PSF(aimSpreadScale, 8),
+	PSF(serverCursorHint, 8),
+	PSF(serverCursorHintVal, 8),
+	PSF(classWeaponTime, 32),
+	PSF(identifyClient, 8),
+	PSF(identifyClientHealth, 8),
+	PSF(aiState, 2)
+};
+
+#undef PSF
+
+static const s32 PlayerStateFieldCount84 = sizeof(PlayerStateFields84) / sizeof(PlayerStateFields84[0]);
+
+//
 // 90
 //
 
@@ -1270,6 +1446,16 @@ void udtMessage::InitProtocol(udtProtocol::Id protocol)
 			_entityStateFieldCount = EntityStateFieldCount68;
 			_playerStateFields = PlayerStateFields68;
 			_playerStateFieldCount = PlayerStateFieldCount68;
+			break;
+
+		case udtProtocol::Dm84:
+		case udtProtocol::Dm284:
+			_protocolSizeOfEntityState = sizeof(idEntityState84);
+			_protocolSizeOfPlayerState = sizeof(idPlayerState84);
+			_entityStateFields = EntityStateFields84;
+			_entityStateFieldCount = EntityStateFieldCount84;
+			_playerStateFields = PlayerStateFields84;
+			_playerStateFieldCount = PlayerStateFieldCount84;
 			break;
 
 		default:
@@ -2110,7 +2296,7 @@ bool udtMessage::RealReadDeltaPlayer(const idPlayerStateBase* from, idPlayerStat
 		*toF = *fromF;
 	}
 
-	if(AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::RTCW))
+	if(AreAnyProtocolFlagsSet(_protocol, udtProtocolFlags::Wolfenstein))
 	{
 		idPlayerState60* to60 = (idPlayerState60*)to;
 
@@ -2298,6 +2484,7 @@ bool udtMessage::RealWriteDeltaEntity(const idEntityStateBase* from, const idEnt
 	STATIC_ASSERT(sizeof(idEntityState67) % 4 == 0);
 	STATIC_ASSERT(sizeof(idEntityState68) % 4 == 0);
 	STATIC_ASSERT(sizeof(idEntityState73) % 4 == 0);
+	STATIC_ASSERT(sizeof(idEntityState84) % 4 == 0);
 	STATIC_ASSERT(sizeof(idEntityState90) % 4 == 0);
 	STATIC_ASSERT(sizeof(idEntityState91) % 4 == 0);
 #undef STATIC_ASSERT

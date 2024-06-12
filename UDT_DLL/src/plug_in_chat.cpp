@@ -110,7 +110,7 @@ void udtParserPlugInChat::ProcessCommandMessage(const udtCommandCallbackArg& /*i
 			ProcessPlayerConfigString(parser, tokenizer.GetArg(2), csIndex - firstPlayerCsIndex);
 		}
 	}
-	else if(AreAllProtocolFlagsSet(parser._inProtocol, udtProtocolFlags::RTCW) &&
+	else if(AreAnyProtocolFlagsSet(parser._inProtocol, udtProtocolFlags::Wolfenstein) &&
 			tokenizer.GetArgCount() >= 2)
 	{
 		if(udtString::Equals(command, "chat") || udtString::Equals(command, "lchat"))

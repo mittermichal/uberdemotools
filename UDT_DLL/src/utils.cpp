@@ -38,8 +38,10 @@ static const u32 ProtocolFlags[udtProtocol::Count + 1] =
 	N(67, 0) \
 	N(68, 0) \
 	N(73, udtProtocolFlagsEx::QL_ClanName) \
+	N(84, 0) \
 	N(90, udtProtocolFlagsEx::QL_ClanName) \
-	N(91, udtProtocolFlagsEx::QL_Unicode)
+	N(91, udtProtocolFlagsEx::QL_Unicode) \
+	N(284, 0)
 
 #define ITEM(Number, FlagsEx) Dm##Number,
 struct udtProtocolEx
@@ -571,6 +573,13 @@ bool GetClanAndPlayerName(udtString& clan, udtString& player, bool& hasClan, udt
 	u32 firstSeparatorIdx = 0;
 	if(hasClanName ||
 	   !udtString::FindFirstCharacterListMatch(firstSeparatorIdx, clanAndPlayer, udtString::NewConstRef(" .")))
+	{
+		player = clanAndPlayer;
+		return true;
+	}
+
+	// Just return full name
+	if (AreAllProtocolFlagsSet(protocol, udtProtocolFlags::ET))
 	{
 		player = clanAndPlayer;
 		return true;

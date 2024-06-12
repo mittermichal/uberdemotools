@@ -146,8 +146,10 @@ struct udtErrorCode
 	N(67, ".dm_67", "Quake 3 1.31",      udtProtocolFlags::Quake3) \
 	N(68, ".dm_68", "Quake 3 1.32",      udtProtocolFlags::Quake3) \
 	N(73, ".dm_73", "Quake Live",        udtProtocolFlags::QuakeLive) \
+	N(84, ".dm_84", "ET 2.6b",           udtProtocolFlags::ET) \
 	N(90, ".dm_90", "Quake Live",        udtProtocolFlags::QuakeLive) \
-	N(91, ".dm_91", "Quake Live",        udtProtocolFlags::QuakeLive)
+	N(91, ".dm_91", "Quake Live",        udtProtocolFlags::QuakeLive) \
+	N(284, ".tv_84", "ETTV",             udtProtocolFlags::ET) \
 
 #define UDT_PROTOCOL_ITEM(Number, Ext, Desc, Flags) Dm##Number,
 struct udtProtocol
@@ -283,7 +285,37 @@ struct udtParserPlugIn
 	N(Medkit, "medkit", 53) \
 	N(Pliers, "pliers", 54) \
 	N(SmokeGrenade, "smoke grenade", 55) \
-	N(Binoculars, "binoculars", 56)
+	N(Binoculars, "binoculars", 56) \
+	N(MapMortar, "map mortar", 57) \
+	N(SmokeMarker, "smoke marker", 58) \
+	N(Kar98, "kar98", 59) \
+	N(Landmine, "landmine", 60) \
+	N(Satchel, "satchel", 61) \
+	N(SatchelDet, "satchel detonator", 62) \
+	N(MobileMg42, "mobile mg42", 63) \
+	N(K43, "k43", 64) \
+	N(DummyMg42, "dummy mg42", 65) \
+	N(AkimboColt, "akimbo colt", 66) \
+	N(AkimboLuger, "akimbo luger", 67) \
+	N(Gpg40, "gpg40", 68) \
+	N(M7, "m7", 69) \
+	N(SilencedColt, "silenced colt", 70) \
+	N(GarandScope, "garand scope", 71) \
+	N(K43Scope, "k43 scope", 72) \
+	N(MortarSet, "mortar set", 73) \
+	N(MedicAdrenaline, "medic adrenaline", 74) \
+	N(AkimboSilencedColt, "akimbo silenced colt", 75) \
+	N(AkimboSilencedLuger, "akimbo silenced luger", 76) \
+	N(MobileMg42Set, "mobile mg42 set", 77) \
+	N(KnifeKabar, "knife kabar", 78) \
+	N(MobileBrowning, "mobile browning", 79) \
+	N(MobileBrowningSet, "mobile browning set", 80) \
+	N(Mortar2, "mortar2", 81) \
+	N(Mortar2Set, "mortar2 set", 82) \
+	N(Bazooka, "bazooka", 83) \
+	N(MP34, "mp34", 84) \
+	N(Airstrike, "airstrike", 85) \
+	N(Carbine, "carbine", 86)
 
 #define UDT_WEAPON_ITEM(Enum, Desc, Bit) Enum = Bit,
 struct udtWeapon
@@ -316,7 +348,13 @@ struct udtWeapon
 	N(Wolf_Breather, "breather", 16) \
 	N(Wolf_NoFatigue, "stamina", 17) \
 	N(Wolf_Ready, "ready", 18) \
-	N(Wolf_Blackout, "speclock", 19)
+	N(Wolf_Blackout, "speclock", 19) \
+	N(ET_Ops_Disguised, "Covert ops disguised", 20) \
+	N(ET_Ops_Class_1, "Covert ops class 1", 21) \
+	N(ET_Ops_Class_2, "Covert ops class 2", 22) \
+	N(ET_Ops_Class_3, "Covert ops class 3", 23) \
+	N(ET_Adrenaline, "Adrenaline", 24)
+
 
 #define UDT_POWER_UP_ITEM(Enum, Desc, Bit) Enum = Bit,
 struct udtPowerUp
@@ -406,7 +444,41 @@ struct udtPowerUpMask
 	N(Explosive, "explosive", PlayerKill, 62) \
 	N(Syringe, "syringe", PlayerKill, 63) \
 	N(PoisonGas, "poison gas", PlayerKill, 64) \
-	N(GrenadeLauncher, "grenade launcher", PlayerKill, 65)
+	N(GrenadeLauncher, "grenade launcher", PlayerKill, 65) \
+	N(Browning, "tank-mounted browning", PlayerKill, 66) \
+	N(Mg42, "tank-mounted mg42", PlayerKill, 67) \
+	N(MapMortar, "map mortar", PlayerKill, 68) \
+	N(MapMortarSplash, "map mortar splash", PlayerKill, 69) \
+	N(Ammo, "ammo", PlayerKill, 71) \
+	N(Carbine, "carbine", PlayerKill, 71) \
+	N(Kar98, "kar98", PlayerKill, 72) \
+	N(Gpg40, "gpg40", PlayerKill, 73) \
+	N(M7, "M7", PlayerKill, 74) \
+	N(Landmine, "Landmine", PlayerKill, 75) \
+	N(Satchel, "satchel", PlayerKill, 76) \
+	N(SmokeBomb, "smoke bomb", PlayerKill, 77) \
+	N(MobileMg42, "mobile mg42", PlayerKill, 78) \
+	N(SilencedColt, "silenced colt", PlayerKill, 79) \
+	N(GarandScope, "garand scope", PlayerKill, 80) \
+	N(CrushConstruction, "crush construction", PlayerKill, 81) \
+	N(CrushConstructionDeath, "crush construction death", PlayerKill, 82) \
+	N(CrushConstructionDeathNoAttacker, "crush construction death no attacker", PlayerKill, 83) \
+	N(K43, "k43", PlayerKill, 84) \
+	N(K43Scope, "k43 scope", PlayerKill, 85) \
+	N(AkimboColt, "akimbo colt", PlayerKill, 86) \
+	N(AkimboLuger, "akimbo luger", PlayerKill, 87) \
+	N(AkimboSilencedColt, "akimbo silenced colt", PlayerKill, 88) \
+	N(AkimboSilencedLuger, "akimbo silenced luger", PlayerKill, 89) \
+	N(SmokeGrenade, "smoke grenade", PlayerKill, 90) \
+	N(SwapPlaces, "swap places", PlayerKill, 91) \
+	N(SwitchTeam, "switch team", PlayerKill, 92) \
+	N(Shove, "shove", PlayerKill, 93) \
+	N(KnifeKabar, "knife kabar", PlayerKill, 94) \
+	N(MobileBrowning, "mobile browning", PlayerKill, 95) \
+	N(Mortar2, "Mortar2", PlayerKill, 96) \
+	N(Bazooka, "bazooka", PlayerKill, 97) \
+	N(Backstab, "backstab", PlayerKill, 98) \
+	N(MP43, "mp43", PlayerKill, 99)
 
 #define UDT_MEAN_OF_DEATH_ITEM(Enum, Desc, KillType, Bit) Enum = Bit,
 struct udtMeanOfDeath
@@ -953,7 +1025,12 @@ struct udtGameTypeMask
 	N(Wolf_Objective, "MP", "Objective", udtGameTypeMask::Team) \
 	N(Wolf_Stopwatch, "SW", "Stopwatch", udtGameTypeMask::Team | udtGameTypeMask::RoundBased) \
 	N(Wolf_Checkpoint, "CP", "Checkpoint", udtGameTypeMask::Team) \
-	N(Wolf_CaptureAndHold, "CPH", "Capture and Hold", udtGameTypeMask::Team)
+	N(Wolf_CaptureAndHold, "CPH", "Capture and Hold", udtGameTypeMask::Team) \
+	N(Wolf_COOP, "COOP", "Co-Operative", udtGameTypeMask::None) \
+	N(Wolf_Wolf, "Wolf", "Wolf", udtGameTypeMask::Team) \
+	N(Wolf_Campaign, "Campaign", "Campaign", udtGameTypeMask::Team) \
+	N(Wolf_LMS, "LMS", "Last Man Standing", udtGameTypeMask::Team) \
+	N(Wolf_Mapvote, "MAPVOTE", "Map vote", udtGameTypeMask::Team)
 	
 #define UDT_GAME_TYPE_ITEM(Enum, ShortDesc, Desc, Flags) Enum,
 struct udtGameType
@@ -2766,6 +2843,28 @@ extern "C"
 		s32 apos_gravity; /* part of idEntityStateBase::apos trajectory */
 	};
 
+	struct idEntityState84 : idEntityStateBase
+	{
+		int dl_intensity;
+		int eventSequence;
+		int events[4];
+		int eventParms[4];
+		int density;
+		int dmgFlags;
+		int onFireStart;
+		int onFireEnd;
+
+		int nextWeapon;
+		int teamNum;
+
+		int effect1Time;
+		int effect2Time;
+		int effect3Time;
+
+		int animMovetype;
+		int aiState;
+	};
+
 	struct idEntityState90 : idEntityStateBase
 	{
 		s32 pos_gravity;  /* part of idEntityStateBase::pos trajectory */
@@ -2794,6 +2893,7 @@ extern "C"
 	static_assert(sizeof(idEntityState67) <= sizeof(idLargestEntityState), "incorrect idLargestEntityState typedef");
 	static_assert(sizeof(idEntityState68) <= sizeof(idLargestEntityState), "incorrect idLargestEntityState typedef");
 	static_assert(sizeof(idEntityState73) <= sizeof(idLargestEntityState), "incorrect idLargestEntityState typedef");
+	static_assert(sizeof(idEntityState84) <= sizeof(idLargestEntityState), "incorrect idLargestEntityState typedef");
 	static_assert(sizeof(idEntityState90) <= sizeof(idLargestEntityState), "incorrect idLargestEntityState typedef");
 	static_assert(sizeof(idEntityState91) <= sizeof(idLargestEntityState), "incorrect idLargestEntityState typedef");
 
@@ -2918,6 +3018,46 @@ extern "C"
 
 	struct idPlayerState73 : idPlayerStateBase
 	{
+	};
+
+	struct idPlayerState84 : idPlayerStateBase
+	{
+		int weaponDelay;
+		int grenadeTimeLeft;
+		float leanf;
+		int weapons[2];
+		int weapAnim;
+
+		idVec3 mins, maxs;
+		float crouchMaxZ;
+		float crouchViewHeight, standViewHeight, deadViewHeight;
+		float runSpeedScale, sprintSpeedScale, crouchSpeedScale;
+		int viewlocked;
+		int viewlocked_entNum;
+		float friction;
+
+		int nextWeapon;
+
+		int teamNum;
+
+		int onFireStart;
+
+		int classWeaponTime;
+
+		int curWeapHeat;
+
+		int aimSpreadScale;
+
+		int serverCursorHint;
+		int serverCursorHintVal;
+
+		int identifyClient;
+		int identifyClientHealth;
+
+		int aiState;
+
+		s32 ammoclip[64];
+		s32 holdable[16];
 	};
 
 	struct idPlayerState90 : idPlayerStateBase
@@ -3142,7 +3282,8 @@ extern "C"
 	N(PowerUpBattleSuit) \
 	N(PowerUpRegen) \
 	N(QL_Overtime) \
-	N(QL_GameOver)
+	N(QL_GameOver) \
+	N(Wolf_Bullet)
 
 	struct udtEntityEvent
 	{
@@ -3167,7 +3308,8 @@ extern "C"
 	N(TeleportTrigger) \
 	N(Invisible) \
 	N(Grapple) \
-	N(Team)
+	N(Team) \
+	N(ET_Corpse)
 
 	struct udtEntityType
 	{
@@ -3215,7 +3357,9 @@ extern "C"
 	N(OSP_GamePlay) \
 	N(Wolf_Info) \
 	N(Wolf_Paused) \
-	N(Wolf_Ready)
+	N(Wolf_Ready) \
+	N(ET_ModInfo) \
+	N(ET_ServerToggles) \
 	
 	struct udtConfigStringIndex
 	{
@@ -3248,7 +3392,13 @@ extern "C"
 	N(Wolf_ClientsReady) \
 	N(Wolf_PlayerClass) \
 	N(Wolf_RedScore) \
-	N(Wolf_BlueScore)
+	N(Wolf_BlueScore) \
+	N(ET_DeadYaw) \
+	N(ET_XP) \
+	N(ET_PSFlags) \
+	N(ET_AirLeft) \
+	N(ET_SprintTime) \
+	N(ET_Antiwarp)
 
 	struct udtLifeStatsIndex
 	{
@@ -3276,7 +3426,11 @@ extern "C"
 	N(Assists) \
 	N(Humiliations) \
 	N(Wolf_RespawnsLeft) \
-	N(Wolf_AccuracyHits)
+	N(Wolf_AccuracyHits) \
+	N(ET_Hits) \
+	N(ET_RespawnsPenalty) \
+	N(ET_ReviveCount) \
+	N(ET_HWeaponUse)
 
 	struct udtPersStatsIndex
 	{
@@ -3308,7 +3462,12 @@ extern "C"
 	N(Spectator) \
 	N(Wolf_Crouching) \
 	N(Wolf_Headshot) \
-	N(Wolf_Zooming)
+	N(Wolf_Zooming) \
+	N(ET_Prone) \
+	N(ET_MG42Active) \
+	N(ET_MountedTank) \
+	N(ET_AAGunActive) \
+	N(ET_Ready) \
 
 	struct udtEntityFlag
 	{
@@ -3398,6 +3557,80 @@ extern "C"
 			WeaponRailgun,
 			WeaponRocketLauncher,
 			WeaponShotgun,
+			ItemHealthCabinet,
+			ItemHealthTurkey,
+			IteamHealthBreadAndMeat,
+			IteamHealthWall,
+			WeaponKnife,
+			WeaponKnifeKabar,
+			WeaponLuger,
+			WeaponAkimboLuger,
+			WeaponAkimboSilencedLuger,
+			WeaponThompson,
+			WeaponDummyMg42,
+			WeaponSten,
+			WeaponMP34,
+			WeaponColt,
+			WeaponAkimboColt,
+			WeaponAkimboSilencedColt,
+			WeaponMP40,
+			WeaponPanzerfaust,
+			WeaponBazooka,
+			WeaponGrenadePineapple,
+			WeaponSmokeMarker,
+			WeaponSmokeTrail,
+			WeaponMedicHeal,
+			WeaponDynamite,
+			WeaponFlamethrower,
+			WeaponMapMortar,
+			WeaponPliers,
+			WeaponArtillery,
+			WeaponAirstrike,
+			WeaponMedicSyringe,
+			WeaponMedicAdrenaline,
+			WeaponMagicAmmo,
+			WeaponMagicAmmo2,
+			WeaponBinoculars,
+			WeaponK43,
+			WeaponK43Scope,
+			WeaponKar98,
+			WeaponGpg40,
+			WeaponM7,
+			WeaponCarbine,
+			WeaponGarand,
+			WeaponGarandScope,
+			WeaponFG42,
+			WeaponFG42Scope,
+			WeaponMortar,
+			WeaponMortarSet,
+			WeaponMortar2,
+			WeaponMortar2Set,
+			WeaponLandmine,
+			WeaponSatchel,
+			WeaponSatchelDet,
+			WeaponSmokeBomb,
+			WeaponMobileMg42,
+			WeaponMobileMg42Set,
+			WeaponBrowning,
+			WeaponBrowningSet,
+			WeaponSilencer,
+			WeaponSilencedColt,
+			AmmoSyringe,
+			AmmoSmokeGrenade,
+			AmmoDynamite,
+			AmmoDisguise,
+			AmmoAirstrike,
+			AmmoLandmine,
+			AmmoSatchelCharge,
+			Ammo9mmSmall,
+			Ammo9mm,
+			Ammo9mmLarge,
+			Ammo45CalSmall,
+			Ammo45Cal,
+			Ammo45CalLarge,
+			Ammo30CalSmall,
+			Ammo30Cal,
+			Ammo30CalLarge,
 			Count,
 			AmmoFirst = AmmoBFG,
 			AmmoLast = AmmoSlugs,
