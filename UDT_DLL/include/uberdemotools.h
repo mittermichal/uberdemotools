@@ -449,7 +449,7 @@ struct udtPowerUpMask
 	N(Mg42, "tank-mounted mg42", PlayerKill, 67) \
 	N(MapMortar, "map mortar", PlayerKill, 68) \
 	N(MapMortarSplash, "map mortar splash", PlayerKill, 69) \
-	N(Ammo, "ammo", PlayerKill, 71) \
+	N(Ammo, "ammo", PlayerKill, 70) \
 	N(Carbine, "carbine", PlayerKill, 71) \
 	N(Kar98, "kar98", PlayerKill, 72) \
 	N(Gpg40, "gpg40", PlayerKill, 73) \
@@ -478,7 +478,9 @@ struct udtPowerUpMask
 	N(Mortar2, "Mortar2", PlayerKill, 96) \
 	N(Bazooka, "bazooka", PlayerKill, 97) \
 	N(Backstab, "backstab", PlayerKill, 98) \
-	N(MP43, "mp43", PlayerKill, 99)
+	N(MP43, "mp43", PlayerKill, 99) \
+	N(Cross, "cross", PlayerKill, 100) \
+	N(Tripmine, "tripmine", PlayerKill, 101)
 
 #define UDT_MEAN_OF_DEATH_ITEM(Enum, Desc, KillType, Bit) Enum = Bit,
 struct udtMeanOfDeath
@@ -1052,6 +1054,9 @@ struct udtGameType
 	N(Defrag, "DeFRaG") \
 	N(RTCWPro, "RtcwPro") \
 	N(RTCWOSP, "OSP") \
+	N(Legacy, "Legacy") \
+	N(ETPro, "ETPro") \
+	N(ETMain, "ETMain") \
 	N(Unknown, "Unknown")
 
 #define UDT_MOD_NAME_ITEM(Enum, Name) Enum,
@@ -1076,7 +1081,9 @@ struct udtMod
 	N(DQL,   "QL",    "Default Quake Live") \
 	N(VRTCW, "VRTCW", "Vanilla Return to Castle Wolfenstein") \
 	N(RTCWPRO, "RtcwPro", "Return to Castle Wolfenstein RtcwPro") \
-	N(RTCWOSP, "RtCW OSP", "Return to Castle Wolfenstein OSP")
+	N(RTCWOSP, "RtCW OSP", "Return to Castle Wolfenstein OSP") \
+	N(VET, "VET", "Vanilla Wolfenstein Enemy Territory") \
+	N(ET, "ET", "Wolfenstein Enemy Territory")
 
 #define UDT_GAMEPLAY_ITEM(Enum, ShortName, LongName) Enum,
 struct udtGamePlay
@@ -1649,8 +1656,8 @@ extern "C"
 		/* Of type udtProtocol::Id. */
 		u32 OutputProtocol;
 
-		/* Ignore this. */
-		s32 Reserved1;
+		/* Convert to this clientnum pov */
+		u32 ClientNum;
 	}
 	udtProtocolConversionArg;
 	UDT_ENFORCE_API_STRUCT_SIZE(udtProtocolConversionArg)
@@ -2570,6 +2577,10 @@ extern "C"
 
 	/* Returns zero if not a valid protocol. */
 	/* The protocol argument is of type udtProtocol::Id. */
+	UDT_API(u32) udtGetSizeOfIdEntityShared(u32 protocol);
+
+	/* Returns zero if not a valid protocol. */
+	/* The protocol argument is of type udtProtocol::Id. */
 	UDT_API(u32) udtGetSizeOfIdPlayerState(u32 protocol);
 
 	/* Returns zero if not a valid protocol. */
@@ -2711,6 +2722,8 @@ extern "C"
 #define	ID_MAX_CLIENTS	           64 /* max player count */
 #define ID_MAX_MSG_LENGTH       32768 /* max length of a message, which may be fragmented into multiple packets */
                                       /* Q3 16384 - RtCW/ET 32768 */
+#define ID_ET_MAX_PS_EVENTS         4
+#define ID_ET_MAX_PS_WEAPONS       64
 
 	typedef f32   idVec;
 	typedef idVec idVec2[2];
@@ -2847,8 +2860,8 @@ extern "C"
 	{
 		int dl_intensity;
 		int eventSequence;
-		int events[4];
-		int eventParms[4];
+		int events[ID_ET_MAX_PS_EVENTS];
+		int eventParms[ID_ET_MAX_PS_EVENTS];
 		int density;
 		int dmgFlags;
 		int onFireStart;
@@ -2899,6 +2912,29 @@ extern "C"
 
 #endif
 
+	typedef struct idEntitySharedBase_s
+	{
+		idVec3 currentOrigin;
+		idVec3 currentAngles;
+		s32 svFlags;
+		idVec3 mins;
+		idVec3 maxs;
+		s32 singleClient;
+	}
+	idEntitySharedBase;
+
+#if defined(__cplusplus)
+
+	struct idEntityShared284 : idEntitySharedBase
+	{
+	};
+
+	typedef idEntityShared284 idLargestEntityShared;
+
+	static_assert(sizeof(idEntityShared284) <= sizeof(idLargestEntityState), "incorrect idLargestEntityShared typedef");
+
+#endif
+
 	/*
 	This is the information needed by both the client and server to predict player motion and actions.
 	Nothing outside of pmove should modify these, or some degree of prediction error will occur.
@@ -2934,8 +2970,8 @@ extern "C"
 		idVec3 grapplePoint; /* location of grapple to pull towards if PMF_GRAPPLE_PULL */
 		s32 eFlags;          /* copied to entityState_t->eFlags */
 		s32 eventSequence;   /* pmove generated events */
-		s32 events[ID_MAX_PS_EVENTS];
-		s32 eventParms[ID_MAX_PS_EVENTS];
+		s32 events[ID_ET_MAX_PS_EVENTS];
+		s32 eventParms[ID_ET_MAX_PS_EVENTS];
 		s32 externalEvent;   /* events set on player from another source */
 		s32 externalEventParm;
 		s32 externalEventTime;
@@ -2951,7 +2987,7 @@ extern "C"
 		s32 stats[ID_MAX_PS_STATS];
 		s32 persistant[ID_MAX_PS_PERSISTANT]; /* stats that aren't cleared on death */
 		s32 powerups[ID_MAX_PS_POWERUPS];     /* level.time that the powerup runs out */
-		s32 ammo[64];    /* ID_MAX_PS_WEAPONS, 16 for all Quake protocols, 64 for RTCW */
+		s32 ammo[ID_ET_MAX_PS_WEAPONS];    /* ID_MAX_PS_WEAPONS, 16 for all Quake protocols, 64 for RTCW */
 		s32 generic1;
 		s32 loopSound;
 		s32 jumppad_ent; /* jumppad entity hit this frame */

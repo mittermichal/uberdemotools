@@ -702,6 +702,8 @@ static s16 EntityEvents_84_284_U2Q[udtEntityEvent::Count];
 static s16 EntityEvents_84_284_Q2U[udtEntityEvent::Count * 2];
 static const s16 EntityEvents_84_284[] =
 {
+	(s16)udtEntityEvent::BulletHitFlesh, 56,
+	(s16)udtEntityEvent::BulletHitWall, 57,
 	(s16)udtEntityEvent::Obituary, 68,
 	(s16)udtEntityEvent::Wolf_Bullet, 61,
 	TABLE_END
@@ -1976,6 +1978,150 @@ static s32 GetIdEntityEventRtcwPro(s32 et)
 
 #undef ID_ENTITY_EVENT_60_RTCW_PRO_LIST
 
+#define ID_ENTITY_EVENT_84_ETMAIN_LIST(N) \
+	N(Obituary, 70)
+
+static s32 GetUDTEntityEventETMain(s32 et)
+{
+#define ITEM(UDTEnum, IdValue) case IdValue: return (s32)udtEntityEvent::UDTEnum;
+	switch (et)
+	{
+		ID_ENTITY_EVENT_84_ETMAIN_LIST(ITEM)
+	default: return UDT_S32_MIN;
+	}
+#undef ITEM
+}
+
+static s32 GetIdEntityEventETMain(s32 et)
+{
+#define ITEM(UDTEnum, IdValue) case udtEntityEvent::UDTEnum: return IdValue;
+	switch ((udtEntityEvent::Id)et)
+	{
+		ID_ENTITY_EVENT_84_ETMAIN_LIST(ITEM)
+	default: return UDT_S32_MIN;
+	}
+#undef ITEM
+}
+
+#undef ID_ENTITY_EVENT_84_ETMAIN_LIST
+
+#define ID_ENTITY_TYPE_84_ETMAIN_LIST(N) \
+	N(Event, 61)
+
+static s32 GetUDTEntityTypeETMain(s32 et)
+{
+#define ITEM(UDTEnum, IdValue) case IdValue: return (s32)udtEntityType::UDTEnum;
+	switch (et)
+	{
+		ID_ENTITY_TYPE_84_ETMAIN_LIST(ITEM)
+	default: return UDT_S32_MIN;
+	}
+#undef ITEM
+}
+
+static s32 GetIdEntityTypeETMain(s32 et)
+{
+#define ITEM(UDTEnum, IdValue) case udtEntityType::UDTEnum: return IdValue;
+	switch ((udtEntityType::Id)et)
+	{
+		ID_ENTITY_TYPE_84_ETMAIN_LIST(ITEM)
+	default: return UDT_S32_MIN;
+	}
+#undef ITEM
+}
+
+#undef ID_ENTITY_TYPE_84_ETMAIN_LIST
+
+#define ID_MEANSOFDEATH_84_ETMAIN_LIST(N) \
+	N(MachineGun, 1) \
+	N(Browning, 2) \
+	N(Mg42, 3) \
+	N(Grenade, 4) \
+	N(Rocket, 5) \
+	N(Knife, 6) \
+	N(Luger, 7) \
+	N(Colt, 8) \
+	N(MP40, 9) \
+	N(Thompson, 10) \
+	N(Sten, 11) \
+	N(Garand, 12) \
+	N(SnooperScope, 13) \
+	N(Silencer, 14) \
+	N(FG42, 15) \
+	N(FG42Scope, 16) \
+	N(Panzerfaust, 17) \
+	N(GrenadeLauncher, 18) \
+	N(Flamethrower, 19) \
+	N(GrenadePineapple, 20) \
+	N(Cross, 21) \
+	N(MapMortar, 22) \
+	N(MapMortarSplash, 23) \
+	N(Kicked, 24) \
+	N(Grabber, 25) \
+	N(Dynamite, 26) \
+	N(Airstrike, 27) \
+	N(Syringe, 28) \
+	N(Ammo, 29) \
+	N(Artillery, 30) \
+	N(Water, 31) \
+	N(Slime, 32) \
+	N(Lava, 33) \
+	N(Crush, 34) \
+	N(TeleFrag, 35) \
+	N(Fall, 36) \
+	N(Suicide, 37) \
+	N(TargetLaser, 38) \
+	N(TriggerHurt, 39) \
+	N(Explosive, 40) \
+	N(Carbine, 41) \
+	N(Kar98, 42) \
+	N(Gpg40, 43) \
+	N(M7, 44) \
+	N(Landmine, 45) \
+	N(Satchel, 46) \
+	N(Tripmine, 47) \
+	N(SmokeBomb, 48) \
+	N(MobileMg42, 49) \
+	N(SilencedColt, 50) \
+	N(GarandScope, 51) \
+	N(CrushConstruction, 52) \
+	N(CrushConstructionDeath, 53) \
+	N(CrushConstructionDeathNoAttacker, 54) \
+	N(K43, 55) \
+	N(K43Scope, 56) \
+	N(Mortar, 57) \
+	N(AkimboColt, 58) \
+	N(AkimboLuger, 59) \
+	N(AkimboSilencedColt, 60) \
+	N(AkimboSilencedLuger, 61) \
+	N(SmokeGrenade, 62) \
+	N(SwapPlaces, 63) \
+	N(SwitchTeam, 64)
+
+static s32 GetUDTMeansOfDeathETMain(s32 et)
+{
+#define ITEM(UDTEnum, IdValue) case IdValue: return (s32)udtMeanOfDeath::UDTEnum;
+	switch (et)
+	{
+		ID_MEANSOFDEATH_84_ETMAIN_LIST(ITEM)
+	default: return UDT_S32_MIN;
+	}
+#undef ITEM
+}
+
+static s32 GetIdMeansOfDeathETMain(s32 et)
+{
+#define ITEM(UDTEnum, IdValue) case udtMeanOfDeath::UDTEnum: return IdValue;
+	switch ((udtMeanOfDeath::Id)et)
+	{
+		ID_MEANSOFDEATH_84_ETMAIN_LIST(ITEM)
+	default: return UDT_S32_MIN;
+	}
+#undef ITEM
+}
+
+#undef ID_MEANSOFDEATH_84_ETMAIN_LIST
+
 struct idGameType68_CPMA
 {
 	enum Id
@@ -2072,6 +2218,36 @@ bool GetIdNumber(s32& idNumber, udtMagicNumberType::Id numberType, u32 udtNumber
 		return false;
 	}
 
+	if (numberType == udtMagicNumberType::EntityEvent &&
+		AreAllProtocolFlagsSet(protocol, udtProtocolFlags::ET) &&
+		(mod == udtMod::ETMain || mod == udtMod::ETPro))
+	{
+		const s32 result = GetIdEntityEventETMain((s32)udtNumber);
+		const bool success = result != UDT_S32_MIN;
+		if (success) idNumber = result;
+		return success;
+	}
+
+	if (numberType == udtMagicNumberType::EntityType &&
+		AreAllProtocolFlagsSet(protocol, udtProtocolFlags::ET) &&
+		(mod == udtMod::ETMain || mod == udtMod::ETPro))
+	{
+		const s32 result = GetIdEntityTypeETMain((s32)udtNumber);
+		const bool success = result != UDT_S32_MIN;
+		if (success) idNumber = result;
+		return success;
+	}
+
+	if (numberType == udtMagicNumberType::MeanOfDeath &&
+		AreAllProtocolFlagsSet(protocol, udtProtocolFlags::ET) &&
+		(mod == udtMod::ETMain || mod == udtMod::ETPro))
+	{
+		const s32 result = GetIdMeansOfDeathETMain((s32)udtNumber);
+		const bool success = result != UDT_S32_MIN;
+		if (success) idNumber = result;
+		return success;
+	}
+
 	if(numberType == udtMagicNumberType::EntityEvent &&
 	   AreAllProtocolFlagsSet(protocol, udtProtocolFlags::RTCW) &&
 	   mod == udtMod::RTCWPro)
@@ -2141,6 +2317,36 @@ bool GetUDTNumber(u32& udtNumber, udtMagicNumberType::Id numberType, s32 idNumbe
 	   (u32)protocol >= (u32)udtProtocol::Count)
 	{
 		return false;
+	}
+
+	if (numberType == udtMagicNumberType::EntityEvent &&
+		AreAllProtocolFlagsSet(protocol, udtProtocolFlags::ET) &&
+		(mod == udtMod::ETMain || mod == udtMod::ETPro))
+	{
+		const s32 result = GetUDTEntityEventETMain(idNumber);
+		const bool success = result != UDT_S32_MIN;
+		if (success) udtNumber = (u32)result;
+		return success;
+	}
+
+	if (numberType == udtMagicNumberType::EntityType &&
+		AreAllProtocolFlagsSet(protocol, udtProtocolFlags::ET) &&
+		(mod == udtMod::ETMain || mod == udtMod::ETPro))
+	{
+		const s32 result = GetUDTEntityTypeETMain(idNumber);
+		const bool success = result != UDT_S32_MIN;
+		if (success) udtNumber = (u32)result;
+		return success;
+	}
+
+	if (numberType == udtMagicNumberType::MeanOfDeath &&
+		AreAllProtocolFlagsSet(protocol, udtProtocolFlags::ET) &&
+		(mod == udtMod::ETMain || mod == udtMod::ETPro))
+	{
+		const s32 result = GetUDTMeansOfDeathETMain(idNumber);
+		const bool success = result != UDT_S32_MIN;
+		if (success) udtNumber = (u32)result;
+		return success;
 	}
 
 	if(numberType == udtMagicNumberType::EntityEvent &&

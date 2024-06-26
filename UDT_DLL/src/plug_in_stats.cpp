@@ -309,7 +309,9 @@ void udtParserPlugInStats::ProcessCommandMessage(const udtCommandCallbackArg& ar
 		HANDLER("scores_rr", ParseQLScoresRR),
 		HANDLER("print", ParsePrint),
 		HANDLER("ws", ParseWolfWeapStats),
-		HANDLER("sc", ParseWolfSC)
+		HANDLER("sc", ParseWolfSC),
+		HANDLER("sc0", ParseScores),
+		HANDLER("sc1", ParseScores)
 	};
 #undef HANDLER
 	/*
@@ -526,6 +528,10 @@ void udtParserPlugInStats::ParseScores()
 	else if(AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::RTCW))
 	{
 		ParseWolfScores();
+	}
+	else if(AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::ET))
+	{
+		ParseETScores();
 	}
 	else
 	{
@@ -2528,6 +2534,57 @@ void udtParserPlugInStats::ParseCPMAPrintStatsTeam(const udtString& message)
 		{
 			SetTeamField(teamIndex, (udtTeamStatsField::Id)header.Field2, duration);
 		}
+	}
+}
+
+void udtParserPlugInStats::ParseETScores()
+{
+	// scores command can come in 2 parts (sc0 and sc1)
+	// if the sc0 exceeds command length limit
+	const bool firstPart = udtString::EqualsNoCase(_tokenizer->GetArg(0), "sc0");
+	s32 offset = firstPart ? 4 : 2;
+
+	s32 scoreCount = GetValue(offset - 1);
+	if (scoreCount < 0)
+	{
+		return;
+	}
+
+	scoreCount = udt_min(scoreCount, 64);
+
+	static const udtStatsField teamFields[] =
+	{
+		TEAM_FIELD(Score, 0)
+	};
+
+	ParseTeamFields(0, teamFields, (s32)UDT_COUNT_OF(teamFields), 1);
+	ParseTeamFields(1, teamFields, (s32)UDT_COUNT_OF(teamFields), 2);
+
+	if ((s32)_tokenizer->GetArgCount() != 4 + (scoreCount * 7))
+	{
+		return;
+	}
+
+	static const udtStatsField playerFields[] =
+	{
+		PLAYER_FIELD(Score, 0),
+		PLAYER_FIELD(Ping, 1),
+		PLAYER_FIELD(Time, 2)
+		// skipped 3: powerups
+		// skipped 4: scoreflags
+		// skipped 5: respawnsleft
+	};
+
+	for (s32 i = 0; i < scoreCount; ++i)
+	{
+		const s32 clientNumber = GetValue(offset);
+		if (clientNumber >= 0 && clientNumber < 64)
+		{
+			_playerIndices[i] = (u8)clientNumber;
+			ParsePlayerFields(clientNumber, playerFields, (s32)UDT_COUNT_OF(playerFields), offset + 1);
+		}
+
+		offset += 7;
 	}
 }
 

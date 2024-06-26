@@ -1183,7 +1183,7 @@ namespace Uber.DemoTools
         public struct udtProtocolConversionArg
         {
             public UInt32 OutputProtocol;
-            public Int32 Reserved1;
+            public Int32 ClientNum;
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -2581,21 +2581,19 @@ namespace Uber.DemoTools
             }
         }
 
-        public static bool ConvertDemos(ref udtParseArg parseArg, udtProtocol outProtocol, List<string> filePaths, int maxThreadCount)
+        public static bool ConvertDemos(ref udtParseArg parseArg, udtProtocolConversionArg conversionArg, List<string> filePaths, int maxThreadCount)
         {
             MultithreadedJob.JobExecuter jobExecuter = delegate(ArgumentResources res, ref udtParseArg pa, List<string> files, List<int> fileIndices)
             {
-                ConvertDemosImpl(res, ref pa, outProtocol, files);
+                ConvertDemosImpl(res, ref pa, conversionArg, files);
             };
 
             return App.Instance.CreateAndProcessJob(ref parseArg, filePaths, maxThreadCount, MaxBatchSizeConverting, jobExecuter);
         }
 
-        private static bool ConvertDemosImpl(ArgumentResources resources, ref udtParseArg parseArg, udtProtocol outProtocol, List<string> filePaths)
+        private static bool ConvertDemosImpl(ArgumentResources resources, ref udtParseArg parseArg, udtProtocolConversionArg conversionArg, List<string> filePaths)
         {
             var multiParseArg = CreateMultiParseArg(resources, filePaths);
-            var conversionArg = new udtProtocolConversionArg();
-            conversionArg.OutputProtocol = (UInt32)outProtocol;
 
             var result = udtErrorCode.OperationFailed;
             try
@@ -3594,6 +3592,11 @@ namespace Uber.DemoTools
                 var name = buffers.GetString(player.FirstName, player.FirstNameLength, "N/A");
                 var value = string.Format("{0}, {1}, team {2}", name, time, GetTeamName(player.FirstTeam));
                 info.Generic.Add(Tuple.Create(desc, value));
+
+                if (!info.Players.Exists(s => s.Item1 == player.Index))
+                {
+                    info.Players.Add(Tuple.Create(player.Index, name));
+                }
             }
         }
 

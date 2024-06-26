@@ -501,27 +501,29 @@ bool IsObituaryEvent(udtObituaryEvent& info, const idEntityStateBase& entity, ud
 	const s32 obituaryEvtId = GetIdNumber(udtMagicNumberType::EntityEvent, udtEntityEvent::Obituary, protocol, mod);
 	const s32 eventTypeId = GetIdNumber(udtMagicNumberType::EntityType, udtEntityType::Event, protocol, mod);
 	const s32 eventType = entity.eType & (~ID_ES_EVENT_BITS);
+
 	if(eventType != eventTypeId + obituaryEvtId)
 	{
 		return false;
 	}
 
 	// The target must always be a player.
-	const s32 targetIdx = entity.otherEntityNum;
+	const s32 targetIdx = mod != udtMod::ETPro ? entity.otherEntityNum : entity.time;
 	if(targetIdx < 0 || targetIdx >= ID_MAX_CLIENTS)
 	{
 		return false;
 	}
 
 	// The attacker can be the world, though.
-	s32 attackerIdx = entity.otherEntityNum2;
+	s32 attackerIdx = mod != udtMod::ETPro ? entity.otherEntityNum2 : entity.time2;
 	if(attackerIdx < 0 || attackerIdx >= ID_MAX_CLIENTS)
 	{
 		attackerIdx = -1;
 	}
 
 	u32 udtMod;
-	if(!GetUDTNumber(udtMod, udtMagicNumberType::MeanOfDeath, entity.eventParm, protocol))
+	const s32 modIdx = mod != udtMod::ETPro ? entity.eventParm : entity.eFlags;
+	if(!GetUDTNumber(udtMod, udtMagicNumberType::MeanOfDeath, modIdx, protocol, mod))
 	{
 		return false;
 	}

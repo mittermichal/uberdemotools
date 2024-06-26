@@ -145,6 +145,7 @@ namespace Uber.DemoTools
         public List<ChatEventDisplayInfo> ChatEvents = new List<ChatEventDisplayInfo>();
         public List<FragEventDisplayInfo> FragEvents = new List<FragEventDisplayInfo>();
         public List<Tuple<string, string>> Generic = new List<Tuple<string, string>>();
+        public List<Tuple<int, string>> Players = new List<Tuple<int, string>>();
         public List<UInt32> GameStateFileOffsets = new List<UInt32>();
         public List<Tuple<int, int>> GameStateSnapshotTimesMs = new List<Tuple<int, int>>();
         public List<DemoStatsInfo> MatchStats = new List<DemoStatsInfo>();
@@ -204,6 +205,26 @@ namespace Uber.DemoTools
             public string Value { get; set; }
         }
 
+        private class PlayerDisplayInfo
+        {
+            public PlayerDisplayInfo(int index, string name)
+            {
+                Index = index;
+                Name = name;
+            }
+
+            public int Index { get; set; }
+            public string Name { get; set; }
+
+            public string DisplayValue
+            {
+                get
+                {
+                    return string.Format("{0} - {1}", Index, Name);
+                }
+            }
+        }
+
         private class DemoDisplayInfo
         {
             public string FileName { get; set; }
@@ -216,6 +237,7 @@ namespace Uber.DemoTools
         private Thread _jobThread = null;
         private Window _window = null;
         private ListView _demoListView = null;
+        private ComboBox _playerIndexComboBox = null;
         private Brush _demoListViewBackground = null;
         private ListView _infoListView = null;
         private ListBox _logListBox = null;
@@ -1619,12 +1641,30 @@ namespace Uber.DemoTools
             splitButton.Margin = new Thickness(5);
             splitButton.Click += (obj, args) => OnSplitDemoClicked();
 
+            var convert284Button = new Button();
+            convert284Button.Content = "=> *tv__84";
+            convert284Button.Width = 75;
+            convert284Button.Height = 25;
+            convert284Button.Margin = new Thickness(5);
+            convert284Button.ToolTip = "Convert ETTV *.tv_84 demos to ET *.dm_84 demos";
+            convert284Button.Click += (obj, args) => OnConvertDemoClicked(UDT_DLL.udtProtocol.Dm84);
+
+            var playerIndexComboBox = new ComboBox();
+            _playerIndexComboBox = playerIndexComboBox;
+            playerIndexComboBox.HorizontalAlignment = HorizontalAlignment.Left;
+            playerIndexComboBox.VerticalAlignment = VerticalAlignment.Center;
+            playerIndexComboBox.Margin = new Thickness(5, 0, 0, 0);
+            playerIndexComboBox.ToolTip = "Convert ETTV *.tv_84 demos to ET *.dm_84 demos of this PoV";
+            playerIndexComboBox.Width = 40;
+
             var demoButtonPanel = new StackPanel();
             demoButtonPanel.HorizontalAlignment = HorizontalAlignment.Left;
             demoButtonPanel.VerticalAlignment = VerticalAlignment.Top;
             demoButtonPanel.Margin = new Thickness(5);
             demoButtonPanel.Orientation = Orientation.Vertical;
             demoButtonPanel.Children.Add(splitButton);
+            demoButtonPanel.Children.Add(convert284Button);
+            demoButtonPanel.Children.Add(playerIndexComboBox);
 
             var demoButtonGroupBox = new GroupBox();
             demoButtonGroupBox.HorizontalAlignment = HorizontalAlignment.Left;
@@ -1789,6 +1829,17 @@ namespace Uber.DemoTools
             }
         }
 
+        private void PopulatePlayerIndexComboBox(DemoInfo demoInfo)
+        {
+            _playerIndexComboBox.Items.Clear();
+            _playerIndexComboBox.DisplayMemberPath = "DisplayValue";
+
+            foreach (var tuple in demoInfo.Players)
+            {
+                _playerIndexComboBox.Items.Add(new PlayerDisplayInfo(tuple.Item1, tuple.Item2));
+            }
+        }
+
         private void OnDemoListSelectionChanged()
         {
             int idx = _demoListView.SelectedIndex;
@@ -1800,6 +1851,7 @@ namespace Uber.DemoTools
             var demoInfo = _demos[idx];
 
             PopulateInfoListView(demoInfo);
+            PopulatePlayerIndexComboBox(demoInfo);
 
             foreach(var tab in _appComponents)
             {
@@ -1950,7 +2002,8 @@ namespace Uber.DemoTools
             if( (outputFormat == UDT_DLL.udtProtocol.Dm68 && inputFormat == UDT_DLL.udtProtocol.Dm3) ||
                 (outputFormat == UDT_DLL.udtProtocol.Dm68 && inputFormat == UDT_DLL.udtProtocol.Dm48) ||
                 (outputFormat == UDT_DLL.udtProtocol.Dm91 && inputFormat == UDT_DLL.udtProtocol.Dm73) ||
-                (outputFormat == UDT_DLL.udtProtocol.Dm91 && inputFormat == UDT_DLL.udtProtocol.Dm90))
+                (outputFormat == UDT_DLL.udtProtocol.Dm91 && inputFormat == UDT_DLL.udtProtocol.Dm90) ||
+                (outputFormat == UDT_DLL.udtProtocol.Dm84 && inputFormat == UDT_DLL.udtProtocol.Dm284))
             {
                 return true;
             }
@@ -2190,6 +2243,7 @@ namespace Uber.DemoTools
                 demos[i].GameStateFileOffsets = newDemo.GameStateFileOffsets;
                 demos[i].GameStateSnapshotTimesMs = newDemo.GameStateSnapshotTimesMs;
                 demos[i].Generic = newDemo.Generic;
+                demos[i].Players = newDemo.Players;
                 demos[i].InputIndex = newDemo.InputIndex;
                 demos[i].Protocol = newDemo.Protocol;
                 demos[i].ProtocolNumber = newDemo.ProtocolNumber;
@@ -2225,9 +2279,13 @@ namespace Uber.DemoTools
                 filePaths.Add(demo.FilePath);
             }
 
+            var conversionArg = new UDT_DLL.udtProtocolConversionArg();
+            conversionArg.OutputProtocol = (UInt32)PrivateConfig.ConversionOutputProtocol;
+            conversionArg.ClientNum = PrivateConfig.PatternCutPlayerIndex;
+
             try
             {
-                UDT_DLL.ConvertDemos(ref ParseArg, PrivateConfig.ConversionOutputProtocol, filePaths, _config.MaxThreadCount);
+                UDT_DLL.ConvertDemos(ref ParseArg, conversionArg, filePaths, _config.MaxThreadCount);
             }
             catch(Exception exception)
             {
@@ -2567,6 +2625,53 @@ namespace Uber.DemoTools
 
             JoinJobThread();
             StartJobThread(DemoSplitThread, demo.FilePath);
+        }
+
+        private void OnConvertDemoClicked(UDT_DLL.udtProtocol outputFormat)
+        {
+            var demos = SelectedDemos;
+            var demo = SelectedDemo;
+            if (demos == null || demos.Count > 1)
+            {
+                LogError("Please select only 1 demo.");
+                return;
+            }
+
+            if (_playerIndexComboBox.SelectedValue == null)
+            {
+                LogError("Please select player's PoV to convert to.");
+                return;
+            }
+
+            if (!UDT_DLL.IsProtocolWritable(demo.ProtocolNumber))
+            {
+                LogError("The selected demo is using a protocol that UDT can't write.");
+                return;
+            }
+
+            if (!demo.Analyzed)
+            {
+                LogError("The selected demo was not analyzed.");
+                return;
+            }
+
+            if (!IsValidInputFormatForConverter(outputFormat, demo.ProtocolNumber))
+            {
+                LogError("Selected demo is either in the target format or an unsupported input format.");
+                return;
+            }
+
+            DisableUiNonThreadSafe();
+
+            SaveBothConfigs();
+            PrivateConfig.ConversionOutputProtocol = outputFormat;
+            PrivateConfig.PatternCutPlayerIndex = (_playerIndexComboBox.SelectedValue as PlayerDisplayInfo).Index;
+
+            var threadData = new DemoConvertThreadArg();
+            threadData.Demos = demos;
+
+            JoinJobThread();
+            StartJobThread(DemoConvertThread, threadData);
         }
 
         private void OnRevealDemoClicked()

@@ -778,6 +778,34 @@ const idNetField EntityStateFields91[] =
 const s32 EntityStateFieldCount91 = sizeof(EntityStateFields91) / sizeof(EntityStateFields91[0]);
 
 //
+// 284
+//
+
+#define ESF(field, bits) { (s16)OFFSET_OF(idEntityShared284, field), bits }
+
+const idNetField EntitySharedFields284[] =
+{
+	ESF(currentOrigin[0], 0),
+	ESF(currentOrigin[1], 0),
+	ESF(currentOrigin[2], 0),
+	ESF(currentAngles[0], 0),
+	ESF(currentAngles[1], 0),
+	ESF(currentAngles[2], 0),
+	ESF(svFlags, 32),
+	ESF(mins[0], 0),
+	ESF(mins[1], 0),
+	ESF(mins[2], 0),
+	ESF(maxs[0], 0),
+	ESF(maxs[1], 0),
+	ESF(maxs[2], 0),
+	ESF(singleClient, 8)
+};
+
+#undef ESF
+
+const s32 EntitySharedFieldCount284 = sizeof(EntitySharedFields284) / sizeof(EntitySharedFields284[0]);
+
+//
 // 3
 //
 
@@ -1448,8 +1476,11 @@ void udtMessage::InitProtocol(udtProtocol::Id protocol)
 			_playerStateFieldCount = PlayerStateFieldCount68;
 			break;
 
-		case udtProtocol::Dm84:
 		case udtProtocol::Dm284:
+			_protocolSizeOfEntityShared = sizeof(idEntityShared284);
+			_entitySharedFields = EntitySharedFields284;
+			_entitySharedFieldCount = EntitySharedFieldCount284;
+		case udtProtocol::Dm84:
 			_protocolSizeOfEntityState = sizeof(idEntityState84);
 			_protocolSizeOfPlayerState = sizeof(idPlayerState84);
 			_entityStateFields = EntityStateFields84;
@@ -1921,6 +1952,7 @@ bool udtMessage::RealWriteDeltaPlayer(const idPlayerStateBase* from, idPlayerSta
 		idPlayerState60* to60 = (idPlayerState60*) to;
 		idPlayerState60* from60 = (idPlayerState60*) from;
 		s32 statsbits = 0;
+
 		for(i=0 ; i<ID_MAX_PS_STATS ; i++)
 		{
 			if(to->stats[i] != from->stats[i])
@@ -2058,6 +2090,160 @@ bool udtMessage::RealWriteDeltaPlayer(const idPlayerStateBase* from, idPlayerSta
 					}
 			} else {
 				WriteBits(0, 1 ); // no change
+			}
+		}
+	}
+	else if (AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::ET))
+	{
+		idPlayerState84* to84 = (idPlayerState84*)to;
+		idPlayerState84* from84 = (idPlayerState84*)from;
+		s32 statsbits = 0;
+
+		for (i = 0; i < ID_MAX_PS_STATS; i++)
+		{
+			if (to->stats[i] != from->stats[i])
+			{
+				statsbits |= 1 << i;
+			}
+		}
+		s32 persistantbits = 0;
+		for (i = 0; i < ID_MAX_PS_PERSISTANT; i++)
+		{
+			if (to->persistant[i] != from->persistant[i])
+			{
+				persistantbits |= 1 << i;
+			}
+		}
+		s32 holdablebits = 0;
+		for (i = 0; i < 16; i++)
+		{
+			if (to84->holdable[i] != from84->holdable[i])
+			{
+				holdablebits |= 1 << i;
+			}
+		}
+		s32 powerupbits = 0;
+		for (i = 0; i < ID_MAX_PS_POWERUPS; i++)
+		{
+			if (to->powerups[i] != from->powerups[i])
+			{
+				powerupbits |= 1 << i;
+			}
+		}
+
+		if (statsbits || persistantbits || holdablebits || powerupbits)
+		{
+
+			WriteBits(1, 1); // something changed
+
+			if (statsbits) {
+				WriteBits(1, 1); // changed
+				WriteShort(statsbits);
+				for (i = 0; i < 16; i++)
+					if (statsbits & (1 << i)) {
+						// RF, changed to long to allow more flexibility
+//					WriteLong (msg, to->stats[i]);
+						WriteShort(to->stats[i]);  //----(SA)	back to short since weapon bits are handled elsewhere now
+					}
+			}
+			else {
+				WriteBits(0, 1); // no change to stats
+			}
+
+
+			if (persistantbits) {
+				WriteBits(1, 1); // changed
+				WriteShort(persistantbits);
+				for (i = 0; i < 16; i++)
+					if (persistantbits & (1 << i)) {
+						WriteShort(to->persistant[i]);
+					}
+			}
+			else {
+				WriteBits(0, 1); // no change to persistant
+			}
+
+
+			if (holdablebits) {
+				WriteBits(1, 1); // changed
+				WriteShort(holdablebits);
+				for (i = 0; i < 16; i++)
+					if (holdablebits & (1 << i)) {
+						WriteShort(to84->holdable[i]);
+					}
+			}
+			else {
+				WriteBits(0, 1); // no change to holdables
+			}
+
+
+			if (powerupbits) {
+				WriteBits(1, 1); // changed
+				WriteShort(powerupbits);
+				for (i = 0; i < 16; i++)
+					if (powerupbits & (1 << i)) {
+						WriteLong(to->powerups[i]);
+					}
+			}
+			else {
+				WriteBits(0, 1); // no change to powerups
+			}
+		}
+		else {
+			WriteBits(0, 1); // no change to any
+		}
+
+		// ammo stored
+		int ammobits[4];
+		for (int j = 0; j < 4; j++) {  //----(SA)	modified for 64 weaps
+			ammobits[j] = 0;
+			for (i = 0; i < 16; i++) {
+				if (to->ammo[i + (j * 16)] != from->ammo[i + (j * 16)]) {
+					ammobits[j] |= 1 << i;
+				}
+			}
+		}
+
+		//----(SA)	also encapsulated ammo changes into one check.  clip values will change frequently,
+				// but ammo will not.  (only when you get ammo/reload rather than each shot)
+		if (ammobits[0] || ammobits[1] || ammobits[2] || ammobits[3]) {  // if any were set...
+			WriteBits(1, 1); // changed
+			for (int j = 0; j < 4; j++) {
+				if (ammobits[j]) {
+					WriteBits(1, 1); // changed
+					WriteShort(ammobits[j]);
+					for (i = 0; i < 16; i++)
+						if (ammobits[j] & (1 << i)) {
+							WriteShort(to->ammo[i + (j * 16)]);
+						}
+				}
+				else {
+					WriteBits(0, 1); // no change
+				}
+			}
+		}
+		else {
+			WriteBits(0, 1); // no change
+		}
+
+		// ammo in clip
+		for (int j = 0; j < 4; j++) {  //----(SA)	modified for 64 weaps
+			int clipbits = 0;
+			for (i = 0; i < 16; i++) {
+				if (to84->ammoclip[i + (j * 16)] != from84->ammoclip[i + (j * 16)]) {
+					clipbits |= 1 << i;
+				}
+			}
+			if (clipbits) {
+				WriteBits(1, 1); // changed
+				WriteShort(clipbits);
+				for (i = 0; i < 16; i++)
+					if (clipbits & (1 << i)) {
+						WriteShort(to84->ammoclip[i + (j * 16)]);
+					}
+			}
+			else {
+				WriteBits(0, 1); // no change
 			}
 		}
 	}
@@ -2296,7 +2482,7 @@ bool udtMessage::RealReadDeltaPlayer(const idPlayerStateBase* from, idPlayerStat
 		*toF = *fromF;
 	}
 
-	if(AreAnyProtocolFlagsSet(_protocol, udtProtocolFlags::Wolfenstein))
+	if(AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::RTCW))
 	{
 		idPlayerState60* to60 = (idPlayerState60*)to;
 
@@ -2382,6 +2568,97 @@ bool udtMessage::RealReadDeltaPlayer(const idPlayerStateBase* from, idPlayerStat
 					if(bits & (1 << i))
 					{
 						to60->ammoclip[i + (j * 16)] = ReadShort();
+					}
+				}
+			}
+		}
+	}
+	else if(AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::ET))
+	{
+		idPlayerState84* to84 = (idPlayerState84*)to;
+
+		// read the arrays
+		if (ReadBit())
+		{
+			// parse stats
+			if (ReadBit())
+			{
+				bits = ReadBits(ID_MAX_PS_STATS);
+				for (i = 0; i < ID_MAX_PS_STATS; i++)
+				{
+					if (bits & (1 << i))
+					{
+						to->stats[i] = ReadShort();
+					}
+				}
+			}
+			// parse persistant stats
+			if (ReadBit())
+			{
+				bits = ReadBits(ID_MAX_PS_PERSISTANT);
+				for (i = 0; i < ID_MAX_PS_PERSISTANT; i++)
+				{
+					if (bits & (1 << i))
+					{
+						to->persistant[i] = ReadShort();
+					}
+				}
+			}
+			// parse holdable
+			if (ReadBit())
+			{
+				bits = ReadBits(16);
+				for (i = 0; i < 16; i++)
+				{
+					if (bits & (1 << i))
+					{
+						to84->holdable[i] = ReadShort();
+					}
+				}
+			}
+			// parse powerups
+			if (ReadBit())
+			{
+				bits = ReadBits(ID_MAX_PS_POWERUPS);
+				for (i = 0; i < ID_MAX_PS_POWERUPS; i++)
+				{
+					if (bits & (1 << i))
+					{
+						to->powerups[i] = ReadLong();
+					}
+				}
+			}
+		}
+
+		// ammo stored
+		if (ReadBit())
+		{     // check for any ammo change (0-63)
+			for (int j = 0; j < 4; j++)
+			{
+				if (ReadBit())
+				{
+					bits = ReadShort();
+					for (i = 0; i < 16; i++)
+					{
+						if (bits & (1 << i))
+						{
+							to->ammo[i + (j * 16)] = ReadShort();
+						}
+					}
+				}
+			}
+		}
+		// ammo in clip
+		for (int j = 0; j < 4; j++)
+		{
+			if (ReadBit())
+			{
+				bits = ReadShort();
+				for (i = 0; i < 16; i++)
+				{
+					if (bits & (1 << i))
+					{
+						to84->ammoclip[i + (j * 16)] = ReadShort();
 					}
 				}
 			}
@@ -2731,6 +3008,74 @@ bool udtMessage::RealReadDeltaEntity(bool& addedOrChanged, const idEntityStateBa
 	return ValidState();
 }
 
+bool udtMessage::RealReadDeltaEntityShared(const idEntitySharedBase* from, idEntitySharedBase* to)
+{
+	if (AreAllProtocolFlagsSet(_protocol, udtProtocolFlags::ET))
+	{
+		const s32 magicbyte = ReadBits(8);
+		if (magicbyte != 0x77)
+		{
+			Context->LogError("udtMessage::RealReadDeltaEntityShared: Bad magic byte: 0x%x (in file: %s)", magicbyte, GetFileNamePtr());
+			SetValid(false);
+			return false;
+		}
+	}
+
+	// check for a remove
+	if (ReadBit() == 1)
+	{
+		Com_Memset(to, 0, _protocolSizeOfEntityShared);
+		return ValidState();
+	}
+
+	// check for no delta
+	if (ReadBit() == 0)
+	{
+		Com_Memcpy(to, from, _protocolSizeOfEntityShared);
+		return ValidState();
+	}
+
+	const s32 fieldCount = ReadByte();
+	const s32 maxFieldCount = _entitySharedFieldCount;
+	if (fieldCount > maxFieldCount || fieldCount < 0)
+	{
+		Context->LogError("udtMessage::RealReadDeltaEntityShared: Invalid entityShared field count: %d (max is %d) (in file: %s)", fieldCount, maxFieldCount, GetFileNamePtr());
+		SetValid(false);
+		return false;
+	}
+
+	const idNetField* field = _entitySharedFields;
+	for (s32 i = 0; i < fieldCount; i++, field++)
+	{
+		const s32* const fromF = (const s32*)((const u8*)from + field->offset);
+		s32* const toF = (s32*)((u8*)to + field->offset);
+
+		if (ReadBit() == 0)
+		{
+			*toF = *fromF;
+			continue;
+		}
+
+		if (ReadBit() == 0)
+		{
+			*toF = 0;
+			continue;
+		}
+
+		*toF = ReadField(field->bits);
+	}
+
+	field = &_entitySharedFields[fieldCount];
+	for (s32 i = fieldCount; i < maxFieldCount; i++, field++)
+	{
+		const s32* const fromF = (const s32*)((const u8*)from + field->offset);
+		s32* const toF = (s32*)((u8*)to + field->offset);
+		*toF = *fromF;
+	}
+
+	return ValidState();
+}
+
 void udtMessage::SetValid(bool valid)
 {
 	Buffer.valid = valid;
@@ -2743,6 +3088,7 @@ void udtMessage::SetValid(bool valid)
 		_readData = &udtMessage::RealReadData;
 		_peekByte = &udtMessage::RealPeekByte;
 		_readDeltaEntity = &udtMessage::RealReadDeltaEntity;
+		_readDeltaEntityShared = &udtMessage::RealReadDeltaEntityShared;
 		_readDeltaPlayer = &udtMessage::RealReadDeltaPlayer;
 		_writeBits = &udtMessage::RealWriteBits;
 		_writeFloat = &udtMessage::RealWriteFloat;
