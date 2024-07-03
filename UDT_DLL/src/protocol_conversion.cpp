@@ -676,14 +676,14 @@ void udtProtocolConverter284to84::ConvertEntityState(idLargestEntityState& outEn
 	(idEntityStateBase&)outEntityState = inEntityState;
 }
 
-void udtProtocolConverter284to84::ConvertConfigString(udtConfigStringConversion& result, udtVMLinearAllocator& allocator, s32 inIndex, const char* configString, u32 configStringLength)
+void udtProtocolConverter284to84::ConvertConfigString(udtConfigStringConversion& result, udtVMLinearAllocator&, s32 inIndex, const char* configString, u32 configStringLength)
 {
 	result.String = udtString::NewConstRef(configString, configStringLength);
 	result.Index = inIndex;
 	result.NewString = false;
 }
 
-void udtProtocolConverter284to84::ConvertCommand(udtCommandConversion& result, udtVMLinearAllocator& allocator, const idTokenizer& tokenizer)
+void udtProtocolConverter284to84::ConvertCommand(udtCommandConversion& result, udtVMLinearAllocator&, const idTokenizer& tokenizer)
 {
 	result.String = udtString::NewConstRef(tokenizer.GetOriginalCommand());
 	result.NewString = false;
