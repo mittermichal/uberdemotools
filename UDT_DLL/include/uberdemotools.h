@@ -1744,6 +1744,13 @@ extern "C"
 
 		/* Convert to this clientnum pov */
 		u32 ClientNum;
+
+		/* Pointer to cut time. */
+		/* May be NULL. */
+		const udtCut* Cut;
+
+		/* Ignore this. */
+		s32 Reserved1;
 	}
 	udtProtocolConversionArg;
 	UDT_ENFORCE_API_STRUCT_SIZE(udtProtocolConversionArg)

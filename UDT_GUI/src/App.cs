@@ -131,6 +131,22 @@ namespace Uber.DemoTools
         public readonly List<Timeout> TimeOuts = new List<Timeout>();
     }
 
+    public class PlayerInfo
+    {
+        public int ClientNum = 0;
+        public int StartTimeMs = 0;
+        public int EndTimeMs = 0;
+        public string Name = "";
+
+        public string DisplayValue
+        {
+            get
+            {
+                return string.Format("{0} - {1}", ClientNum, Name);
+            }
+        }
+    }
+
     public class DemoInfo
     {
         // Always set.
@@ -145,7 +161,7 @@ namespace Uber.DemoTools
         public List<ChatEventDisplayInfo> ChatEvents = new List<ChatEventDisplayInfo>();
         public List<FragEventDisplayInfo> FragEvents = new List<FragEventDisplayInfo>();
         public List<Tuple<string, string>> Generic = new List<Tuple<string, string>>();
-        public List<Tuple<int, string>> Players = new List<Tuple<int, string>>();
+        public List<PlayerInfo> Players = new List<PlayerInfo>();
         public List<UInt32> GameStateFileOffsets = new List<UInt32>();
         public List<Tuple<int, int>> GameStateSnapshotTimesMs = new List<Tuple<int, int>>();
         public List<DemoStatsInfo> MatchStats = new List<DemoStatsInfo>();
@@ -203,26 +219,6 @@ namespace Uber.DemoTools
 
             public string Description { get; set; }
             public string Value { get; set; }
-        }
-
-        private class PlayerDisplayInfo
-        {
-            public PlayerDisplayInfo(int index, string name)
-            {
-                Index = index;
-                Name = name;
-            }
-
-            public int Index { get; set; }
-            public string Name { get; set; }
-
-            public string DisplayValue
-            {
-                get
-                {
-                    return string.Format("{0} - {1}", Index, Name);
-                }
-            }
         }
 
         private class DemoDisplayInfo
@@ -1834,9 +1830,9 @@ namespace Uber.DemoTools
             _playerIndexComboBox.Items.Clear();
             _playerIndexComboBox.DisplayMemberPath = "DisplayValue";
 
-            foreach (var tuple in demoInfo.Players)
+            foreach (var player in demoInfo.Players)
             {
-                _playerIndexComboBox.Items.Add(new PlayerDisplayInfo(tuple.Item1, tuple.Item2));
+                _playerIndexComboBox.Items.Add(player);
             }
         }
 
@@ -2014,6 +2010,13 @@ namespace Uber.DemoTools
         private class DemoConvertThreadArg
         {
             public List<DemoInfo> Demos;
+        }
+
+        private class DemoConvertAndCutThreadArg
+        {
+            public DemoInfo Demo;
+            public int StartTimeMs;
+            public int EndTimeMs;
         }
 
         private void OnConvertDemosClicked(UDT_DLL.udtProtocol outputFormat)
@@ -2279,13 +2282,36 @@ namespace Uber.DemoTools
                 filePaths.Add(demo.FilePath);
             }
 
+            try
+            {
+                UDT_DLL.ConvertDemos(ref ParseArg, PrivateConfig.ConversionOutputProtocol, filePaths, _config.MaxThreadCount);
+            }
+            catch(Exception exception)
+            {
+                LogError("Caught an exception while converting demos: {0}", exception.Message);
+            }
+        }
+
+        private void DemoConvertAndCutThread(object arg)
+        {
+            var threadData = arg as DemoConvertAndCutThreadArg;
+            if (threadData == null)
+            {
+                LogError("Invalid thread argument type");
+                return;
+            }
+
+            InitParseArg();
+
             var conversionArg = new UDT_DLL.udtProtocolConversionArg();
             conversionArg.OutputProtocol = (UInt32)PrivateConfig.ConversionOutputProtocol;
             conversionArg.ClientNum = PrivateConfig.PatternCutPlayerIndex;
 
+            ParseArg.GameStateIndex = 0;
+
             try
             {
-                UDT_DLL.ConvertDemos(ref ParseArg, conversionArg, filePaths, _config.MaxThreadCount);
+                UDT_DLL.ConvertAndCutByTimeDemo(ref ParseArg, conversionArg, threadData.Demo.FilePath, threadData.StartTimeMs, threadData.EndTimeMs);
             }
             catch(Exception exception)
             {
@@ -2662,16 +2688,20 @@ namespace Uber.DemoTools
             }
 
             DisableUiNonThreadSafe();
-
-            SaveBothConfigs();
-            PrivateConfig.ConversionOutputProtocol = outputFormat;
-            PrivateConfig.PatternCutPlayerIndex = (_playerIndexComboBox.SelectedValue as PlayerDisplayInfo).Index;
-
-            var threadData = new DemoConvertThreadArg();
-            threadData.Demos = demos;
-
             JoinJobThread();
-            StartJobThread(DemoConvertThread, threadData);
+            SaveBothConfigs();
+
+            var playerInfo = (PlayerInfo)_playerIndexComboBox.SelectedValue;
+
+            PrivateConfig.ConversionOutputProtocol = outputFormat;
+            PrivateConfig.PatternCutPlayerIndex = playerInfo.ClientNum;
+
+            var threadData = new DemoConvertAndCutThreadArg();
+            threadData.Demo = demo;
+            threadData.StartTimeMs = playerInfo.StartTimeMs;
+            threadData.EndTimeMs = playerInfo.EndTimeMs;
+
+            StartJobThread(DemoConvertAndCutThread, threadData);
         }
 
         private void OnRevealDemoClicked()

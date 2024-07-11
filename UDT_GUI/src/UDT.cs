@@ -1184,6 +1184,8 @@ namespace Uber.DemoTools
         {
             public UInt32 OutputProtocol;
             public Int32 ClientNum;
+            public IntPtr Cut; // const udtCut*
+            public Int32 Reserved1;
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -2581,19 +2583,21 @@ namespace Uber.DemoTools
             }
         }
 
-        public static bool ConvertDemos(ref udtParseArg parseArg, udtProtocolConversionArg conversionArg, List<string> filePaths, int maxThreadCount)
+        public static bool ConvertDemos(ref udtParseArg parseArg, udtProtocol outProtocol, List<string> filePaths, int maxThreadCount)
         {
             MultithreadedJob.JobExecuter jobExecuter = delegate(ArgumentResources res, ref udtParseArg pa, List<string> files, List<int> fileIndices)
             {
-                ConvertDemosImpl(res, ref pa, conversionArg, files);
+                ConvertDemosImpl(res, ref pa, outProtocol, files);
             };
 
             return App.Instance.CreateAndProcessJob(ref parseArg, filePaths, maxThreadCount, MaxBatchSizeConverting, jobExecuter);
         }
 
-        private static bool ConvertDemosImpl(ArgumentResources resources, ref udtParseArg parseArg, udtProtocolConversionArg conversionArg, List<string> filePaths)
+        private static bool ConvertDemosImpl(ArgumentResources resources, ref udtParseArg parseArg, udtProtocol outProtocol, List<string> filePaths)
         {
             var multiParseArg = CreateMultiParseArg(resources, filePaths);
+            var conversionArg = new udtProtocolConversionArg();
+            conversionArg.OutputProtocol = (UInt32)outProtocol;
 
             var result = udtErrorCode.OperationFailed;
             try
@@ -2602,6 +2606,37 @@ namespace Uber.DemoTools
             }
             finally
             {
+            }
+
+            return result != udtErrorCode.None;
+        }
+
+        public static bool ConvertAndCutByTimeDemo(ref udtParseArg parseArg, udtProtocolConversionArg conversionArg, string filePath, int startTimeMs, int endTimeMs)
+        {
+            var resources = new ArgumentResources();
+            var filePaths = new List<string>();
+            filePaths.Add(filePath);
+
+            var multiParseArg = CreateMultiParseArg(resources, filePaths);
+
+            var cut = new UDT_DLL.udtCut();
+            cut.FilePath = IntPtr.Zero;
+            cut.GameStateIndex = parseArg.GameStateIndex;
+            cut.StartTimeMs = startTimeMs;
+            cut.EndTimeMs = endTimeMs;
+
+            var pinnedCut = new PinnedObject(cut);
+            conversionArg.Cut = pinnedCut.Address;
+
+            var result = udtErrorCode.OperationFailed;
+            try
+            {
+                result = udtConvertDemoFiles(ref parseArg, ref multiParseArg, ref conversionArg);
+            }
+            finally
+            {
+                pinnedCut.Free();
+                resources.Free();
             }
 
             return result != udtErrorCode.None;
@@ -3593,10 +3628,13 @@ namespace Uber.DemoTools
                 var value = string.Format("{0}, {1}, team {2}", name, time, GetTeamName(player.FirstTeam));
                 info.Generic.Add(Tuple.Create(desc, value));
 
-                if (!info.Players.Exists(s => s.Item1 == player.Index))
-                {
-                    info.Players.Add(Tuple.Create(player.Index, name));
-                }
+                var playerInfo = new PlayerInfo();
+                playerInfo.ClientNum = player.Index;
+                playerInfo.Name = value;
+                playerInfo.StartTimeMs = player.FirstSnapshotTimeMs;
+                playerInfo.EndTimeMs= player.LastSnapshotTimeMs;
+
+                info.Players.Add(playerInfo);
             }
         }
 

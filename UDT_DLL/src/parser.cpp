@@ -985,10 +985,11 @@ bool udtBaseParser::ParsePlayerstates()
 		idLargestClientSnapshot newSnapOutProto;
 		s32 deltaNum;
 
-		// most common when the player wasn't in game yet when the recording started
-		if (oldSnap && !GetTvSnapshot(oldSnap, _inProtocol, _protocolConverter->ConversionInfo->ClientNum)->valid)
+		// did we write a snapshot already?
+		if (!_outSnapshotsWritten)
 		{
 			deltaNum = 0;
+			oldSnap = NULL;
 		}
 		else
 		{
