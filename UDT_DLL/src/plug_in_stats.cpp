@@ -3151,8 +3151,9 @@ void udtParserPlugInStats::ParseETSC()
 	udtString cleanMessage = udtString::NewCloneFromRef(*TempAllocator, message);
 	udtString::CleanUp(cleanMessage, _protocol);
 
+	// atoi() - legacy mod after v2.82.1-140-g9f3f7f2
 	if (udtString::IsNullOrEmpty(cleanMessage) ||
-		(_analyzer.Mod() == udtMod::Legacy && udtString::StartsWith(cleanMessage, "----")))
+		(_analyzer.Mod() == udtMod::Legacy && (udtString::StartsWith(cleanMessage, "----") || atoi(cleanMessage.GetPtr()))))
 	{
 		return;
 	}
