@@ -674,6 +674,19 @@ void udtProtocolConverter284to84::ConvertEntityState(idLargestEntityState& outEn
 	idEntityState84& in = (idEntityState84&)inEntityState;
 	out = in;
 	(idEntityStateBase&)outEntityState = inEntityState;
+//	if ((s32)ConversionInfo->ClientNum == inEntityState.number)
+//	{
+//		outEntityState.eFlags |= 0x00000040; // ETPro and ET:legacy NODRAW flag
+//	}
+	if ((s32)ConversionInfo->ClientNum != inEntityState.number)
+	{
+		out = in;
+		(idEntityStateBase&)outEntityState = inEntityState;
+	}
+	else
+	{
+		Com_Memset(&outEntityState, 0, sizeof(outEntityState));
+	}
 }
 
 void udtProtocolConverter284to84::ConvertConfigString(udtConfigStringConversion& result, udtVMLinearAllocator&, s32 inIndex, const char* configString, u32 configStringLength)

@@ -35,7 +35,8 @@ static bool IsValidConversion(udtProtocol::Id input, udtProtocol::Id output)
 	if((output == udtProtocol::Dm91 && input == udtProtocol::Dm73) ||
 	   (output == udtProtocol::Dm91 && input == udtProtocol::Dm90) ||
 	   (output == udtProtocol::Dm68 && input == udtProtocol::Dm3) ||
-	   (output == udtProtocol::Dm68 && input == udtProtocol::Dm48))
+	   (output == udtProtocol::Dm68 && input == udtProtocol::Dm48) ||
+	   (output == udtProtocol::Dm84 && input == udtProtocol::Dm284))
 	{
 		return true;
 	}
@@ -78,6 +79,7 @@ static bool ConvertDemoBatch(udtParseArg& parseArg, const udtFileInfo* files, u3
 	udtProtocolConversionArg conversionArg;
 	memset(&conversionArg, 0, sizeof(conversionArg));
 	conversionArg.OutputProtocol = (u32)config.OutputProtocol;
+	conversionArg.ClientNum = 0;
 
 	const s32 result = udtConvertDemoFiles(&parseArg, &threadInfo, &conversionArg);
 
@@ -170,6 +172,10 @@ int udt_main(int argc, char** argv)
 			else if(localProtocol == 91)
 			{
 				config.OutputProtocol = udtProtocol::Dm91;
+			}
+			else if(localProtocol == 84)
+			{
+				config.OutputProtocol = udtProtocol::Dm84;
 			}
 		}
 		else if(udtString::Equals(arg, "-r"))
