@@ -41,7 +41,7 @@
 #	define UDT_X86
 #endif
 
-#if defined(_M_X64) || defined(_M_AMD64) || defined(__x86_64)
+#if defined(_M_X64) || defined(_M_AMD64) || defined(__x86_64) || defined(__aarch64__)
 #	define UDT_X64
 #endif
 
