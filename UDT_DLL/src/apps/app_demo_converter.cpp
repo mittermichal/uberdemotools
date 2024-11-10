@@ -51,11 +51,13 @@ struct Config
 		CustomOutputFolder = NULL;
 		MaxThreadCount = 1;
 		OutputProtocol = udtProtocol::Invalid;
+		clientNum = -1;
 	}
 
 	const char* CustomOutputFolder;
 	u32 MaxThreadCount;
 	udtProtocol::Id OutputProtocol;
+	u32 clientNum;
 };
 
 static bool ConvertDemoBatch(udtParseArg& parseArg, const udtFileInfo* files, u32 fileCount, const Config& config)
@@ -79,7 +81,7 @@ static bool ConvertDemoBatch(udtParseArg& parseArg, const udtFileInfo* files, u3
 	udtProtocolConversionArg conversionArg;
 	memset(&conversionArg, 0, sizeof(conversionArg));
 	conversionArg.OutputProtocol = (u32)config.OutputProtocol;
-	conversionArg.ClientNum = 0;
+	conversionArg.ClientNum = config.clientNum;
 
 	const s32 result = udtConvertDemoFiles(&parseArg, &threadInfo, &conversionArg);
 
@@ -160,6 +162,7 @@ int udt_main(int argc, char** argv)
 	{
 		s32 localMaxThreads = 1;
 		s32 localProtocol = (s32)udtProtocol::Invalid;
+		s32 localClientNum = -1;
 		const udtString arg = udtString::NewConstRef(argv[i]);
 		if(udtString::StartsWith(arg, "-p=") &&
 		   arg.GetLength() >= 4 &&
@@ -195,6 +198,12 @@ int udt_main(int argc, char** argv)
 				localMaxThreads <= 16)
 		{
 			config.MaxThreadCount = (u32)localMaxThreads;
+		}
+		else if(udtString::StartsWith(arg, "-cn=") &&
+				arg.GetLength() >= 5 &&
+				StringParseInt(localClientNum, arg.GetPtr() + 4))
+		{
+			config.clientNum = localClientNum;
 		}
 	}
 
