@@ -143,6 +143,11 @@ struct Obituary
 	s32 MeanOfDeath;
 };
 
+struct CutWithClientNum {
+	udtCut_s cut;
+	s32 clientNum;
+};
+
 static bool IsObituaryEvent(Obituary& obituary, const idEntityStateBase& entity, udtProtocol::Id protocol)
 {	
 	// Should get these values once before parsing instead of over and over during parsing.
@@ -320,8 +325,8 @@ struct MultiFragRailCutter
 			for(size_t i = 0; i < cutCount; ++i)
 			{
 				PrintInfo("- game state #%d, server time %d ms", 
-						  (int)_cutSections[i].GameStateIndex + 1, 
-						  (int)(_cutSections[i].StartTimeMs + CUT_START_OFFSET_SEC * 1000));
+						  (int)_cutSections[i].cut.GameStateIndex + 1,
+						  (int)(_cutSections[i].cut.StartTimeMs + CUT_START_OFFSET_SEC * 1000));
 			}
 
 			return true;
@@ -332,24 +337,47 @@ struct MultiFragRailCutter
 		// Fix up the file paths pointers.
 		for(size_t i = 0; i < cutCount; ++i)
 		{
-			_cutSections[i].FilePath = _cutFilePaths[i].c_str();
+			_cutSections[i].cut.FilePath = _cutFilePaths[i].c_str();
 		}
 
-		udtCutByTimeArg arg;
-		memset(&arg, 0, sizeof(arg));
-		arg.CutCount = (u32)_cutSections.size();
-		arg.Cuts = &_cutSections[0];
+//		udtCutByTimeArg arg;
+//		memset(&arg, 0, sizeof(arg));
+//		arg.CutCount = (u32)_cutSections.size();
+//		arg.Cuts = &_cutSections[0];
 
 		udtParseArg info;
 		memset(&info, 0, sizeof(info));
 		info.MessageCb = &MessageCallback;
 
-		const s32 errorCode = udtCutDemoFileByTime(_context, &info, &arg, filePath);
-		if(errorCode != udtErrorCode::None)
-		{
-			PrintError("udtCutDemoFileByTime failed: %s", udtGetErrorCodeString(errorCode));
-			return false;
+		for(CutWithClientNum cut : _cutSections) {
+			udtProtocolConversionArg conversionArg = {
+					udtProtocol::Dm84,
+					static_cast<u32>(cut.clientNum),
+					&cut.cut
+			};
+
+			const char* filePaths[1] = {cut.cut.FilePath};
+			s32 errorCodes[1];
+
+			udtMultiParseArg threadInfo;
+			memset(&threadInfo, 0, sizeof(threadInfo));
+			threadInfo.FilePaths = filePaths;
+			threadInfo.OutputErrorCodes = errorCodes;
+			threadInfo.FileCount = 1;
+			threadInfo.MaxThreadCount = 1; //config.MaxThreadCount;
+			const s32 errorCode = udtConvertDemoFiles(&info, &threadInfo, &conversionArg);
+			if(errorCode != udtErrorCode::None)
+			{
+				PrintError("udtCutDemoFileByTime failed: %s", udtGetErrorCodeString(errorCode));
+			}
 		}
+
+//		const s32 errorCode = udtCutDemoFileByTime(_context, &info, &arg, filePath);
+//		if(errorCode != udtErrorCode::None)
+//		{
+//			PrintError("udtCutDemoFileByTime failed: %s", udtGetErrorCodeString(errorCode));
+//			return false;
+//		}
 
 		return true;
 	}
@@ -366,6 +394,10 @@ private:
 			PrintError("Failed to open the file for reading: %s", filePath);
 			return false;
 		}
+
+		// udtFindPatternsInDemoFiles(udtPatternSearchContext** contextPtr, const udtParseArg* info, const udtMultiParseArg* extraInfo, const udtPatternSearchArg* patternInfo)
+		//new udtParserContext;
+		//udtFindPatternsInDemoFiles()
 
 		udtCuContext* const cuContext = _cuContext;
 		const u32 protocol = udtGetProtocolByFilePath(filePath);
@@ -469,7 +501,7 @@ private:
 				continue;
 			}
 
-			if(obituary.MeanOfDeath == (s32)udtMeanOfDeath::Railgun)
+			if(obituary.MeanOfDeath == (s32)udtMeanOfDeath::Panzerfaust)
 			{
 				++railKillCount;
 			}
@@ -485,7 +517,10 @@ private:
 			cut.StartTimeMs = snapshot.ServerTimeMs - (s32)CUT_START_OFFSET_SEC * (s32)1000;
 			cut.EndTimeMs = snapshot.ServerTimeMs + (s32)CUT_END_OFFSET_SEC * (s32)1000;
 			cut.FilePath = NULL; // Will be fixed up later.
-			_cutSections.push_back(cut);
+			CutWithClientNum cutWithClientNum;
+			cutWithClientNum.cut = cut;
+			cutWithClientNum.clientNum = 11;
+			_cutSections.push_back(cutWithClientNum);
 
 			std::string outputFilePath;
 			CreateOutputFilePath(outputFilePath, cutIndex, railKillCount);
@@ -514,7 +549,7 @@ private:
 		outputFilePath = output;
 	}
 	
-	std::vector<udtCut> _cutSections;
+	std::vector<CutWithClientNum> _cutSections;
 	std::vector<std::string> _cutFilePaths;
 	std::string _inputFilePath;
 	udtCuContext* _cuContext;
