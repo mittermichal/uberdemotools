@@ -1750,7 +1750,7 @@ extern "C"
 		const udtCut* Cut;
 
 		/* Ignore this. */
-		s32 Reserved1;
+		//s32 Reserved1;
 	}
 	udtProtocolConversionArg;
 	UDT_ENFORCE_API_STRUCT_SIZE(udtProtocolConversionArg)
