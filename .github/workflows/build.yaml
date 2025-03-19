@@ -27,7 +27,7 @@ jobs:
       - name: Compile with MSVC
         run: |
           cd UDT_DLL/premake
-          msbuild ..\.build\vs2015\UDT.sln /Rebuild "Release|x64"
+          msbuild ..\.build\vs2015\UDT.sln /p:Configuration=Release /p:Platform=x64
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
