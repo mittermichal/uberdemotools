@@ -22,15 +22,11 @@ jobs:
       - name: Generate Visual Studio solution
         run: |
           cd UDT_DLL/premake
-#          echo 6 | ./vs_generate.cmd
           premake5.exe vs2022
 
       - name: Compile with MSVC
         run: |
           cd UDT_DLL/premake
-#          (echo 6 && echo n && echo 1 && echo 1) >> ./choices.txt
-#          type ./choices.txt
-#          cat ./choices.txt | ./vs_compile.cmd
           msbuild ..\.build\vs2022\UDT.sln /Rebuild "Release|x64"
 
       - name: Upload artifacts
