@@ -24,6 +24,7 @@ jobs:
         with:
           version: '5.0.0-beta1'
           action: 'vs2022'
+          options: '--file=UDT_DLL/premake/premake5.lua'
 
       - name: Compile with MSVC
         run: |
