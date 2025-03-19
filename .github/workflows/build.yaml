@@ -29,7 +29,9 @@ jobs:
       - name: Compile with MSVC
         run: |
           cd UDT_DLL/premake
-          (echo 6 && echo 1 && echo 1 && echo 1) | ./vs_compile.cmd
+          (echo 6 && echo n && echo 1 && echo 1) >> ./choices.txt
+          type ./choices.txt
+          ./vs_compile.cmd << ./choices.txt
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
