@@ -105,7 +105,8 @@ local function ApplyProjectSettings()
 		entrypoint "wmainCRTStartup"
 		
 	filter { "action:vs*", "kind:WindowedApp" }
-		flags "WinMain"
+		--flags "WinMain"
+		entrypoint "wWinMain"
 	
 	filter { "action:vs*", "configurations:Debug" }
 		buildoptions { "" }
