@@ -34,12 +34,13 @@ jobs:
       - name: pwd
         run: |
           pwd
+          ls
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: windows-msvc-binaries
-          path: ../.bin
+          path: UDT_DLL/.bin/vs2022/x64/release
 
   build-windows-gcc:
     if: false
