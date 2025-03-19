@@ -44,8 +44,8 @@ jobs:
         with:
           name: windows-msvc-x64-release
           path: |
-            UDT_DLL/.bin/vs2022/x64/release
-            UDT_GUI/.bin
+            UDT_DLL/.bin/vs2022/x64/release/.exe
+            UDT_GUI/.bin/*.exe
 
   build-windows-gcc:
     if: false
