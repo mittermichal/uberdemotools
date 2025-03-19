@@ -19,10 +19,10 @@ jobs:
       - name: Setup MSVC environment
         uses: ilammy/msvc-dev-cmd@v1
 
-#      - name: Generate Visual Studio solution
-#        run: |
-#          cd UDT_DLL/premake
-#          echo 6 | ./vs_generate.cmd
+      - name: Generate Visual Studio solution
+        run: |
+          cd UDT_DLL/premake
+          echo 6 | ./vs_generate.cmd
 
       - name: Compile with MSVC
         run: |
