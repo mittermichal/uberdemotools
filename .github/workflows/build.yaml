@@ -22,7 +22,7 @@ jobs:
       - name: Generate Visual Studio solution
         run: |
           cd UDT_DLL/premake
-          premake5.exe vs2022
+          ./premake5.exe vs2022
 
       - name: Compile with MSVC
         run: |
