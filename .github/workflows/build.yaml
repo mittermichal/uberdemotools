@@ -31,7 +31,7 @@ jobs:
 #          (echo 6 && echo n && echo 1 && echo 1) >> ./choices.txt
 #          type ./choices.txt
 #          cat ./choices.txt | ./vs_compile.cmd
-          "%VS170COMNTOOLS%..\IDE\devenv.exe" ..\.build\vs2022\UDT.sln /Rebuild "Release|x64"
+          msbuild ..\.build\vs2022\UDT.sln /Rebuild "Release|x64"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
