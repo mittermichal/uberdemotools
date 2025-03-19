@@ -47,7 +47,8 @@ local function ApplyProjectSettings()
 
 	rtti "Off"
 	exceptionhandling "Off"
-	flags { "Unicode", "NoPCH", "StaticRuntime", "NoManifest", "ExtraWarnings" } -- "FatalWarnings"
+	characterset "Unicode"
+	flags { "NoPCH", "StaticRuntime", "NoManifest", "ExtraWarnings" } -- "FatalWarnings"
 	
 	-- The PG instrumented and PG optimized builds need to share their .obj files.
 	filter { "configurations:ReleaseInst", "platforms:x32" }
