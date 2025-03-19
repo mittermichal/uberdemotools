@@ -6,6 +6,7 @@ echo 4. Visual Studio 2012
 echo 5. Visual Studio 2013
 echo 6. Visual Studio 2015
 set /p choice=
+echo %choice%
 if %choice%==1 (
 	set vs_generator=vs2005
 	set "vs_path=%VS80COMNTOOLS%"
