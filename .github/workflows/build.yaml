@@ -1,0 +1,92 @@
+name: Build UDT
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-windows-msvc:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup MSVC environment
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Generate Visual Studio solution
+        run: |
+          cd UDT_DLL/premake
+          ./vs_generate.cmd
+
+      - name: Compile with MSVC
+        run: |
+          cd UDT_DLL/premake
+          ./vs_compile.cmd
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-msvc-binaries
+          path: UDT_DLL/.bin
+
+  build-windows-gcc:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install MingW
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          install: mingw-w64-x86_64-gcc
+
+      - name: Generate Makefiles
+        shell: bash
+        run: |
+          cd UDT_DLL/premake
+          ./gcc_generate.cmd
+
+      - name: Compile with GCC
+        shell: bash
+        run: |
+          cd UDT_DLL/premake
+          ./gcc_compile.cmd
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-gcc-binaries
+          path: UDT_DLL/.bin
+
+  build-linux-gcc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential
+
+      - name: Generate Makefiles
+        run: |
+          cd UDT_DLL/premake
+          chmod +x gcc_generate.sh
+          ./gcc_generate.sh
+
+      - name: Compile with GCC
+        run: |
+          cd UDT_DLL/premake
+          chmod +x gcc_compile.sh
+          ./gcc_compile.sh
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-gcc-binaries
+          path: UDT_DLL/.bin
