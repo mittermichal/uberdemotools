@@ -22,12 +22,12 @@ jobs:
       - name: Generate Visual Studio solution
         run: |
           cd UDT_DLL/premake
-          ./premake5.exe vs2022
+          ./premake5.exe vs2015
 
       - name: Compile with MSVC
         run: |
           cd UDT_DLL/premake
-          msbuild ..\.build\vs2022\UDT.sln /Rebuild "Release|x64"
+          msbuild ..\.build\vs2015\UDT.sln /Rebuild "Release|x64"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
