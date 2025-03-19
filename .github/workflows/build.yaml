@@ -31,11 +31,15 @@ jobs:
           cd UDT_DLL/premake
           msbuild ..\.build\vs2022\UDT.sln /p:Configuration=Release /p:Platform=x64 /target:UDT /target:UDT_cutter /target:UDT_json
 
+      - name: pwd
+        run: |
+          pwd
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: windows-msvc-binaries
-          path: UDT_DLL/.bin
+          path: ../.bin
 
   build-windows-gcc:
     if: false
