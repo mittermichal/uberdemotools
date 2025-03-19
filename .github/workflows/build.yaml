@@ -22,7 +22,7 @@ jobs:
       - name: Generate Visual Studio solution
         run: |
           cd UDT_DLL/premake
-          ./vs_generate.cmd
+          echo 6 | ./vs_generate.cmd
 
       - name: Compile with MSVC
         run: |
