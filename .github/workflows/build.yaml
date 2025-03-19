@@ -31,16 +31,21 @@ jobs:
           cd UDT_DLL/premake
           msbuild ..\.build\vs2022\UDT.sln /p:Configuration=Release /p:Platform=x64 /target:UDT /target:UDT_cutter /target:UDT_splitter /target:UDT_timeshifter /target:UDT_merger /target:UDT_json /target:UDT_captures /target:UDT_converter /target:tut_multi_rail /target:tut_players
 
-      - name: pwd
+      - name: Compile UDT_GUI with MSVC
         run: |
-          pwd
-          ls
+          cd UDT_GUI
+          msbuild UDT.sln /p:Configuration=Release /p:Platform=x64 /target:UDT
+
+      - name: ls
+        run: ls UDT_GUI/.bin
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: windows-msvc-binaries
-          path: UDT_DLL/.bin/vs2022/x64/release
+          name: windows-msvc-x64-release
+          path: |
+            UDT_DLL/.bin/vs2022/x64/release
+            UDT_GUI/.bin
 
   build-windows-gcc:
     if: false
