@@ -30,15 +30,11 @@ jobs:
           echo "VS_PATH=$vsPath" >> $env:GITHUB_ENV
         shell: powershell
 
-      - name: Set up PATH variables
+      - name: VS Environment Check
         run: |
-          echo "$env:VS_PATH\Common7\Tools" >> $env:GITHUB_PATH
-          echo "$env:VS_PATH\VC\Tools\MSVC\14.16.27023\bin\Hostx64\x64" >> $env:GITHUB_PATH
-        shell: powershell
-
-      - name: Run vcvarsall.bat to Set Up VS Environment
-        run: |
-          call "%VS_PATH%\VC\Auxiliary\Build\vcvarsall.bat" x64
+          # call "%VS_PATH%\VC\Auxiliary\Build\vcvarsall.bat" x64
+          call "%VS_PATH%\Common7\IDE\devenv.exe" x64
+          call "%VS_PATH%\Common7\IDE\devenv.exe"
           echo "Visual Studio environment configured!"
         shell: cmd
 
@@ -60,7 +56,7 @@ jobs:
       - name: Compile UDT_GUI with MSVC
         run: |
           cd UDT_GUI
-          call "%VS_PATH%\VC\Auxiliary\Build\vcvarsall.bat" x64
+          call "%VS_PATH%\Common7\IDE\devenv.exe" x64
           msbuild UDT.sln /p:Configuration=Release /p:Platform=x64 /target:UDT
         shell: cmd
 
