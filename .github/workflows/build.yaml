@@ -51,8 +51,6 @@ jobs:
       - name: Compile UDT_GUI with MSVC
         run: |
           cd UDT_GUI
-          ls
-          "%VS_PATH%\Common7\IDE\devenv.com" UDT.sln /Build 
           "%VS_PATH%\Common7\Tools\VsDevCmd.bat"
           "%VS_PATH%\Common7\IDE\devenv.com" UDT.sln /Rebuild "Release|x64" UDT.sln
           "%VS_PATH%\MSBuild\15.0\Bin\MSBuild.exe" UDT.sln /p:Configuration=Release /p:Platform=x64
