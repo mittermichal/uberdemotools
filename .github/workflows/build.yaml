@@ -62,6 +62,7 @@ jobs:
           cd UDT_GUI
           call "%VS_PATH%\VC\Auxiliary\Build\vcvarsall.bat" x64
           msbuild UDT.sln /p:Configuration=Release /p:Platform=x64 /target:UDT
+        shell: cmd
 
       - name: ls
         run: ls UDT_GUI/.bin
