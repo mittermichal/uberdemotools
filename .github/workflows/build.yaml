@@ -29,12 +29,12 @@ jobs:
       - name: Compile with MSVC
         run: |
           cd UDT_DLL/premake
-          msbuild ..\.build\vs2022\UDT.sln /p:Configuration=Release /p:Platform=x64 /target:UDT /target:UDT_cutter /target:UDT_splitter /target:UDT_timeshifter /target:UDT_merger /target:UDT_json /target:UDT_captures /target:UDT_converter /target:tut_multi_rail /target:tut_players
+          msbuild ..\.build\vs2022\UDT.sln /p:Configuration=Release /p:Platform=x64 /target:UDT # /target:UDT_cutter /target:UDT_splitter /target:UDT_timeshifter /target:UDT_merger /target:UDT_json /target:UDT_captures /target:UDT_converter /target:tut_multi_rail /target:tut_players
 
       - name: Compile UDT_GUI with MSVC
         run: |
           cd UDT_GUI
-          msbuild UDT.sln /p:TargetFrameworkVersion=v4.8.1 /p:Configuration=Release /p:Platform=x64 /target:UDT
+          msbuild UDT.sln /p:TargetFrameworkVersion=v4.8 /p:Configuration=Release /p:Platform=x64 /target:UDT
 
       - name: ls
         run: ls UDT_GUI/.bin
