@@ -38,9 +38,9 @@ jobs:
 
       - name: Run vcvarsall.bat to Set Up VS Environment
         run: |
-          call "$env:VS_PATH\VC\Auxiliary\Build\vcvarsall.bat" x64
+          call "%VS_PATH%\VC\Auxiliary\Build\vcvarsall.bat" x64
           echo "Visual Studio environment configured!"
-        shell: powershell
+        shell: cmd
 
       - name: Checkout repository
         uses: actions/checkout@v4
