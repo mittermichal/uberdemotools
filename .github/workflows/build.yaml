@@ -26,16 +26,11 @@ jobs:
         id: find-vs
         run: |
           $vsPath = &"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -version "[15.0,16.0)" -property installationPath
+          $devEnvPath = &"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -version "[15.0,16.0)" -property productPath
           echo "VS Installed at: $vsPath"
+          echo "devenv Installed at: $devEnvPath"
           echo "VS_PATH=$vsPath" >> $env:GITHUB_ENV
         shell: powershell
-
-      - name: VS Environment Check
-        run: |
-          call "%VS_PATH%\Common7\IDE\devenv.exe" x64
-          call "%VS_PATH%\Common7\IDE\devenv.exe"
-          echo "Visual Studio environment configured!"
-        shell: cmd
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -55,8 +50,7 @@ jobs:
       - name: Compile UDT_GUI with MSVC
         run: |
           cd UDT_GUI
-          call "%VS_PATH%\Common7\IDE\devenv.exe" x64
-          msbuild UDT.sln /p:Configuration=Release /p:Platform=x64 /target:UDT
+          "$devEnvPath" UDT.sln /Rebuild "Release|x64"
         shell: cmd
 
       - name: ls
