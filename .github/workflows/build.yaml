@@ -60,6 +60,7 @@ jobs:
       - name: Compile UDT_GUI with MSVC
         run: |
           cd UDT_GUI
+          call "%VS_PATH%\VC\Auxiliary\Build\vcvarsall.bat" x64
           msbuild UDT.sln /p:Configuration=Release /p:Platform=x64 /target:UDT
 
       - name: ls
