@@ -13,6 +13,12 @@ jobs:
   build-windows-msvc:
     runs-on: windows-latest
     steps:
+      - name: net 4.5 install
+        run: |
+          Invoke-WebRequest -Uri "https://download.microsoft.com/download/5/6/2/562a10f9-c9f4-4313-a044-9c94e0a8fac8/dotNetFx40_Client_x86_x64.exe" -OutFile dotnet.exe
+          Start-Process -FilePath ".\dotnet.exe" -ArgumentList "/quiet" -Wait
+        shell: powershell
+
       - name: net path
         run: vswhere
 
