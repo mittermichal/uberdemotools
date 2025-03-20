@@ -51,7 +51,8 @@ jobs:
       - name: Compile UDT_GUI with MSVC
         run: |
           cd UDT_GUI
-          "%VS_PATH%\Common7\IDE\devenv.com" UDT.sln /Rebuild "Release|x64"
+          ls
+          "%VS_PATH%\Common7\IDE\devenv.com" /Rebuild "Release|x64" UDT.sln
         shell: cmd
 
       - name: ls
@@ -63,7 +64,7 @@ jobs:
           name: windows-msvc-x64-release
           path: |
             UDT_DLL/.bin/vs2022/x64/release/.exe
-            UDT_GUI/.bin/*.exe
+            UDT_GUI/.bin/x64/Release/*.exe
 
   build-windows-gcc:
     if: false
