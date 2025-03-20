@@ -20,7 +20,7 @@ jobs:
         shell: powershell
 
       - name: net path
-        run: vswhere -legacy -version [15.0,16.0)
+        run: vswhere -legacy -version "[15.0,16.0)"
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
