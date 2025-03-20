@@ -22,6 +22,20 @@ jobs:
       - name: net path
         run: vswhere
 
+      - name: Find VS 2017 Path
+        id: find-vs
+        run: |
+          $vsPath = &"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -version 15.0 -property installationPath
+          echo "VS Installed at: $vsPath"
+          echo "VS_PATH=$vsPath" >> $env:GITHUB_ENV
+        shell: powershell
+
+      - name: Set up PATH variables
+        run: |
+          echo "$env:VS_PATH\Common7\Tools" >> $env:GITHUB_PATH
+          echo "$env:VS_PATH\VC\Tools\MSVC\14.16.27023\bin\Hostx64\x64" >> $env:GITHUB_PATH
+        shell: powershell
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
