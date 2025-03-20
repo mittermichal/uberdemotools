@@ -36,6 +36,12 @@ jobs:
           echo "$env:VS_PATH\VC\Tools\MSVC\14.16.27023\bin\Hostx64\x64" >> $env:GITHUB_PATH
         shell: powershell
 
+      - name: Set up Visual Studio environment
+        run: |
+          "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+          echo "VS environment configured!"
+        shell: cmd
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
