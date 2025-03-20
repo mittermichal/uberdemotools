@@ -13,6 +13,9 @@ jobs:
   build-windows-msvc:
     runs-on: windows-latest
     steps:
+      - name: net path
+        run: where clr.dll
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
