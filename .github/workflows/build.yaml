@@ -32,7 +32,6 @@ jobs:
 
       - name: VS Environment Check
         run: |
-          # call "%VS_PATH%\VC\Auxiliary\Build\vcvarsall.bat" x64
           call "%VS_PATH%\Common7\IDE\devenv.exe" x64
           call "%VS_PATH%\Common7\IDE\devenv.exe"
           echo "Visual Studio environment configured!"
