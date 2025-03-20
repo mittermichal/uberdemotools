@@ -34,7 +34,7 @@ jobs:
       - name: Compile UDT_GUI with MSVC
         run: |
           cd UDT_GUI
-          msbuild UDT.sln /p:PlatformToolset=v170 /p:Configuration=Release /p:Platform=x64 /target:UDT
+          msbuild UDT.sln /p:TargetFrameworkVersion=v4.8.1 /p:Configuration=Release /p:Platform=x64 /target:UDT
 
       - name: ls
         run: ls UDT_GUI/.bin
