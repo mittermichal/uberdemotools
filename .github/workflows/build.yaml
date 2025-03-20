@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Install Visual Studio 2017
         run: |
-          # choco install visualstudio2017community --force
+          choco install visualstudio2017community --force
           choco install dotnet4.0
         shell: powershell
 
@@ -27,6 +27,8 @@ jobs:
 
       - name: Setup MSVC environment
         uses: ilammy/msvc-dev-cmd@v1
+        with:
+          vsversion: 2017
 
       - name: Run premake '5.0.0-beta1'
         uses: eariassoto/setup-premake@v1
