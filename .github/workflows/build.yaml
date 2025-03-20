@@ -25,11 +25,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup MSVC environment
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          vsversion: 2017
-
       - name: Run premake '5.0.0-beta1'
         uses: eariassoto/setup-premake@v1
         with:
