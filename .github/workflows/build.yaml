@@ -15,7 +15,8 @@ jobs:
     steps:
       - name: Install Visual Studio 2017
         run: |
-          choco install visualstudio2017community --force
+          # choco install visualstudio2017community --force
+          choco install dotnet4.5
         shell: powershell
 
       - name: net path
